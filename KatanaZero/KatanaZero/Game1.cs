@@ -1,6 +1,13 @@
+using Engine.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
+using System;
+using System.Diagnostics;
+using Engine.States;
+using KatanaZero.States;
+using Microsoft.Xna.Framework.Media;
 
 namespace KatanaZero
 {
@@ -11,6 +18,49 @@ namespace KatanaZero
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        State currentState;
+        State nextState;
+        Song currentSong;
+        public InputManager InputManager { get; private set; }
+        public Vector2 LogicalSize { get; } = new Vector2(1280, 720);
+        public Vector2 WindowSize
+        {
+            get
+            {
+                return new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            }
+        }
+
+        public void ChangeState(State state)
+        {
+            nextState = state;
+        }
+
+        public void PlaySong(Song s)
+        {
+            //We do not allow to change song to the same song
+            if (IsThisSongPlaying(s))
+                return;
+            //If parameter is null we stop playing music
+            if (s == null)
+            {
+                currentSong = null;
+                MediaPlayer.Stop();
+                return;
+            }
+            //Regular case: stop playing old song and start playing new song
+            currentSong = s;
+            MediaPlayer.Stop();
+            MediaPlayer.Play(s);
+        }
+
+        private bool IsThisSongPlaying(Song song)
+        {
+            if (currentSong == song)
+                return true;
+            else
+                return false;
+        }
 
         public Game1()
         {
@@ -18,9 +68,17 @@ namespace KatanaZero
             Content.RootDirectory = "Content";
 
             graphics.IsFullScreen = true;
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 480;
+            //graphics.PreferredBackBufferWidth = 1280;
+            //graphics.PreferredBackBufferHeight = 720;
+            MediaPlayer.IsRepeating = true;
+            TouchPanel.DisplayWidth = (int)LogicalSize.X;
+            TouchPanel.DisplayHeight = (int)LogicalSize.Y;
+            if(Debugger.IsAttached)
+            {
+                TouchPanel.EnableMouseTouchPoint = true;
+            }
             graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
+            InputManager = new InputManager();
         }
 
         /// <summary>
@@ -32,7 +90,7 @@ namespace KatanaZero
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            currentState = new Stage1(this);
             base.Initialize();
         }
 
@@ -64,10 +122,20 @@ namespace KatanaZero
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                Exit();
-
             // TODO: Add your update logic here
+
+            //Handle changing states
+            if (nextState != null)
+            {
+                //Remember to dispose any unmanaged resources
+                if(currentState != null)
+                    currentState.Dispose();
+                currentState = nextState;
+                nextState = null;
+            }
+
+            //Update
+            currentState.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -81,7 +149,7 @@ namespace KatanaZero
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            currentState.Draw(gameTime);
             base.Draw(gameTime);
         }
     }

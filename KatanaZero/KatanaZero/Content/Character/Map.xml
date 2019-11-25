@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_run_0</Key><Value>0 0 44 32</Value></Item>
+<Item><Key>spr_run_1</Key><Value>45 0 44 32</Value></Item>
+<Item><Key>spr_run_2</Key><Value>0 33 44 32</Value></Item>
+<Item><Key>spr_run_3</Key><Value>0 66 44 32</Value></Item>
+<Item><Key>spr_run_4</Key><Value>45 33 44 32</Value></Item>
+<Item><Key>spr_run_5</Key><Value>45 66 44 32</Value></Item>
+<Item><Key>spr_run_6</Key><Value>90 0 44 32</Value></Item>
+<Item><Key>spr_run_7</Key><Value>90 33 44 32</Value></Item>
+<Item><Key>spr_run_8</Key><Value>135 0 44 32</Value></Item>
+<Item><Key>spr_run_9</Key><Value>90 66 44 32</Value></Item>
+<Item><Key>spr_casual_idle_0</Key><Value>135 33 30 35</Value></Item>
+<Item><Key>spr_casual_idle_1</Key><Value>180 0 30 35</Value></Item>
+<Item><Key>spr_casual_idle_10</Key><Value>135 69 30 35</Value></Item>
+<Item><Key>spr_casual_idle_2</Key><Value>211 0 30 35</Value></Item>
+<Item><Key>spr_casual_idle_3</Key><Value>166 36 30 35</Value></Item>
+<Item><Key>spr_casual_idle_4</Key><Value>197 36 30 35</Value></Item>
+<Item><Key>spr_casual_idle_5</Key><Value>166 72 30 35</Value></Item>
+<Item><Key>spr_casual_idle_6</Key><Value>197 72 30 35</Value></Item>
+<Item><Key>spr_casual_idle_7</Key><Value>0 99 30 35</Value></Item>
+<Item><Key>spr_casual_idle_8</Key><Value>31 99 30 35</Value></Item>
+<Item><Key>spr_casual_idle_9</Key><Value>62 99 30 35</Value></Item>
+</Asset>
+</XnaContent>

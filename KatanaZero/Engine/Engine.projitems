@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>65713348-c4f1-4528-b4d8-17585aa1ce92</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Engine</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CameraSystem\Camera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Buttons\IButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Buttons\TextButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\NavigationMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\VerticalNavigationMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDrawableComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\InputManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\AnimatedObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\State.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Text.cs" />
+  </ItemGroup>
+</Project>
