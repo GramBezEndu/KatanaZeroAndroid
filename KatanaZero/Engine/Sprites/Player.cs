@@ -1,4 +1,5 @@
 ﻿using Engine.Input;
+using Engine.PlayerIntents;
 using Engine.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,6 +8,7 @@ using MonoGame.Extended.Animations.SpriteSheets;
 using MonoGame.Extended.TextureAtlases;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Engine
@@ -17,7 +19,8 @@ namespace Engine
         {
             Idle,
             RunRight,
-            RunLeft
+            RunLeft,
+            Attack
         }
         private PlayersStates playerState = PlayersStates.Idle;
         public PlayersStates PlayerState
@@ -41,33 +44,51 @@ namespace Engine
                             SpriteEffects = SpriteEffects.FlipHorizontally;
                             PlayAnimation("Run");
                             break;
+                        case PlayersStates.Attack:
+                            //Adjust player position on attack start
+                            //Position = new Vector2(Position.X - 0.3f * Size.X, Position.Y);
+                            PlayAnimation("Attack", () =>
+                            {
+                                //Adjust player position after attacking
+                                //Position = new Vector2(Position.X + 0.3f * Size.X, Position.Y);
+                                PlayerState = PlayersStates.Idle;
+                            });
+                            break;
                     }
                 }
             }
         }
         private readonly InputManager inputManager;
         private Vector2 velocity = Vector2.Zero;
+        private List<IPlayerIntent> playerIntents = new List<IPlayerIntent>();
 
         public Player(Texture2D characterSpritesheetTexture, Dictionary<string, Rectangle> characterMap, InputManager input, Vector2 scale) : base(characterSpritesheetTexture, characterMap, scale)
         {
             inputManager = input;
-            AddAnimation("Run", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, frameDuration: 0.1f));
-            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }, frameDuration: 0.1f));
+            AddAnimation("Attack", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.05f));
+            AddAnimation("Run", new SpriteSheetAnimationData(new int[] { 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 }, frameDuration: 0.1f));
+            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27 }, frameDuration: 0.1f));
             PlayAnimation("Idle");
+            //Debug.WriteLine("Player size: " + Size);
         }
 
         public override void Update(GameTime gameTime)
         {
-            ManagePlayerIntent();
+            ManagePlayerIntent(gameTime);
             UpdatePlayerState();
             //Update animationSprite
             base.Update(gameTime);
             MovePlayer();
         }
 
-        private void ManagePlayerIntent()
+        private void ManagePlayerIntent(GameTime gameTime)
         {
-            velocity = new Vector2(4f, 0);
+            if(playerIntents.Count > 0)
+            {
+                playerIntents[0].Update(gameTime);
+                if (playerIntents[0].IntentFinished())
+                    playerIntents.Remove(playerIntents[0]);
+            }
             //if (inputManager.ActionIsPressed("MoveRight"))
             //{
             //    velocity = new Vector2(5f, 0);
@@ -91,10 +112,21 @@ namespace Engine
             {
                 PlayerState = PlayersStates.RunLeft;
             }
-            else
-            {
-                PlayerState = PlayersStates.Idle;
-            }
+        }
+
+        public void MoveRight()
+        {
+            velocity = new Vector2(5f, 0);
+        }
+
+        public void MoveLeft()
+        {
+            velocity = new Vector2(-5f, 0);
+        }
+
+        public void Kill(Enemy e)
+        {
+            PlayerState = PlayersStates.Attack;
         }
 
         /// <summary>
@@ -104,6 +136,11 @@ namespace Engine
         {
             Position += velocity;
             velocity = Vector2.Zero;
+        }
+
+        public void AddIntent(IPlayerIntent intent)
+        {
+            playerIntents.Add(intent);
         }
     }
 }

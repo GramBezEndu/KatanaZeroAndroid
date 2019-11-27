@@ -16,6 +16,7 @@ namespace Engine.States
         protected Camera camera;
         protected Player player;
         protected List<IComponent> gameComponents = new List<IComponent>();
+        public List<IComponent> gameCharacters = new List<IComponent>();
         /// <summary>
         /// Determines where the floor level is (in pixels)
         /// </summary>
@@ -28,7 +29,6 @@ namespace Engine.States
             player = new Player(content.Load<Texture2D>("Character/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, new Vector2(3f, 3f));
             player.Position = new Vector2(0, floorLevel - player.Size.Y);
             camera = new Camera(gameReference);
-            gameComponents.Add(player);
             gameComponents.Add(camera);
         }
         public override void Update(GameTime gameTime)
@@ -36,6 +36,23 @@ namespace Engine.States
             base.Update(gameTime);
             foreach (var c in gameComponents)
                 c.Update(gameTime);
+            foreach (var c in gameCharacters)
+                c.Update(gameTime);
+            CharactersOnFloorLevel();
+        }
+        /// <summary>
+        /// Make sure that all characters are on the floor level
+        /// </summary>
+        protected void CharactersOnFloorLevel()
+        {
+            foreach(var c in gameCharacters)
+            {
+                if(c is IDrawableComponent drawable)
+                {
+                    if (drawable.Position.Y != floorLevel - drawable.Size.Y)
+                        drawable.Position = new Vector2(drawable.Position.X, floorLevel - drawable.Size.Y);
+                }
+            }
         }
 
 
@@ -57,7 +74,11 @@ namespace Engine.States
                 if (c is IDrawableComponent drawable)
                     drawable.Draw(gameTime, gameBatch);
             }
-            player.Draw(gameTime, gameBatch);
+            foreach (var c in gameCharacters)
+            {
+                if (c is IDrawableComponent drawable)
+                    drawable.Draw(gameTime, gameBatch);
+            }
             gameBatch.End();
             graphicsDevice.SetRenderTarget(null);
             //base.DrawToRenderTarget(gameTime);
@@ -67,10 +88,10 @@ namespace Engine.States
         {
             var texture = content.Load<Texture2D>("Enemies/Officer/Spritesheet");
             var map = content.Load < Dictionary < string, Rectangle>>("Enemies/Officer/Map");
-            var officer = new Officer(texture, map, new Vector2(3f, 3f), inputManager, graphicsDevice, font);
+            var officer = new Officer(texture, map, new Vector2(3f, 3f), inputManager, graphicsDevice, font, player);
             officer.PlayAnimation(startingAnimation);
             officer.Position = new Vector2(xPosition, floorLevel - officer.Size.Y);
-            gameComponents.Add(officer);
+            gameCharacters.Add(officer);
         }
 
         protected void BuildFloor(Texture2D texture)

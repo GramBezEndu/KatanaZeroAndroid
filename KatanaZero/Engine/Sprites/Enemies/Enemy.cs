@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Engine.Controls.Buttons;
 using Engine.Input;
+using Engine.PlayerIntents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,18 +11,28 @@ namespace Engine.Sprites
 {
     public abstract class Enemy : AnimatedObject, IInteractable
     {
+        protected readonly Player player;
         public EventHandler OnInteract { get; set; }
         protected IButton interactionOption;
         protected InputManager inputManager;
+        protected bool rectangleTextureHidden;
         protected Texture2D rectangleTexture;
         protected GraphicsDevice graphicsDevice;
-        public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, InputManager im, GraphicsDevice gd, SpriteFont f) : base(spritesheet, map, scale)
+        public bool IsDead;
+        public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, InputManager im, GraphicsDevice gd, SpriteFont f, Player p) : base(spritesheet, map, scale)
         {
+            player = p;
             inputManager = im;
             graphicsDevice = gd;
             interactionOption = new TextButton(im, f, "KILL")
             {
                 Hidden = true,
+                OnClick = (o, e) =>
+                {
+                    player.AddIntent(new KillIntent(player, this));
+                    interactionOption.Hidden = true;
+                    rectangleTextureHidden = true;
+                }
             };
             OnInteract += (o, e) =>
             {
@@ -39,8 +50,10 @@ namespace Engine.Sprites
                     OnInteract?.Invoke(this, new EventArgs());
                 }
                 //TODO: Do it only on size changed
-                SetSpriteRectangle();
+                if(!rectangleTextureHidden)
+                    SetSpriteRectangle();
                 interactionOption.Position = new Vector2(Position.X + Size.X, Position.Y);
+                interactionOption.Update(gameTime);
             }
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -48,7 +61,8 @@ namespace Engine.Sprites
             if(!Hidden)
             {
                 base.Draw(gameTime, spriteBatch);
-                spriteBatch.Draw(rectangleTexture, Position, Color.White);
+                if(!rectangleTextureHidden)
+                    spriteBatch.Draw(rectangleTexture, Position, Color.White);
                 interactionOption.Draw(gameTime, spriteBatch);
             }
         }

@@ -20,7 +20,8 @@ namespace KatanaZero.States
         public Hotel(Game1 gameReference) : base(gameReference)
         {
             SpawnPoliceCar();
-            SpawnOfficer(game.LogicalSize.X *0.68f/*, "Game"*/);
+            SpawnOfficer(game.LogicalSize.X *0.68f, "Game");
+            gameCharacters.Add(player);
         }
 
         private void SpawnPoliceCar()
