@@ -18,6 +18,7 @@ namespace Engine.Sprites
         protected bool rectangleTextureHidden;
         protected Texture2D rectangleTexture;
         protected GraphicsDevice graphicsDevice;
+        //TODO: Make states like in player
         public bool IsDead;
         public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, InputManager im, GraphicsDevice gd, SpriteFont f, Player p) : base(spritesheet, map, scale)
         {
@@ -30,13 +31,14 @@ namespace Engine.Sprites
                 OnClick = (o, e) =>
                 {
                     player.AddIntent(new KillIntent(player, this));
-                    interactionOption.Hidden = true;
                     rectangleTextureHidden = true;
+                    interactionOption.Hidden = true;
                 }
             };
             OnInteract += (o, e) =>
             {
-                interactionOption.Hidden = !(interactionOption.Hidden);
+                if(!rectangleTextureHidden)
+                    interactionOption.Hidden = !(interactionOption.Hidden);
             };
         }
 
@@ -65,6 +67,12 @@ namespace Engine.Sprites
                     spriteBatch.Draw(rectangleTexture, Position, Color.White);
                 interactionOption.Draw(gameTime, spriteBatch);
             }
+        }
+
+        public void Die()
+        {
+            IsDead = true;
+            PlayAnimation("Die");
         }
         private void SetSpriteRectangle()
         {

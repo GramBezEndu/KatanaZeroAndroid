@@ -21,7 +21,7 @@ namespace Engine.PlayerIntents
         public bool IntentFinished()
         {
             //if (!enemy.IsDead)
-            if(!killAnimationInitialized)
+            if(!enemy.IsDead)
                 return false;
             return true;
         }

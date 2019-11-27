@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Engine.Controls.Buttons;
+using Engine.PlayerIntents;
 
 namespace Engine.States
 {
@@ -16,7 +18,8 @@ namespace Engine.States
         protected Camera camera;
         protected Player player;
         protected List<IComponent> gameComponents = new List<IComponent>();
-        public List<IComponent> gameCharacters = new List<IComponent>();
+        protected List<IComponent> gameCharacters = new List<IComponent>();
+        protected List<IComponent> stageClearComponents = new List<IComponent>();
         /// <summary>
         /// Determines where the floor level is (in pixels)
         /// </summary>
@@ -30,7 +33,22 @@ namespace Engine.States
             player.Position = new Vector2(0, floorLevel - player.Size.Y);
             camera = new Camera(gameReference);
             gameComponents.Add(camera);
+            AddStageClearComponents();
         }
+
+        private void AddStageClearComponents()
+        {
+            var goToArrow = new TextureButton(inputManager, commonTextures["GoArrow"], new Vector2(3f, 3f));
+            goToArrow.Position = new Vector2(game.LogicalSize.X - goToArrow.Size.X, floorLevel - 2 * goToArrow.Size.Y);
+            goToArrow.OnClick += (o, e) => player.AddIntent(new GoToIntent(player, goToArrow.Rectangle));
+            stageClearComponents.Add(goToArrow);
+
+            var goToText = new TextureButton(inputManager, commonTextures["GoText"], new Vector2(2.5f, 2.5f));
+            goToText.Position = new Vector2(goToArrow.Position.X + goToArrow.Size.X/2 - goToText.Size.X/2, goToArrow.Position.Y - goToText.Size.Y);
+            goToText.OnClick += (o, e) => player.AddIntent(new GoToIntent(player, goToText.Rectangle));
+            stageClearComponents.Add(goToText);
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -39,7 +57,25 @@ namespace Engine.States
             foreach (var c in gameCharacters)
                 c.Update(gameTime);
             CharactersOnFloorLevel();
+            if(StageClear())
+            {
+                foreach (var c in stageClearComponents)
+                    c.Update(gameTime);
+            }
         }
+        protected bool StageClear()
+        {
+            foreach(var c in gameCharacters)
+            {
+                if(c is Enemy enemy)
+                {
+                    if (enemy.IsDead == false)
+                        return false;
+                }
+            }
+            return true;
+        }
+
         /// <summary>
         /// Make sure that all characters are on the floor level
         /// </summary>
@@ -78,6 +114,12 @@ namespace Engine.States
             {
                 if (c is IDrawableComponent drawable)
                     drawable.Draw(gameTime, gameBatch);
+            }
+            if (StageClear())
+            {
+                foreach (var c in stageClearComponents)
+                    if(c is IDrawableComponent drawable)
+                        drawable.Draw(gameTime, gameBatch);
             }
             gameBatch.End();
             graphicsDevice.SetRenderTarget(null);

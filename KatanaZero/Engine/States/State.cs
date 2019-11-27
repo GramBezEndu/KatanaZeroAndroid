@@ -61,6 +61,8 @@ namespace Engine.States
             commonTextures.Add("MainMenu", content.Load<Texture2D>("Textures/MainMenu"));
             commonTextures.Add("Floor", content.Load<Texture2D>("Textures/Floor"));
             commonTextures.Add("PoliceCar", content.Load<Texture2D>("Textures/PoliceCar"));
+            commonTextures.Add("GoArrow", content.Load<Texture2D>("Textures/GoArrow"));
+            commonTextures.Add("GoText", content.Load<Texture2D>("Textures/GoText"));
             //DirectoryInfo directoryInfo = new DirectoryInfo(content.RootDirectory + "/Textures/");
             //if (!directoryInfo.Exists)
             //    throw new DirectoryNotFoundException();

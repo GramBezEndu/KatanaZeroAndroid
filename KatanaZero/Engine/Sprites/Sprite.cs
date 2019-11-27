@@ -52,7 +52,7 @@ namespace Engine.Sprites
             spriteBatch.Draw(texture, Position, null, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects, 0f);
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
 
         }

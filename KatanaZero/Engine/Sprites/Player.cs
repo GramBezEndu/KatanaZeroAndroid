@@ -23,38 +23,41 @@ namespace Engine
             Attack
         }
         private PlayersStates playerState = PlayersStates.Idle;
-        public PlayersStates PlayerState
+
+        public PlayersStates GetPlayerState()
         {
-            get => playerState;
-            private set
+            return playerState;
+        }
+
+        private void SetPlayerState(PlayersStates value, Enemy enemy = null)
+        {
+            if (playerState != value)
             {
-                if (playerState != value)
+                playerState = value;
+                switch (value)
                 {
-                    playerState = value;
-                    switch (value)
-                    {
-                        case PlayersStates.Idle:
-                            PlayAnimation("Idle");
-                            break;
-                        case PlayersStates.RunRight:
-                            SpriteEffects = SpriteEffects.None;
-                            PlayAnimation("Run");
-                            break;
-                        case PlayersStates.RunLeft:
-                            SpriteEffects = SpriteEffects.FlipHorizontally;
-                            PlayAnimation("Run");
-                            break;
-                        case PlayersStates.Attack:
-                            //Adjust player position on attack start
-                            //Position = new Vector2(Position.X - 0.3f * Size.X, Position.Y);
-                            PlayAnimation("Attack", () =>
-                            {
-                                //Adjust player position after attacking
-                                //Position = new Vector2(Position.X + 0.3f * Size.X, Position.Y);
-                                PlayerState = PlayersStates.Idle;
-                            });
-                            break;
-                    }
+                    case PlayersStates.Idle:
+                        PlayAnimation("Idle");
+                        break;
+                    case PlayersStates.RunRight:
+                        SpriteEffects = SpriteEffects.None;
+                        PlayAnimation("Run");
+                        break;
+                    case PlayersStates.RunLeft:
+                        SpriteEffects = SpriteEffects.FlipHorizontally;
+                        PlayAnimation("Run");
+                        break;
+                    case PlayersStates.Attack:
+                        //Adjust player position on attack start
+                        //Position = new Vector2(Position.X - 0.3f * Size.X, Position.Y);
+                        PlayAnimation("Attack", () =>
+                        {
+                            //Adjust player position after attacking
+                            //Position = new Vector2(Position.X + 0.3f * Size.X, Position.Y);
+                            SetPlayerState(PlayersStates.Idle);
+                            enemy.Die();
+                        });
+                        break;
                 }
             }
         }
@@ -89,6 +92,10 @@ namespace Engine
                 if (playerIntents[0].IntentFinished())
                     playerIntents.Remove(playerIntents[0]);
             }
+            else
+            {
+                SetPlayerState(PlayersStates.Idle);
+            }
             //if (inputManager.ActionIsPressed("MoveRight"))
             //{
             //    velocity = new Vector2(5f, 0);
@@ -106,11 +113,11 @@ namespace Engine
         {
             if (velocity.X > 0)
             {
-                PlayerState = PlayersStates.RunRight;
+                SetPlayerState(PlayersStates.RunRight);
             }
             else if (velocity.X < 0)
             {
-                PlayerState = PlayersStates.RunLeft;
+                SetPlayerState(PlayersStates.RunLeft);
             }
         }
 
@@ -126,7 +133,7 @@ namespace Engine
 
         public void Kill(Enemy e)
         {
-            PlayerState = PlayersStates.Attack;
+            SetPlayerState(PlayersStates.Attack, e);
         }
 
         /// <summary>
