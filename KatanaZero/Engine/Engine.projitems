@@ -18,6 +18,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)IDrawableComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\InputManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AnimatedObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Officer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Enemy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\IInteractable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />

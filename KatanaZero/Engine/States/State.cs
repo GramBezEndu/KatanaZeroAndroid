@@ -59,7 +59,8 @@ namespace Engine.States
         {
             //TODO: loop through directory and add to dictionary
             commonTextures.Add("MainMenu", content.Load<Texture2D>("Textures/MainMenu"));
-
+            commonTextures.Add("Floor", content.Load<Texture2D>("Textures/Floor"));
+            commonTextures.Add("PoliceCar", content.Load<Texture2D>("Textures/PoliceCar"));
             //DirectoryInfo directoryInfo = new DirectoryInfo(content.RootDirectory + "/Textures/");
             //if (!directoryInfo.Exists)
             //    throw new DirectoryNotFoundException();

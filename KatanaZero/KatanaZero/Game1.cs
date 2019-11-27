@@ -90,7 +90,7 @@ namespace KatanaZero
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            currentState = new Stage1(this);
+            currentState = new MainMenu(this);
             base.Initialize();
         }
 
@@ -133,7 +133,7 @@ namespace KatanaZero
                 currentState = nextState;
                 nextState = null;
             }
-
+            InputManager.Update(gameTime);
             //Update
             currentState.Update(gameTime);
 

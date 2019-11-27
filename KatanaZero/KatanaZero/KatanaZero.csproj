@@ -71,7 +71,7 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\MainMenu.cs" />
-    <Compile Include="States\Stage1.cs" />
+    <Compile Include="States\Hotel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

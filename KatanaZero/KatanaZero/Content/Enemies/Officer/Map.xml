@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_officer_shoot_0</Key><Value>0 0 77 44</Value></Item>
+<Item><Key>spr_officer_shoot_1</Key><Value>0 45 77 44</Value></Item>
+<Item><Key>spr_officer_shoot_2</Key><Value>78 0 77 44</Value></Item>
+<Item><Key>spr_officer_game_drawgun_0</Key><Value>78 45 33 41</Value></Item>
+<Item><Key>spr_officer_game_drawgun_1</Key><Value>156 0 33 41</Value></Item>
+<Item><Key>spr_officer_game_drawgun_2</Key><Value>112 45 33 41</Value></Item>
+<Item><Key>spr_officer_game_drawgun_3</Key><Value>190 0 33 41</Value></Item>
+<Item><Key>spr_officer_game_drawgun_4</Key><Value>146 45 33 41</Value></Item>
+<Item><Key>spr_officer_game_drawgun_5</Key><Value>180 42 33 41</Value></Item>
+<Item><Key>spr_officer_game_drawgun_6</Key><Value>214 42 33 41</Value></Item>
+<Item><Key>spr_officer_game_drawgun_7</Key><Value>180 84 33 41</Value></Item>
+<Item><Key>spr_officer_idle_0</Key><Value>0 90 17 45</Value></Item>
+<Item><Key>spr_officer_idle_1</Key><Value>18 90 17 45</Value></Item>
+<Item><Key>spr_officer_idle_2</Key><Value>18 182 17 45</Value></Item>
+<Item><Key>spr_officer_idle_3</Key><Value>126 87 17 45</Value></Item>
+<Item><Key>spr_officer_idle_4</Key><Value>36 182 17 45</Value></Item>
+<Item><Key>spr_officer_idle_5</Key><Value>90 133 17 45</Value></Item>
+<Item><Key>spr_officer_idle_6</Key><Value>144 87 17 45</Value></Item>
+<Item><Key>spr_officer_idle_7</Key><Value>54 182 17 45</Value></Item>
+<Item><Key>spr_officer_idle_8</Key><Value>108 133 17 45</Value></Item>
+<Item><Key>spr_officer_idle_9</Key><Value>162 87 17 45</Value></Item>
+<Item><Key>spr_officer_idle_10</Key><Value>36 90 17 45</Value></Item>
+<Item><Key>spr_officer_idle_11</Key><Value>0 136 17 45</Value></Item>
+<Item><Key>spr_officer_idle_12</Key><Value>54 90 17 45</Value></Item>
+<Item><Key>spr_officer_idle_13</Key><Value>18 136 17 45</Value></Item>
+<Item><Key>spr_officer_idle_14</Key><Value>72 90 17 45</Value></Item>
+<Item><Key>spr_officer_idle_15</Key><Value>36 136 17 45</Value></Item>
+<Item><Key>spr_officer_idle_16</Key><Value>90 87 17 45</Value></Item>
+<Item><Key>spr_officer_idle_17</Key><Value>0 182 17 45</Value></Item>
+<Item><Key>spr_officer_idle_18</Key><Value>54 136 17 45</Value></Item>
+<Item><Key>spr_officer_idle_19</Key><Value>108 87 17 45</Value></Item>
+<Item><Key>spr_officer_idle_20</Key><Value>72 136 17 45</Value></Item>
+<Item><Key>spr_officer_game_0</Key><Value>224 0 17 39</Value></Item>
+<Item><Key>spr_officer_game_1</Key><Value>72 182 17 39</Value></Item>
+<Item><Key>spr_officer_game_2</Key><Value>126 133 17 39</Value></Item>
+<Item><Key>spr_officer_game_3</Key><Value>90 179 17 39</Value></Item>
+<Item><Key>spr_officer_game_4</Key><Value>144 133 17 39</Value></Item>
+<Item><Key>spr_officer_game_5</Key><Value>108 179 17 39</Value></Item>
+<Item><Key>spr_officer_game_6</Key><Value>162 133 17 39</Value></Item>
+<Item><Key>spr_officer_game_7</Key><Value>214 84 17 39</Value></Item>
+<Item><Key>spr_officer_game_8</Key><Value>126 173 17 39</Value></Item>
+<Item><Key>spr_officer_game_9</Key><Value>180 126 17 39</Value></Item>
+</Asset>
+</XnaContent>

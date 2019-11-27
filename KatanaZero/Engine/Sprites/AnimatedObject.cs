@@ -41,14 +41,16 @@ namespace Engine.Sprites
             }
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(animatedSprite.TextureRegion, Position, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects, 0f);
+            if(!Hidden)
+                spriteBatch.Draw(animatedSprite.TextureRegion, Position, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects, 0f);
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            animatedSprite.Update(gameTime);
+            if(!Hidden)
+                animatedSprite.Update(gameTime);
         }
 
         public AnimatedObject(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale)

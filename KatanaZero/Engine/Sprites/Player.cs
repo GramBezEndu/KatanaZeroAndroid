@@ -58,16 +58,16 @@ namespace Engine
 
         public override void Update(GameTime gameTime)
         {
-            ManagePlayerInput();
-            // metoda sprawdzająca kolizje - wywolac w tym miejscu
+            ManagePlayerIntent();
             UpdatePlayerState();
             //Update animationSprite
             base.Update(gameTime);
             MovePlayer();
         }
 
-        private void ManagePlayerInput()
+        private void ManagePlayerIntent()
         {
+            velocity = new Vector2(4f, 0);
             //if (inputManager.ActionIsPressed("MoveRight"))
             //{
             //    velocity = new Vector2(5f, 0);
@@ -79,7 +79,7 @@ namespace Engine
         }
 
         /// <summary>
-        /// Should be called after managing player input
+        /// Should be called after managing player intent
         /// </summary>
         private void UpdatePlayerState()
         {
