@@ -1,6 +1,7 @@
 ﻿using Engine.Input;
 using Engine.PlayerIntents;
 using Engine.Sprites;
+using Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Animations;
@@ -48,6 +49,10 @@ namespace Engine
                         PlayAnimation("Run");
                         break;
                     case PlayersStates.Attack:
+                        State.sounds["WeaponSlash"].Play();
+                        KatanaSlash.Hidden = false;
+                        KatanaSlash.Position = this.Position;
+                        KatanaSlash.PlayAnimation("Slash");
                         //Adjust player position on attack start
                         //Position = new Vector2(Position.X - 0.3f * Size.X, Position.Y);
                         PlayAnimation("Attack", () =>
@@ -56,6 +61,7 @@ namespace Engine
                             //Position = new Vector2(Position.X + 0.3f * Size.X, Position.Y);
                             SetPlayerState(PlayersStates.Idle);
                             enemy.Die();
+                            KatanaSlash.Hidden = true;
                         });
                         break;
                 }
@@ -64,6 +70,7 @@ namespace Engine
         private readonly InputManager inputManager;
         private Vector2 velocity = Vector2.Zero;
         private List<IPlayerIntent> playerIntents = new List<IPlayerIntent>();
+        public AnimatedObject KatanaSlash;
 
         public Player(Texture2D characterSpritesheetTexture, Dictionary<string, Rectangle> characterMap, InputManager input, Vector2 scale) : base(characterSpritesheetTexture, characterMap, scale)
         {
@@ -82,6 +89,13 @@ namespace Engine
             //Update animationSprite
             base.Update(gameTime);
             MovePlayer();
+            KatanaSlash.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            base.Draw(gameTime, spriteBatch);
+            KatanaSlash.Draw(gameTime, spriteBatch);
         }
 
         private void ManagePlayerIntent(GameTime gameTime)

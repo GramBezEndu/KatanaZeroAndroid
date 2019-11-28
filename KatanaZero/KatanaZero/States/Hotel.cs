@@ -19,6 +19,7 @@ namespace KatanaZero.States
     {
         public Hotel(Game1 gameReference) : base(gameReference)
         {
+            game.PlaySong(songs["Stage1"]);
             SpawnPoliceCar();
             SpawnOfficer(game.LogicalSize.X *0.68f, "Game");
             gameCharacters.Add(player);

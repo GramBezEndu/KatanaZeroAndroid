@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using Engine.Controls.Buttons;
 using Engine.PlayerIntents;
+using MonoGame.Extended.Animations.SpriteSheets;
 
 namespace Engine.States
 {
@@ -31,6 +32,11 @@ namespace Engine.States
             BuildFloor(commonTextures["Floor"]);
             player = new Player(content.Load<Texture2D>("Character/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, new Vector2(3f, 3f));
             player.Position = new Vector2(0, floorLevel - player.Size.Y);
+            player.KatanaSlash = new AnimatedObject(content.Load<Texture2D>("Character/Katana/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Katana/Map"), new Vector2(3f, 3f))
+            {
+                Hidden = true,
+            };
+            player.KatanaSlash.AddAnimation("Slash", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.05f));
             camera = new Camera(gameReference);
             gameComponents.Add(camera);
             AddStageClearComponents();

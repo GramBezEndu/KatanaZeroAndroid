@@ -13,6 +13,23 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Character/Katana/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Character/Katana/Map.xml
+
+#begin Character/Katana/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/Katana/Spritesheet.png
+
 #begin Character/Map.xml
 /importer:XmlImporter
 /processor:PassThroughProcessor
@@ -59,6 +76,78 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Songs/MainMenu.mp3
+
+#begin Songs/Stage1.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Songs/Stage1.mp3
+
+#begin Sounds/ElevatorEnter.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/ElevatorEnter.wav
+
+#begin Sounds/ElevatorFloorChange.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/ElevatorFloorChange.wav
+
+#begin Sounds/GlassBreak.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/GlassBreak.wav
+
+#begin Sounds/GunShoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/GunShoot.wav
+
+#begin Sounds/OptionSelect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/OptionSelect.wav
+
+#begin Sounds/PickUp.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/PickUp.wav
+
+#begin Sounds/StageClear.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/StageClear.wav
+
+#begin Sounds/TelephoneRing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/TelephoneRing.wav
+
+#begin Sounds/WeaponSlash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/WeaponSlash.wav
+
+#begin Sounds/WeaponSlash2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/WeaponSlash2.wav
+
+#begin Sounds/WeaponSlash3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/WeaponSlash3.wav
 
 #begin Textures/Floor.png
 /importer:TextureImporter

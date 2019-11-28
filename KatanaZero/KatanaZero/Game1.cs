@@ -8,6 +8,7 @@ using System.Diagnostics;
 using Engine.States;
 using KatanaZero.States;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace KatanaZero
 {
@@ -70,6 +71,8 @@ namespace KatanaZero
             graphics.IsFullScreen = true;
             //graphics.PreferredBackBufferWidth = 1280;
             //graphics.PreferredBackBufferHeight = 720;
+            SoundEffect.MasterVolume = 1f;
+            MediaPlayer.Volume = 0.2f;
             MediaPlayer.IsRepeating = true;
             TouchPanel.DisplayWidth = (int)LogicalSize.X;
             TouchPanel.DisplayHeight = (int)LogicalSize.Y;

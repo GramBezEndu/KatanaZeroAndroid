@@ -11,6 +11,7 @@ using Engine.Input;
 using KatanaZero;
 using Microsoft.Xna.Framework.Media;
 using Engine.Controls.Buttons;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Engine.States
 {
@@ -26,6 +27,7 @@ namespace Engine.States
         protected SpriteBatch uiSpriteBatch;
         protected Dictionary<string, Texture2D> commonTextures = new Dictionary<string, Texture2D>();
         protected Dictionary<string, Song> songs = new Dictionary<string, Song>();
+        public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
 
         public void AddUiComponent(IComponent component)
         {
@@ -48,6 +50,8 @@ namespace Engine.States
             LoadFont();
             LoadCommonTextures();
             LoadSongs();
+            if(sounds.Count == 0)
+                LoadSoundEffects();
         }
 
         private void LoadFont()
@@ -78,6 +82,12 @@ namespace Engine.States
         {
             //TODO: loop through directory and add to dictionary
             songs.Add("MainMenu", content.Load<Song>("Songs/MainMenu"));
+            songs.Add("Stage1", content.Load<Song>("Songs/Stage1"));
+        }
+
+        private void LoadSoundEffects()
+        {
+            sounds.Add("WeaponSlash", content.Load<SoundEffect>("Sounds/WeaponSlash"));
         }
 
         private void CreateRenderTarget()
