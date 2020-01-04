@@ -1,4 +1,5 @@
 ﻿using Engine.Input;
+using Engine.Physics;
 using Engine.PlayerIntents;
 using Engine.Sprites;
 using Engine.States;
@@ -14,7 +15,7 @@ using System.Text;
 
 namespace Engine
 {
-    public class Player : AnimatedObject
+    public class Player : AnimatedObject, ICollidable
     {
         public enum PlayersStates
         {
@@ -71,6 +72,9 @@ namespace Engine
         private Vector2 velocity = Vector2.Zero;
         private List<IPlayerIntent> playerIntents = new List<IPlayerIntent>();
         public AnimatedObject KatanaSlash;
+
+        public MoveableBodyStates MoveableBodyState { get; set; }
+        public Vector2 Velocity { get; set; }
 
         public Player(Texture2D characterSpritesheetTexture, Dictionary<string, Rectangle> characterMap, InputManager input, Vector2 scale) : base(characterSpritesheetTexture, characterMap, scale)
         {
@@ -162,6 +166,11 @@ namespace Engine
         public void AddIntent(IPlayerIntent intent)
         {
             playerIntents.Add(intent);
+        }
+
+        public void PrepareMove(GameTime gameTime)
+        {
+            //throw new NotImplementedException();
         }
     }
 }

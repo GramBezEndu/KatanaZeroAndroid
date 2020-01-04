@@ -9,15 +9,21 @@ using System.Text;
 using Engine.Controls.Buttons;
 using Engine.PlayerIntents;
 using MonoGame.Extended.Animations.SpriteSheets;
+using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Renderers;
+using Engine.Physics;
 
 namespace Engine.States
 {
-    public class GameState : State
+    public abstract class GameState : State
     {
-        protected SpriteBatch gameBatch;
-        protected RenderTarget2D gameLayerRenderTarget;
+        protected TiledMap map;
+        protected TiledMapRenderer mapRenderer;
+        protected SpriteBatch mapBatch;
+        protected RenderTarget2D mapLayerRenderTarget;
         protected Camera camera;
         protected Player player;
+        protected PhysicsManager physicsManager;
         protected List<IComponent> gameComponents = new List<IComponent>();
         protected List<IComponent> gameCharacters = new List<IComponent>();
         protected List<IComponent> stageClearComponents = new List<IComponent>();
@@ -27,19 +33,38 @@ namespace Engine.States
         protected int floorLevel;
         public GameState(Game1 gameReference) : base(gameReference)
         {
-            gameBatch = new SpriteBatch(graphicsDevice);
-            gameLayerRenderTarget = new RenderTarget2D(graphicsDevice, (int)game.LogicalSize.X, (int)game.LogicalSize.Y);
-            BuildFloor(commonTextures["Floor"]);
-            player = new Player(content.Load<Texture2D>("Character/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, new Vector2(3f, 3f));
-            player.Position = new Vector2(0, floorLevel - player.Size.Y);
-            player.KatanaSlash = new AnimatedObject(content.Load<Texture2D>("Character/Katana/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Katana/Map"), new Vector2(3f, 3f))
+            mapBatch = new SpriteBatch(graphicsDevice);
+            mapLayerRenderTarget = new RenderTarget2D(graphicsDevice, (int)game.LogicalSize.X, (int)game.LogicalSize.Y);
+            LoadMap();
+            CreateMapRenderer();
+            physicsManager = new PhysicsManager();
+            CreatePlayer();
+            CreateCamera(gameReference);
+            AddStageClearComponents();
+        }
+
+        private void CreateCamera(Game1 gameReference)
+        {
+            camera = new Camera(gameReference, player);
+            gameComponents.Add(camera);
+        }
+
+        protected abstract void LoadMap();
+        protected void CreateMapRenderer()
+        {
+            mapRenderer = new TiledMapRenderer(graphicsDevice, map);
+        }
+
+        private void CreatePlayer()
+        {
+            player = new Player(content.Load<Texture2D>("Character/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, new Vector2(1f, 1f));
+            player.Position = new Vector2(10, 350/*floorLevel - player.Size.Y*/);
+            player.KatanaSlash = new AnimatedObject(content.Load<Texture2D>("Character/Katana/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Katana/Map"), new Vector2(1f, 1f))
             {
                 Hidden = true,
             };
             player.KatanaSlash.AddAnimation("Slash", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.05f));
-            camera = new Camera(gameReference);
-            gameComponents.Add(camera);
-            AddStageClearComponents();
+            physicsManager.AddMoveableBody(player);
         }
 
         private void AddStageClearComponents()
@@ -57,13 +82,17 @@ namespace Engine.States
 
         public override void Update(GameTime gameTime)
         {
+            physicsManager.SetStaticBodies(GetCollisionRectangles());
+            physicsManager.Update(gameTime);
+            camera.Update(gameTime);
+            mapRenderer.Update(gameTime);
             base.Update(gameTime);
-            foreach (var c in gameComponents)
-                c.Update(gameTime);
-            foreach (var c in gameCharacters)
-                c.Update(gameTime);
-            CharactersOnFloorLevel();
-            if(StageClear())
+            //base.Update(gameTime);
+            //foreach (var c in gameComponents)
+            //    c.Update(gameTime);
+            //foreach (var c in gameCharacters)
+            //    c.Update(gameTime);
+            if (StageClear())
             {
                 foreach (var c in stageClearComponents)
                     c.Update(gameTime);
@@ -82,54 +111,47 @@ namespace Engine.States
             return true;
         }
 
-        /// <summary>
-        /// Make sure that all characters are on the floor level
-        /// </summary>
-        protected void CharactersOnFloorLevel()
-        {
-            foreach(var c in gameCharacters)
-            {
-                if(c is IDrawableComponent drawable)
-                {
-                    if (drawable.Position.Y != floorLevel - drawable.Size.Y)
-                        drawable.Position = new Vector2(drawable.Position.X, floorLevel - drawable.Size.Y);
-                }
-            }
-        }
-
-
         protected override void DrawToScreen()
         {
-            gameBatch.Begin(transformMatrix: camera.ViewMatrix/*SpriteSortMode.Immediate, BlendState.Opaque*/);
-            gameBatch.Draw(gameLayerRenderTarget, new Rectangle(0, 0, (int)game.WindowSize.X, (int)game.WindowSize.Y), Color.White);
-            gameBatch.End();
+            mapBatch.Begin(/*transformMatrix: camera.ViewMatrix*/SpriteSortMode.Immediate, BlendState.Opaque);
+            mapBatch.Draw(mapLayerRenderTarget, new Rectangle(0, 0, (int)game.WindowSize.X, (int)game.WindowSize.Y), Color.White);
+            mapBatch.End();
             //base.DrawToScreen();
         }
 
         protected override void DrawToRenderTarget(GameTime gameTime)
         {
-            graphicsDevice.SetRenderTarget(gameLayerRenderTarget);
-            gameBatch.Begin(transformMatrix: camera.ViewMatrix);
-            graphicsDevice.Clear(Color.Black);
-            foreach(var c in gameComponents)
-            {
-                if (c is IDrawableComponent drawable)
-                    drawable.Draw(gameTime, gameBatch);
-            }
-            foreach (var c in gameCharacters)
-            {
-                if (c is IDrawableComponent drawable)
-                    drawable.Draw(gameTime, gameBatch);
-            }
-            if (StageClear())
-            {
-                foreach (var c in stageClearComponents)
-                    if(c is IDrawableComponent drawable)
-                        drawable.Draw(gameTime, gameBatch);
-            }
-            gameBatch.End();
-            graphicsDevice.SetRenderTarget(null);
+            //graphicsDevice.SetRenderTarget(gameLayerRenderTarget);
+            //gameBatch.Begin(transformMatrix: camera.ViewMatrix);
+            //graphicsDevice.Clear(Color.Black);
+            //foreach(var c in gameComponents)
+            //{
+            //    if (c is IDrawableComponent drawable)
+            //        drawable.Draw(gameTime, gameBatch);
+            //}
+            //foreach (var c in gameCharacters)
+            //{
+            //    if (c is IDrawableComponent drawable)
+            //        drawable.Draw(gameTime, gameBatch);
+            //}
+            //if (StageClear())
+            //{
+            //    foreach (var c in stageClearComponents)
+            //        if(c is IDrawableComponent drawable)
+            //            drawable.Draw(gameTime, gameBatch);
+            //}
+            //gameBatch.End();
+            //graphicsDevice.SetRenderTarget(null);
+
             //base.DrawToRenderTarget(gameTime);
+
+            mapBatch.Begin(transformMatrix: camera.ViewMatrix/*SpriteSortMode.Immediate, BlendState.Opaque*/);
+            graphicsDevice.SetRenderTarget(mapLayerRenderTarget);
+            graphicsDevice.Clear(Color.LightBlue);
+            mapRenderer.Draw(camera.ViewMatrix);
+            player.Draw(gameTime, mapBatch);
+            mapBatch.End();
+            graphicsDevice.SetRenderTarget(null);
         }
 
         protected void SpawnOfficer(float xPosition, string startingAnimation = "Idle")
@@ -142,19 +164,16 @@ namespace Engine.States
             gameCharacters.Add(officer);
         }
 
-        protected void BuildFloor(Texture2D texture)
+        private List<Rectangle> GetCollisionRectangles()
         {
-            //Note: We can not scale.X on sprite while using this method
-            Vector2 textureSize = new Vector2(texture.Width, texture.Height);
-            floorLevel = (int)game.LogicalSize.Y - texture.Height;
-            int repeats = (int)Math.Ceiling(game.LogicalSize.X / texture.Width);
-            for(int i=0;i<repeats;i++)
+            TiledMapObjectLayer collisionLayer = map.GetLayer<TiledMapObjectLayer>("Collision");
+            TiledMapObject[] collisionObjects = collisionLayer.Objects;
+            List<Rectangle> rectangles = new List<Rectangle>();
+            foreach (var collisionObject in collisionObjects)
             {
-                gameComponents.Add(new Sprite(texture)
-                {
-                    Position = new Vector2(i * texture.Width, game.LogicalSize.Y - textureSize.Y)
-                });
+                rectangles.Add(new Rectangle((int)collisionObject.Position.X, (int)collisionObject.Position.Y, (int)collisionObject.Size.Width, (int)collisionObject.Size.Height));
             }
+            return rectangles;
         }
     }
 }

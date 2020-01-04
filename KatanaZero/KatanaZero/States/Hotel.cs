@@ -12,6 +12,7 @@ using Android.Widget;
 using Engine.Sprites;
 using Engine.States;
 using Microsoft.Xna.Framework;
+using MonoGame.Extended.Tiled;
 
 namespace KatanaZero.States
 {
@@ -23,6 +24,12 @@ namespace KatanaZero.States
             SpawnPoliceCar();
             SpawnOfficer(game.LogicalSize.X *0.68f, "Game");
             gameCharacters.Add(player);
+        }
+
+        protected override void LoadMap()
+        {
+            //map = content.Load<TiledMap>("Maps/Club");
+            map = content.Load<TiledMap>("Maps/Club");
         }
 
         private void SpawnPoliceCar()

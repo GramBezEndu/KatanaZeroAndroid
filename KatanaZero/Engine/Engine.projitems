@@ -18,6 +18,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)IComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDrawableComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\InputManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Physics\CollisionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Physics\ICollidable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Physics\PhysicsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoToIntent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\IPlayerIntent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\KillIntent.cs" />
