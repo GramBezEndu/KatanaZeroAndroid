@@ -32,6 +32,8 @@ namespace KatanaZero.States
             SpawnCrowdGroupThree();
             SpawnCrowdGroupFour();
             SpawnCrowdGroupFive();
+            SpawnCrowdGroupSix();
+            SpawnCrowdGroupSeven();
         }
 
         protected override void LoadMap()
@@ -123,10 +125,34 @@ namespace KatanaZero.States
 
         private void SpawnCrowdGroupFive()
         {
-            SpawnGuy2(new Vector2(880, 350));
-            SpawnGuy2(new Vector2(900, 350));
+            SpawnGuy2(new Vector2(870, 350));
+            SpawnGuy2(new Vector2(890, 350));
 
-            Rectangle intentRectangle = new Rectangle(880, 400, 50, 50);
+            Rectangle intentRectangle = new Rectangle(870, 400, 50, 50);
+            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
+            gameComponents.Add(goToIntent);
+        }
+
+        private void SpawnCrowdGroupSix()
+        {
+            SpawnGirl1(new Vector2(1000, 350));
+            SpawnGuy2(new Vector2(1015, 350));
+            SpawnGuy1(new Vector2(1035, 350));
+            SpawnGirl1(new Vector2(1050, 350), SpriteEffects.FlipHorizontally);
+            SpawnGirl1(new Vector2(1063, 350), SpriteEffects.FlipHorizontally);
+
+            Rectangle intentRectangle = new Rectangle(1000, 400, 95, 50);
+            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
+            gameComponents.Add(goToIntent);
+        }
+
+        private void SpawnCrowdGroupSeven()
+        {
+            SpawnGirl1(new Vector2(880, 50));
+            SpawnGirl2(new Vector2(890, 50));
+            SpawnGirl1(new Vector2(920, 50));
+
+            Rectangle intentRectangle = new Rectangle(880, 50, 50, 50);
             GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
             gameComponents.Add(goToIntent);
         }
