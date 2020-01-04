@@ -147,7 +147,7 @@ namespace Engine.States
 
             mapBatch.Begin(transformMatrix: camera.ViewMatrix/*SpriteSortMode.Immediate, BlendState.Opaque*/);
             graphicsDevice.SetRenderTarget(mapLayerRenderTarget);
-            graphicsDevice.Clear(Color.LightBlue);
+            graphicsDevice.Clear(Color.Black);
             mapRenderer.Draw(camera.ViewMatrix);
             player.Draw(gameTime, mapBatch);
             mapBatch.End();
