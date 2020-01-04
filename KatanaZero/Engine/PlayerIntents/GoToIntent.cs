@@ -1,36 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Engine.Input;
 using Microsoft.Xna.Framework;
 
 namespace Engine.PlayerIntents
 {
-    public class GoToIntent : IPlayerIntent
+    public class GoToIntent : Intent
     {
-        private Player player;
-        private Rectangle objectRectangle;
         //We are using middle of the given rectangle to check if player touches this point
         private Point middleOfRectangle;
-        public GoToIntent(Player p, Rectangle rec)
+        public GoToIntent(InputManager im, Camera c, Player p, Rectangle rec) : base(im, c, p, rec)
         {
-            player = p;
-            objectRectangle = rec;
-            middleOfRectangle = new Point(objectRectangle.X + objectRectangle.Width/2,
-                objectRectangle.Y + objectRectangle.Height/2);
+            middleOfRectangle = new Point(rec.X + rec.Width/2,
+                rec.Y + rec.Height/2);
         }
-        public bool IntentFinished()
+        public override void IntentFinished()
         {
             //if(player.Rectangle.Intersects(objectRectangle))
             if (player.Rectangle.Contains(middleOfRectangle))
-                return true;
-            return false;
+                Finished = true;
         }
 
-        public void Update(GameTime gameTime)
+        public override void UpdateIntent(GameTime gameTime)
         {
-            if(!IntentFinished())
+            IntentFinished();
+            if(!Finished)
             {
-                if (objectRectangle.X >= player.Rectangle.X)
+                if (middleOfRectangle.X >= player.Rectangle.X)
                     player.MoveRight();
                 else
                     player.MoveLeft();

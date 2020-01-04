@@ -20,7 +20,7 @@ namespace Engine.Sprites
         protected GraphicsDevice graphicsDevice;
         //TODO: Make states like in player
         public bool IsDead;
-        public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, InputManager im, GraphicsDevice gd, SpriteFont f, Player p) : base(spritesheet, map, scale)
+        public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, InputManager im, Camera c, GraphicsDevice gd, SpriteFont f, Player p) : base(spritesheet, map, scale)
         {
             player = p;
             inputManager = im;
@@ -30,7 +30,7 @@ namespace Engine.Sprites
                 Hidden = true,
                 OnClick = (o, e) =>
                 {
-                    player.AddIntent(new KillIntent(player, this));
+                    player.AddIntent(new KillIntent(inputManager, c, player, this));
                     rectangleTextureHidden = true;
                     interactionOption.Hidden = true;
                 }

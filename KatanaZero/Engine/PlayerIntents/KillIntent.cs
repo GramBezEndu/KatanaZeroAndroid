@@ -1,4 +1,5 @@
-﻿using Engine.Sprites;
+﻿using Engine.Input;
+using Engine.Sprites;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,32 +7,30 @@ using System.Text;
 
 namespace Engine.PlayerIntents
 {
-    public class KillIntent : IComponent, IPlayerIntent
+    public class KillIntent : Intent
     {
-        private Player player;
         private Enemy enemy;
         private GoToIntent goToIntent;
         private bool killAnimationInitialized;
-        public KillIntent(Player p, Enemy e)
+        public KillIntent(InputManager inputManager, Camera c, Player p, Enemy e) : base(inputManager, c, p, e.Rectangle)
         {
-            player = p;
             enemy = e;
-            goToIntent = new GoToIntent(p, e.Rectangle);
+            goToIntent = new GoToIntent(inputManager, c, p, e.Rectangle);
         }
-        public bool IntentFinished()
+        public override void IntentFinished()
         {
             //if (!enemy.IsDead)
-            if(!enemy.IsDead)
-                return false;
-            return true;
+            if (enemy.IsDead)
+                Finished = true;
         }
 
-        public void Update(GameTime gameTime)
+        public override void UpdateIntent(GameTime gameTime)
         {
-            if(!IntentFinished())
+            IntentFinished();
+            if(!Finished)
             {
                 //We are not in position to kill yet
-                if(!goToIntent.IntentFinished())
+                if(!goToIntent.Finished)
                 {
                     goToIntent.Update(gameTime);
                 }

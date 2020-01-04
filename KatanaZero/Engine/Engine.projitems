@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Buttons\TextureButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\NavigationMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\VerticalNavigationMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DrawableRectangle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDrawableComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\InputManager.cs" />
@@ -22,9 +23,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Physics\ICollidable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Physics\PhysicsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoToIntent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\Intent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\IPlayerIntent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\KillIntent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AnimatedObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\CharacterCrowd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\CrowdGroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Guy1.cs" />

@@ -56,7 +56,7 @@ namespace Engine
         //    }
         //}
         private readonly InputManager inputManager;
-        private List<IPlayerIntent> playerIntents = new List<IPlayerIntent>();
+        private List<Intent> playerIntents = new List<Intent>();
         public AnimatedObject KatanaSlash;
         private MoveableBodyStates _moveableBodyState;
 
@@ -127,8 +127,8 @@ namespace Engine
         {
             if (playerIntents.Count > 0)
             {
-                playerIntents[0].Update(gameTime);
-                if (playerIntents[0].IntentFinished())
+                playerIntents[0].UpdateIntent(gameTime);
+                if (playerIntents[0].Finished)
                     playerIntents.Remove(playerIntents[0]);
             }
             //else
@@ -139,12 +139,12 @@ namespace Engine
 
         public void MoveRight()
         {
-            Velocity = new Vector2(5f, 0);
+            Velocity = new Vector2(2f, Velocity.Y);
         }
 
         public void MoveLeft()
         {
-            Velocity = new Vector2(-5f, 0);
+            Velocity = new Vector2(-2f, Velocity.Y);
         }
 
         public void Kill(Enemy e)
@@ -153,7 +153,7 @@ namespace Engine
             //SetPlayerState(PlayersStates.Attack, e);
         }
 
-        public void AddIntent(IPlayerIntent intent)
+        public void AddIntent(Intent intent)
         {
             playerIntents.Add(intent);
         }

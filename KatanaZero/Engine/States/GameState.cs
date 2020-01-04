@@ -77,12 +77,12 @@ namespace Engine.States
         {
             var goToArrow = new TextureButton(inputManager, commonTextures["GoArrow"], new Vector2(3f, 3f));
             goToArrow.Position = new Vector2(game.LogicalSize.X - goToArrow.Size.X, floorLevel - 2 * goToArrow.Size.Y);
-            goToArrow.OnClick += (o, e) => player.AddIntent(new GoToIntent(player, goToArrow.Rectangle));
+            goToArrow.OnClick += (o, e) => player.AddIntent(new GoToIntent(inputManager, camera, player, goToArrow.Rectangle));
             stageClearComponents.Add(goToArrow);
 
             var goToText = new TextureButton(inputManager, commonTextures["GoText"], new Vector2(2.5f, 2.5f));
             goToText.Position = new Vector2(goToArrow.Position.X + goToArrow.Size.X/2 - goToText.Size.X/2, goToArrow.Position.Y - goToText.Size.Y);
-            goToText.OnClick += (o, e) => player.AddIntent(new GoToIntent(player, goToText.Rectangle));
+            goToText.OnClick += (o, e) => player.AddIntent(new GoToIntent(inputManager, camera, player, goToText.Rectangle));
             stageClearComponents.Add(goToText);
         }
 
@@ -170,7 +170,7 @@ namespace Engine.States
         {
             var texture = content.Load<Texture2D>("Enemies/Officer/Spritesheet");
             var map = content.Load < Dictionary < string, Rectangle>>("Enemies/Officer/Map");
-            var officer = new Officer(texture, map, new Vector2(3f, 3f), inputManager, graphicsDevice, font, player);
+            var officer = new Officer(texture, map, new Vector2(3f, 3f), inputManager, camera, graphicsDevice, font, player);
             officer.PlayAnimation(startingAnimation);
             officer.Position = new Vector2(xPosition, floorLevel - officer.Size.Y);
             //gameCharacters.Add(officer);

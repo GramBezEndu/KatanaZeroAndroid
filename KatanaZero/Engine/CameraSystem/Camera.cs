@@ -47,7 +47,8 @@ namespace Engine
 
         private void FollowPlayer()
         {
-            Origin = new Vector2(game.LogicalSize.X / 3 - player.Size.X / 2, game.LogicalSize.Y * (3 / 4f) - player.Size.Y / 2);
+            float multiplierOriginX = 0.25f;
+            Origin = new Vector2(game.LogicalSize.X * multiplierOriginX - player.Size.X / 2, game.LogicalSize.Y * (3 / 4f) - player.Size.Y / 2);
             Position = new Vector2(player.Position.X, player.Position.Y);
 
             //After updating position we and origin can calculate view matrix

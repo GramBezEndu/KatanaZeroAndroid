@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Engine.PlayerIntents;
 using Engine.Sprites;
 using Engine.Sprites.Crowd;
 using Engine.States;
@@ -28,6 +29,9 @@ namespace KatanaZero.States
             //gameCharacters.Add(player);
             SpawnCrowdGroupOne();
             SpawnCrowdGroupTwo();
+            SpawnCrowdGroupThree();
+            SpawnCrowdGroupFour();
+            SpawnCrowdGroupFive();
         }
 
         protected override void LoadMap()
@@ -74,12 +78,6 @@ namespace KatanaZero.States
             this.AddMoveableBody(guy);
         }
 
-        private void SpawnCrowdGroupTwo()
-        {
-            SpawnGirl2(new Vector2(330, 350));
-            SpawnGirl2(new Vector2(355, 350), SpriteEffects.FlipHorizontally);
-        }
-
         private void SpawnCrowdGroupOne()
         {
             SpawnGirl1(new Vector2(240, 350));
@@ -87,6 +85,50 @@ namespace KatanaZero.States
             SpawnGuy1(new Vector2(275, 350));
             SpawnGirl1(new Vector2(290, 350), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(303, 350), SpriteEffects.FlipHorizontally);
+
+            Rectangle intentRectangle = new Rectangle(240, 400, 95, 50);
+            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
+            gameComponents.Add(goToIntent);
+        }
+
+        private void SpawnCrowdGroupTwo()
+        {
+            SpawnGirl2(new Vector2(470, 350));
+            SpawnGirl2(new Vector2(495, 350), SpriteEffects.FlipHorizontally);
+
+            Rectangle intentRectangle = new Rectangle(475, 400, 50, 50);
+            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
+            gameComponents.Add(goToIntent);
+        }
+
+        private void SpawnCrowdGroupThree()
+        {
+            SpawnGuy2(new Vector2(570, 350));
+            SpawnGirl1(new Vector2(590, 350));
+
+            Rectangle intentRectangle = new Rectangle(570, 400, 50, 50);
+            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
+            gameComponents.Add(goToIntent);
+        }
+
+        private void SpawnCrowdGroupFour()
+        {
+            SpawnGirl2(new Vector2(675, 350), SpriteEffects.FlipHorizontally);
+            SpawnGirl1(new Vector2(695, 350));
+
+            Rectangle intentRectangle = new Rectangle(675, 400, 50, 50);
+            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
+            gameComponents.Add(goToIntent);
+        }
+
+        private void SpawnCrowdGroupFive()
+        {
+            SpawnGuy2(new Vector2(880, 350));
+            SpawnGuy2(new Vector2(900, 350));
+
+            Rectangle intentRectangle = new Rectangle(880, 400, 50, 50);
+            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
+            gameComponents.Add(goToIntent);
         }
     }
 }
