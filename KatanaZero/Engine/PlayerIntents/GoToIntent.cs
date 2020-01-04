@@ -9,7 +9,7 @@ namespace Engine.PlayerIntents
     {
         private Player player;
         private Rectangle objectRectangle;
-        //We are using middle of the given rectangle to check if player touches this point (this way player touch "more" of the given rectangle)
+        //We are using middle of the given rectangle to check if player touches this point
         private Point middleOfRectangle;
         public GoToIntent(Player p, Rectangle rec)
         {

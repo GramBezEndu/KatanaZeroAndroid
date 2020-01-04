@@ -83,6 +83,7 @@ namespace Engine.States
             //TODO: loop through directory and add to dictionary
             songs.Add("MainMenu", content.Load<Song>("Songs/MainMenu"));
             songs.Add("Stage1", content.Load<Song>("Songs/Stage1"));
+            songs.Add("Club", content.Load<Song>("Songs/Club"));
         }
 
         private void LoadSoundEffects()

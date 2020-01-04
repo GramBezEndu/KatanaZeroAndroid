@@ -26,7 +26,7 @@ namespace KatanaZero.States
             AddUiComponent(new Sprite(commonTextures["MainMenu"]));
             var playButton = new TextButton(inputManager, font, "PLAY")
             {
-                OnClick = (o, e) => game.ChangeState(new Hotel(game))
+                OnClick = (o, e) => game.ChangeState(new Club(game))
             };
             var rankingButton = new TextButton(inputManager, font, "RANKINGS");
             var exitButton = new TextButton(inputManager, font, "EXIT");

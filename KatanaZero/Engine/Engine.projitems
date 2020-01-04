@@ -25,6 +25,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\IPlayerIntent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\KillIntent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AnimatedObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Guy1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Guy2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Officer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Enemy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\IInteractable.cs" />

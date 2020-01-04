@@ -47,6 +47,74 @@
 /processorParam:TextureFormat=Color
 /build:Character/Spritesheet.png
 
+#begin Crowd/Girl1/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Crowd/Girl1/Map.xml
+
+#begin Crowd/Girl1/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Crowd/Girl1/Spritesheet.png
+
+#begin Crowd/Girl2/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Crowd/Girl2/Map.xml
+
+#begin Crowd/Girl2/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Crowd/Girl2/Spritesheet.png
+
+#begin Crowd/Guy1/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Crowd/Guy1/Map.xml
+
+#begin Crowd/Guy1/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Crowd/Guy1/Spritesheet.png
+
+#begin Crowd/Guy2/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Crowd/Guy2/Map.xml
+
+#begin Crowd/Guy2/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Crowd/Guy2/Spritesheet.png
+
 #begin Enemies/Officer/Map.xml
 /importer:XmlImporter
 /processor:PassThroughProcessor
@@ -70,6 +138,12 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Font.spritefont
+
+#begin Songs/Club.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Songs/Club.mp3
 
 #begin Songs/MainMenu.mp3
 /importer:Mp3Importer

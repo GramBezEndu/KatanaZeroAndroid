@@ -25,7 +25,7 @@ namespace Engine.States
         protected Player player;
         protected PhysicsManager physicsManager;
         protected List<IComponent> gameComponents = new List<IComponent>();
-        protected List<IComponent> gameCharacters = new List<IComponent>();
+        //protected List<IComponent> gameCharacters = new List<IComponent>();
         protected List<IComponent> stageClearComponents = new List<IComponent>();
         /// <summary>
         /// Determines where the floor level is (in pixels)
@@ -47,6 +47,12 @@ namespace Engine.States
         {
             camera = new Camera(gameReference, player);
             gameComponents.Add(camera);
+        }
+
+        protected void AddMoveableBody(ICollidable body)
+        {
+            gameComponents.Add(body);
+            physicsManager.AddMoveableBody(body);
         }
 
         protected abstract void LoadMap();
@@ -86,10 +92,10 @@ namespace Engine.States
             physicsManager.Update(gameTime);
             camera.Update(gameTime);
             mapRenderer.Update(gameTime);
+            foreach (var c in gameComponents)
+                c.Update(gameTime);
             base.Update(gameTime);
             //base.Update(gameTime);
-            //foreach (var c in gameComponents)
-            //    c.Update(gameTime);
             //foreach (var c in gameCharacters)
             //    c.Update(gameTime);
             if (StageClear())
@@ -100,15 +106,16 @@ namespace Engine.States
         }
         protected bool StageClear()
         {
-            foreach(var c in gameCharacters)
-            {
-                if(c is Enemy enemy)
-                {
-                    if (enemy.IsDead == false)
-                        return false;
-                }
-            }
-            return true;
+            //foreach(var c in gameCharacters)
+            //{
+            //    if(c is Enemy enemy)
+            //    {
+            //        if (enemy.IsDead == false)
+            //            return false;
+            //    }
+            //}
+            //return true;
+            return false;
         }
 
         protected override void DrawToScreen()
@@ -149,6 +156,11 @@ namespace Engine.States
             graphicsDevice.SetRenderTarget(mapLayerRenderTarget);
             graphicsDevice.Clear(Color.Black);
             mapRenderer.Draw(camera.ViewMatrix);
+            foreach(var c in gameComponents)
+            {
+                if (c is IDrawableComponent drawable)
+                    drawable.Draw(gameTime, mapBatch);
+            }
             player.Draw(gameTime, mapBatch);
             mapBatch.End();
             graphicsDevice.SetRenderTarget(null);
@@ -161,7 +173,7 @@ namespace Engine.States
             var officer = new Officer(texture, map, new Vector2(3f, 3f), inputManager, graphicsDevice, font, player);
             officer.PlayAnimation(startingAnimation);
             officer.Position = new Vector2(xPosition, floorLevel - officer.Size.Y);
-            gameCharacters.Add(officer);
+            //gameCharacters.Add(officer);
         }
 
         private List<Rectangle> GetCollisionRectangles()

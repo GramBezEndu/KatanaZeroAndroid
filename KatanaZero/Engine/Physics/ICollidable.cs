@@ -13,7 +13,7 @@ namespace Engine.Physics
         InAirRight,
         InAirLeft,
         InAir,
-        //Attack
+        Attack
     }
 
     public interface ICollidable : IDrawableComponent
