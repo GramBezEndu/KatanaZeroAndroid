@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Engine.Controls.Buttons;
 using Engine.Input;
+using Engine.Physics;
 using Engine.PlayerIntents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,6 +14,9 @@ namespace Engine.Sprites
     {
         protected readonly Player player;
         public EventHandler OnInteract { get; set; }
+        public MoveableBodyStates MoveableBodyState { get; set; }
+        public Vector2 Velocity { get; set; }
+
         protected IButton interactionOption;
         protected InputManager inputManager;
         protected bool rectangleTextureHidden;
@@ -99,6 +103,11 @@ namespace Engine.Sprites
 
             rectangleTexture = new Texture2D(graphicsDevice, (int)Size.X, (int)Size.Y);
             rectangleTexture.SetData<Color>(data.ToArray());
+        }
+
+        public void PrepareMove(GameTime gameTime)
+        {
+            //throw new NotImplementedException();
         }
     }
 }

@@ -115,6 +115,23 @@
 /processorParam:TextureFormat=Color
 /build:Crowd/Guy2/Spritesheet.png
 
+#begin Enemies/Gangster/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Enemies/Gangster/Map.xml
+
+#begin Enemies/Gangster/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Gangster/Spritesheet.png
+
 #begin Enemies/Officer/Map.xml
 /importer:XmlImporter
 /processor:PassThroughProcessor
