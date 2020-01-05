@@ -24,17 +24,19 @@ namespace KatanaZero.States
         public Club(Game1 gameReference) : base(gameReference)
         {
             game.PlaySong(songs["Club"]);
-            //SpawnPoliceCar();
-            //SpawnOfficer(game.LogicalSize.X *0.68f, "Game");
-            //gameCharacters.Add(player);
             SpawnCrowdGroupOne();
             SpawnCrowdGroupTwo();
-            SpawnGangster(new Vector2(495, 350));
+            SpawnPatrollingGangster(new Vector2(475, 350));
+            SpawnPatrollingGangster(new Vector2(650, 350), 4.5f, false);
+            SpawnPatrollingGangster(new Vector2(920, 350), 6.5f);
             SpawnCrowdGroupThree();
             SpawnCrowdGroupFour();
             SpawnCrowdGroupFive();
             SpawnCrowdGroupSix();
+
             TeleportToSecondFloor();
+            SpawnPatrollingGangster(new Vector2(860, 220));
+            SpawnPatrollingGangster(new Vector2(650, 220), 4.5f, false);
             SpawnCrowdGroupSeven();
             SpawnCrowdGroupEight();
             SpawnCrowdGroupNine();

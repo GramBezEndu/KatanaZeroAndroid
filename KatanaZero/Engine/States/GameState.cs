@@ -178,13 +178,17 @@ namespace Engine.States
             //TODO: Finish after rework
         }
 
-        protected void SpawnGangster(Vector2 position)
+        protected void SpawnPatrollingGangster(Vector2 position, float idleTimeSeconds = 3.5f, bool startPatrollingToleft = true)
         {
             var texture = content.Load<Texture2D>("Enemies/Gangster/Spritesheet");
             var map = content.Load<Dictionary<string, Rectangle>>("Enemies/Gangster/Map");
             var gangster = new Gangster(texture, map, new Vector2(1f, 1f), player);
             gangster.Position = position;
-            gangster.CurrentStrategy = new PatrollingStrategy(gangster, position.X - 150f, position.X + 150f);
+            gangster.CurrentStrategy = new PatrollingStrategy(gangster, position.X - 150f, position.X + 150f, idleTimeSeconds, startPatrollingToleft);
+            gangster.PatrollingSprite = new Sprite(content.Load<Texture2D>("Enemies/Triangle"), new Vector2(0.5f, 0.8f))
+            {
+                Color = Color.DarkGreen * 0.5f,
+            };
             gameComponents.Add(gangster);
             physicsManager.AddMoveableBody(gangster);
         }
