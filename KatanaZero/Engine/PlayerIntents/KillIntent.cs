@@ -19,8 +19,9 @@ namespace Engine.PlayerIntents
         }
         public override void IntentFinished()
         {
+            //TODO: Fix after rework
             //if (!enemy.IsDead)
-            if (enemy.IsDead)
+            //if (enemy.IsDead)
                 Finished = true;
         }
 

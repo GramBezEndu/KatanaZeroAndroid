@@ -29,6 +29,7 @@ namespace KatanaZero.States
             //gameCharacters.Add(player);
             SpawnCrowdGroupOne();
             SpawnCrowdGroupTwo();
+            SpawnGangster(new Vector2(495, 350));
             SpawnCrowdGroupThree();
             SpawnCrowdGroupFour();
             SpawnCrowdGroupFive();

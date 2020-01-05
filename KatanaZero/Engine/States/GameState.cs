@@ -12,6 +12,7 @@ using MonoGame.Extended.Animations.SpriteSheets;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using Engine.Physics;
+using Engine.MoveStrategies;
 
 namespace Engine.States
 {
@@ -166,14 +167,26 @@ namespace Engine.States
             graphicsDevice.SetRenderTarget(null);
         }
 
-        protected void SpawnOfficer(float xPosition, string startingAnimation = "Idle")
+        protected void SpawnOfficer(Vector2 position, string startingAnimation = "Idle")
         {
             var texture = content.Load<Texture2D>("Enemies/Officer/Spritesheet");
             var map = content.Load < Dictionary < string, Rectangle>>("Enemies/Officer/Map");
-            var officer = new Officer(texture, map, new Vector2(3f, 3f), inputManager, camera, graphicsDevice, font, player);
+            var officer = new Officer(texture, map, new Vector2(1f, 1f), player);
             officer.PlayAnimation(startingAnimation);
-            officer.Position = new Vector2(xPosition, floorLevel - officer.Size.Y);
+            officer.Position = position;
             //gameCharacters.Add(officer);
+            //TODO: Finish after rework
+        }
+
+        protected void SpawnGangster(Vector2 position)
+        {
+            var texture = content.Load<Texture2D>("Enemies/Gangster/Spritesheet");
+            var map = content.Load<Dictionary<string, Rectangle>>("Enemies/Gangster/Map");
+            var gangster = new Gangster(texture, map, new Vector2(1f, 1f), player);
+            gangster.Position = position;
+            gangster.CurrentStrategy = new PatrollingStrategy(gangster, position.X - 150f, position.X + 150f);
+            gameComponents.Add(gangster);
+            physicsManager.AddMoveableBody(gangster);
         }
 
         private List<Rectangle> GetCollisionRectangles()

@@ -10,7 +10,7 @@ namespace Engine.Sprites.Enemies
 {
     public class Officer : Enemy
     {
-        public Officer(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, InputManager im, Camera c, GraphicsDevice gd, SpriteFont f, Player p) : base(spritesheet, map, scale, im, c, gd, f, p)
+        public Officer(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p) : base(spritesheet, map, scale, p)
         {
             AddAnimation("Shoot", new SpriteSheetAnimationData(new int[] { 0, 1, 2 }, frameDuration: 0.1f));
             AddAnimation("DrawGun", new SpriteSheetAnimationData(new int[] { 3, 4, 5, 6, 7, 8, 9, 10 }, frameDuration: 0.1f));

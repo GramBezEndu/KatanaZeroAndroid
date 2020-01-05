@@ -19,6 +19,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)IComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDrawableComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\InputManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MoveStrategies\PatrollingStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MoveStrategies\Strategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Physics\CollisionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Physics\ICollidable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Physics\PhysicsManager.cs" />
@@ -34,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Guy1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Guy2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Gangster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Officer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Enemy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\IInteractable.cs" />

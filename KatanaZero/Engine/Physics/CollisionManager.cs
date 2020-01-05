@@ -32,12 +32,20 @@ namespace Engine.Physics
                     if (IsTouchingBottom(c, s))
                     {
                         float distanceY = c.Rectangle.Top - s.Bottom;
-                        c.Velocity = new Vector2(c.Velocity.X, -distanceY);
+                        //c.Velocity = new Vector2(c.Velocity.X, -distanceY);
+
+                        //Is in the block -> adjust position
+                        c.Velocity = new Vector2(c.Velocity.X, 0f);
+                        c.Position = new Vector2(c.Position.X, c.Position.Y - distanceY);
                     }
                     if (IsTouchingTop(c, s))
                     {
                         float distanceY = s.Top - c.Rectangle.Bottom;
-                        c.Velocity = new Vector2(c.Velocity.X, distanceY);
+                        //c.Velocity = new Vector2(c.Velocity.X, distanceY);
+
+                        //Is in the block -> adjust position
+                        c.Velocity = new Vector2(c.Velocity.X, 0f);
+                        c.Position = new Vector2(c.Position.X, c.Position.Y + distanceY);
                     }
                 }
             }
