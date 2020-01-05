@@ -33,7 +33,11 @@ namespace KatanaZero.States
             SpawnCrowdGroupFour();
             SpawnCrowdGroupFive();
             SpawnCrowdGroupSix();
+            TeleportToSecondFloor();
             SpawnCrowdGroupSeven();
+            SpawnCrowdGroupEight();
+            SpawnCrowdGroupNine();
+            SpawnCrowdGroupTen();
         }
 
         protected override void LoadMap()
@@ -146,13 +150,56 @@ namespace KatanaZero.States
             gameComponents.Add(goToIntent);
         }
 
+        private void TeleportToSecondFloor()
+        {
+            Rectangle intentRectangle = new Rectangle(1215, 400, 35, 50);
+            TeleportIntent teleportIntent = new TeleportIntent(inputManager, camera, player, intentRectangle, new Vector2(1215, 220))
+            {
+                OnFinished = (o, e) => camera.MultiplierOriginX = 0.75f
+            };
+            gameComponents.Add(teleportIntent);
+        }
+
         private void SpawnCrowdGroupSeven()
         {
-            SpawnGirl1(new Vector2(880, 50));
-            SpawnGirl2(new Vector2(890, 50));
-            SpawnGirl1(new Vector2(920, 50));
+            SpawnGirl1(new Vector2(940, 220));
+            SpawnGirl2(new Vector2(950, 220));
+            SpawnGirl1(new Vector2(980, 220));
 
-            Rectangle intentRectangle = new Rectangle(880, 50, 50, 50);
+            Rectangle intentRectangle = new Rectangle(940, 210, 70, 50);
+            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
+            gameComponents.Add(goToIntent);
+        }
+
+        private void SpawnCrowdGroupEight()
+        {
+            SpawnGirl1(new Vector2(690, 220));
+            SpawnGuy2(new Vector2(705, 220));
+            SpawnGuy1(new Vector2(725, 220));
+            SpawnGirl1(new Vector2(740, 220), SpriteEffects.FlipHorizontally);
+            SpawnGirl1(new Vector2(753, 220), SpriteEffects.FlipHorizontally);
+
+            Rectangle intentRectangle = new Rectangle(690, 210, 95, 50);
+            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
+            gameComponents.Add(goToIntent);
+        }
+
+        private void SpawnCrowdGroupNine()
+        {
+            SpawnGuy2(new Vector2(580, 220));
+            SpawnGuy1(new Vector2(560, 220));
+
+            Rectangle intentRectangle = new Rectangle(560, 210, 50, 50);
+            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
+            gameComponents.Add(goToIntent);
+        }
+
+        private void SpawnCrowdGroupTen()
+        {
+            SpawnGirl2(new Vector2(365, 220), SpriteEffects.FlipHorizontally);
+            SpawnGirl1(new Vector2(340, 220));
+
+            Rectangle intentRectangle = new Rectangle(340, 210, 50, 50);
             GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
             gameComponents.Add(goToIntent);
         }

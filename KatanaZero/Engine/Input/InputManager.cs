@@ -64,6 +64,7 @@ namespace Engine.Input
             {
                 Vector2 touchPosition = Vector2.Transform(new Vector2(touchLocation.Position.X, touchLocation.Position.Y), Matrix.Invert(camera.ViewMatrix));
                 var touchRectangle = new Rectangle((int)touchPosition.X, (int)touchPosition.Y, 1, 1);
+                //Debug.WriteLine(String.Format("Touch location in worlds space: {0}", touchPosition));
                 if (touchRectangle.Intersects(rec) && touchLocation.State == TouchLocationState.Pressed)
                 {
                     return true;

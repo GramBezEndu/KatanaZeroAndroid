@@ -19,7 +19,10 @@ namespace Engine.PlayerIntents
         {
             //if(player.Rectangle.Intersects(objectRectangle))
             if (player.Rectangle.Contains(middleOfRectangle))
+            {
                 Finished = true;
+                OnFinished?.Invoke(this, new EventArgs());
+            }
         }
 
         public override void UpdateIntent(GameTime gameTime)

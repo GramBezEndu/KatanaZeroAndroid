@@ -70,5 +70,6 @@ namespace Engine.PlayerIntents
         }
 
         public abstract void UpdateIntent(GameTime gameTime);
+        public EventHandler OnFinished { get; set; }
     }
 }

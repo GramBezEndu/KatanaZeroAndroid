@@ -23,6 +23,7 @@ namespace Engine
         public Matrix ViewMatrix { get; private set; } = Matrix.CreateTranslation(0, 0, 0);
         public Vector2 Position { get; private set; } = Vector2.Zero;
         public float Zoom { get; private set; } = 2.5f;
+        public float MultiplierOriginX { get; set; } = 0.25f;
 
         public Vector2 Origin { get; private set; } = Vector2.Zero;
 
@@ -47,8 +48,7 @@ namespace Engine
 
         private void FollowPlayer()
         {
-            float multiplierOriginX = 0.25f;
-            Origin = new Vector2(game.LogicalSize.X * multiplierOriginX - player.Size.X / 2, game.LogicalSize.Y * (3 / 4f) - player.Size.Y / 2);
+            Origin = new Vector2(game.LogicalSize.X * MultiplierOriginX - player.Size.X / 2, game.LogicalSize.Y * (3 / 4f) - player.Size.Y / 2);
             Position = new Vector2(player.Position.X, player.Position.Y);
 
             //After updating position we and origin can calculate view matrix
