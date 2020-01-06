@@ -67,21 +67,26 @@ namespace Engine
             {
                 if(_moveableBodyState != value)
                 {
+                    Debug.WriteLine("{0} -> {1}  [SIZE {2}]", _moveableBodyState, value, Size);
                     _moveableBodyState = value;
                     switch (value)
                     {
                         case MoveableBodyStates.Idle:
+                            Color = Color.White;
                             PlayAnimation("Idle");
                             break;
                         case MoveableBodyStates.WalkRight:
+                            Color = Color.White;
                             SpriteEffects = SpriteEffects.None;
                             PlayAnimation("Run");
                             break;
                         case MoveableBodyStates.WalkLeft:
+                            Color = Color.White;
                             SpriteEffects = SpriteEffects.FlipHorizontally;
                             PlayAnimation("Run");
                             break;
                         case MoveableBodyStates.Attack:
+                            Color = Color.White;
                             State.sounds["WeaponSlash"].Play();
                             KatanaSlash.Hidden = false;
                             KatanaSlash.Position = this.Position;
@@ -95,6 +100,10 @@ namespace Engine
                                 KatanaSlash.Hidden = true;
                             });
                             break;
+                        case MoveableBodyStates.Dance:
+                            Color = Color.Black;
+                            PlayAnimation("Dance");
+                            break;
                     }
                 }
             }
@@ -106,7 +115,8 @@ namespace Engine
             inputManager = input;
             AddAnimation("Attack", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.05f));
             AddAnimation("Run", new SpriteSheetAnimationData(new int[] { 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 }, frameDuration: 0.1f));
-            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27 }, frameDuration: 0.1f));
+            AddAnimation("Dance", new SpriteSheetAnimationData(new int[] { 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35 }, frameDuration: 0.1f, isPingPong: true));
+            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47 }, frameDuration: 0.1f));
             PlayAnimation("Idle");
         }
 

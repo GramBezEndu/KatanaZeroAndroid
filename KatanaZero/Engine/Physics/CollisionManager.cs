@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Engine.Sprites.Crowd;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -106,6 +107,18 @@ namespace Engine.Physics
                     return false;
             }
             return true;
+        }
+
+        public bool InDancingGroup(Player p)
+        {
+            foreach(var body in collidableBodies)
+            {
+                if (body == p)
+                    continue;
+                if (body is CharacterCrowd && p.Rectangle.Intersects(body.Rectangle))
+                    return true;
+            }
+            return false;
         }
     }
 }

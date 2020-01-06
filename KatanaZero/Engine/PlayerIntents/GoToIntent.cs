@@ -18,11 +18,50 @@ namespace Engine.PlayerIntents
         public override void IntentFinished()
         {
             //if(player.Rectangle.Intersects(objectRectangle))
-            if (player.Rectangle.Contains(middleOfRectangle))
+            //int rectangleSize = 18;
+            //var newRectangle = new Rectangle(player.Rectangle.Center.X - rectangleSize/2, (int)player.Position.Y, rectangleSize, (int)player.Size.Y);
+            if (/*newRectangle.Contains(middleOfRectangle)*/
+                /*player.Rectangle.Left < middleOfRectangle.X && player.Rectangle.Right > middleOfRectangle.X*/
+                /*player.Rectangle.Left > Rectangle.Left && player.Rectangle.Right < Rectangle.Right*/
+                player.Rectangle.Contains(middleOfRectangle))
             {
                 Finished = true;
                 OnFinished?.Invoke(this, new EventArgs());
             }
+            //if(playerAproachingFromLeft)
+            //{
+            //    if(player.Rectangle.Center.X > middleOfRectangle.X)
+            //    {
+            //        Finished = true;
+            //        OnFinished?.Invoke(this, new EventArgs());
+            //    }
+            //}
+            //else
+            //{
+            //    if (player.Rectangle.Center.X < middleOfRectangle.X)
+            //    {
+            //        Finished = true;
+            //        OnFinished?.Invoke(this, new EventArgs());
+            //    }
+            //}
+
+            ////More accurate, but won't work if intent rectangle is not wide enough
+            //if(Rectangle.Width > player.Rectangle.Width)
+            //{
+            //    if (Rectangle.Contains(player.Rectangle))
+            //    {
+            //        Finished = true;
+            //        OnFinished?.Invoke(this, new EventArgs());
+            //    }
+            //}
+            //else
+            //{
+            //    if (player.Rectangle.Contains(middleOfRectangle))
+            //    {
+            //        Finished = true;
+            //        OnFinished?.Invoke(this, new EventArgs());
+            //    }
+            //}
         }
 
         public override void UpdateIntent(GameTime gameTime)
@@ -31,9 +70,13 @@ namespace Engine.PlayerIntents
             if(!Finished)
             {
                 if (middleOfRectangle.X >= player.Rectangle.X)
+                {
                     player.MoveRight();
+                }
                 else
+                {
                     player.MoveLeft();
+                }
             }
         }
     }
