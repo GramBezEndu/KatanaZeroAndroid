@@ -40,6 +40,7 @@ namespace KatanaZero.States
             SpawnCrowdGroupEight();
             SpawnCrowdGroupNine();
             SpawnCrowdGroupTen();
+            AddEndLevelIntent();
 
             SpawnPatrollingGangster(new Vector2(860, 220));
             SpawnPatrollingGangster(new Vector2(650, 220), 4.5f, false);
@@ -206,6 +207,16 @@ namespace KatanaZero.States
 
             Rectangle intentRectangle = new Rectangle(340, 210, 50, 50);
             GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
+            gameComponents.Add(goToIntent);
+        }
+
+        private void AddEndLevelIntent()
+        {
+            Rectangle intentRectangle = new Rectangle(222, 208, 37, 49);
+            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle)
+            {
+                OnFinished = (o,e) => game.ChangeState(new MainMenu(game))
+            };
             gameComponents.Add(goToIntent);
         }
     }

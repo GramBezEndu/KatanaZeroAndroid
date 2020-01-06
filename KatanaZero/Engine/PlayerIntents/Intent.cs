@@ -5,6 +5,7 @@ using System.Text;
 using Engine.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 
 namespace Engine.PlayerIntents
 {
@@ -64,8 +65,10 @@ namespace Engine.PlayerIntents
             DrawableRectangle.Update(gameTime);
             if (inputManager.WorldRectnagleWasJustClicked(DrawableRectangle.Rectangle, camera))
             {
+                //Player is not on the same level -> you can not start this intent
+                if (player.Rectangle.Top > DrawableRectangle.Rectangle.Bottom || player.Rectangle.Bottom < DrawableRectangle.Rectangle.Top)
+                    return;
                 player.AddIntent(this);
-                Debug.WriteLine("Intent was clicked!");
             }
         }
 
