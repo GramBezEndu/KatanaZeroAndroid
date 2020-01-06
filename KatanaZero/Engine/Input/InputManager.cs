@@ -76,5 +76,15 @@ namespace Engine.Input
             }
             return false;
         }
+
+        public bool AnyTapDetected()
+        {
+            foreach (TouchLocation touchLocation in CurrentTouchCollection)
+            {
+                if (touchLocation.State == TouchLocationState.Pressed)
+                    return true;
+            }
+            return false;
+        }
     }
 }

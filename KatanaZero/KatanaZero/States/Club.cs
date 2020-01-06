@@ -220,7 +220,11 @@ namespace KatanaZero.States
             Rectangle intentRectangle = new Rectangle(222, 208, 37, 49);
             GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle)
             {
-                OnFinished = (o,e) => game.ChangeState(new MainMenu(game))
+                OnFinished = (o,e) =>
+                {
+                    if(!GameOver)
+                        game.ChangeState(new MainMenu(game));
+                }
             };
             gameComponents.Add(goToIntent);
         }

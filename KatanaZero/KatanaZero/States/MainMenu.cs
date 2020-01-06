@@ -29,12 +29,15 @@ namespace KatanaZero.States
                 OnClick = (o, e) => game.ChangeState(new Club(game))
             };
             var rankingButton = new TextButton(inputManager, fonts["Standard"], "RANKINGS");
-            var exitButton = new TextButton(inputManager, fonts["Standard"], "EXIT");
+            var exitButton = new TextButton(inputManager, fonts["Standard"], "EXIT")
+            {
+                OnClick = (o, e) => game.Exit()
+            };
             var menu = new VerticalNavigationMenu(inputManager, new List<IButton>
                 {
                     playButton,
                     rankingButton,
-                    exitButton
+                    //exitButton
                 });
             menu.Position = new Vector2(game.LogicalSize.X / 2 - menu.Size.X / 2, game.LogicalSize.Y * (4/5f) - menu.Size.Y / 2);
             AddUiComponent(menu);

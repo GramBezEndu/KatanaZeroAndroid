@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System;
-using System.Diagnostics;
+//using System.Diagnostics;
 using Engine.States;
 using KatanaZero.States;
 using Microsoft.Xna.Framework.Media;
@@ -39,9 +39,6 @@ namespace KatanaZero
 
         public void PlaySong(Song s)
         {
-            //We do not allow to change song to the same song
-            if (IsThisSongPlaying(s))
-                return;
             //If parameter is null we stop playing music
             if (s == null)
             {
@@ -55,7 +52,7 @@ namespace KatanaZero
             MediaPlayer.Play(s);
         }
 
-        private bool IsThisSongPlaying(Song song)
+        public bool IsThisSongPlaying(Song song)
         {
             if (currentSong == song)
                 return true;
@@ -76,7 +73,7 @@ namespace KatanaZero
             MediaPlayer.IsRepeating = true;
             TouchPanel.DisplayWidth = (int)LogicalSize.X;
             TouchPanel.DisplayHeight = (int)LogicalSize.Y;
-            if(Debugger.IsAttached)
+            if(System.Diagnostics.Debugger.IsAttached)
             {
                 TouchPanel.EnableMouseTouchPoint = true;
             }

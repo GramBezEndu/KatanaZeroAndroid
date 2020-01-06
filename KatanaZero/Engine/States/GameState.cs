@@ -30,8 +30,9 @@ namespace Engine.States
         protected List<IComponent> gameComponents = new List<IComponent>();
         //protected List<IComponent> gameCharacters = new List<IComponent>();
         protected List<IComponent> stageClearComponents = new List<IComponent>();
-        protected List<IComponent> gameOverComponents = new List<IComponent>();
-        protected double levelTimeInSeconds = 120;
+        protected List<IComponent> timeIsUpComponents = new List<IComponent>();
+        protected List<IComponent> playerSpottedComponents = new List<IComponent>();
+        protected double levelTimeInSeconds = 100;
         protected GameTimer stageTimer;
         private readonly float timerScale = 2.5f;
         private Sprite timer;
@@ -52,9 +53,6 @@ namespace Engine.States
                     gameOver = value;
                     if (gameOver == true)
                     {
-                        foreach (var c in gameOverComponents)
-                            if (c is IDrawableComponent drawable)
-                                drawable.Hidden = false;
                         //Hide all intents
                         foreach (var c in gameComponents)
                             if (c is Intent intent)
@@ -75,8 +73,34 @@ namespace Engine.States
             CreateCamera(gameReference);
             AddStageClearComponents();
             AddGameOverComponents();
+            AddTimeIsUpComponents();
             AddHud();
             CreateLevelTimer();
+        }
+
+        private void AddTimeIsUpComponents()
+        {
+            var textColor = Color.LightBlue;
+            var font = fonts["Small"];
+            var needToBeFaster = new Text(font, "I need to be faster.")
+            {
+                Color = textColor,
+            };
+            needToBeFaster.Position = new Vector2(game.LogicalSize.X / 2 - needToBeFaster.Size.X / 2, game.LogicalSize.Y / 2 - needToBeFaster.Size.Y / 2);
+            needToBeFaster.Hidden = true;
+
+            var restartText = new Text(font, "(Shake phone or tap to restart)")
+            {
+                Color = textColor,
+            };
+            restartText.Position = new Vector2(game.LogicalSize.X / 2 - restartText.Size.X / 2, needToBeFaster.Position.Y + needToBeFaster.Size.Y);
+            restartText.Hidden = true;
+
+            timeIsUpComponents.Add(needToBeFaster);
+            timeIsUpComponents.Add(restartText);
+
+            foreach (var c in timeIsUpComponents)
+                AddUiComponent(c);
         }
 
         private void AddGameOverComponents()
@@ -104,10 +128,10 @@ namespace Engine.States
             restartText.Position = new Vector2(game.LogicalSize.X / 2 - restartText.Size.X / 2, moreCareful.Position.Y + moreCareful.Size.Y);
             restartText.Hidden = true;
 
-            gameOverComponents.Add(cantBeSeen);
-            gameOverComponents.Add(moreCareful);
-            gameOverComponents.Add(restartText);
-            foreach (var c in gameOverComponents)
+            playerSpottedComponents.Add(cantBeSeen);
+            playerSpottedComponents.Add(moreCareful);
+            playerSpottedComponents.Add(restartText);
+            foreach (var c in playerSpottedComponents)
                 AddUiComponent(c);
         }
 
@@ -117,8 +141,9 @@ namespace Engine.States
             {
                 OnTimedEvent = (o, e) =>
                 {
-                    Debug.WriteLine("Level end!");
+                    GameOver = true;
                     timer.Hidden = true;
+                    ShowTimeIsUpGameOverComponents();
                 }
             };
         }
@@ -157,7 +182,7 @@ namespace Engine.States
         private void CreatePlayer()
         {
             player = new Player(content.Load<Texture2D>("Character/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, new Vector2(1f, 1f));
-            player.Position = new Vector2(10, 350/*floorLevel - player.Size.Y*/);
+            player.Position = new Vector2(10, 375/*floorLevel - player.Size.Y*/);
             player.KatanaSlash = new AnimatedObject(content.Load<Texture2D>("Character/Katana/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Katana/Map"), new Vector2(1f, 1f))
             {
                 Hidden = true,
@@ -192,6 +217,7 @@ namespace Engine.States
             if(PlayerSpotted())
             {
                 GameOver = true;
+                ShowPlayerSpottedGameOverComponents();
                 //player.Hidden = true;
             }
             camera.Update(gameTime);
@@ -209,6 +235,29 @@ namespace Engine.States
             }
             stageTimer?.Update(gameTime);
             UpdateTimerSize();
+            if(GameOver)
+            {
+                player.Color = Color.Red;
+                if (inputManager.AnyTapDetected())
+                {
+                    Type type = this.GetType();
+                    game.ChangeState((GameState)Activator.CreateInstance(type, game));
+                }
+            }
+        }
+
+        private void ShowTimeIsUpGameOverComponents()
+        {
+            foreach (var c in timeIsUpComponents)
+                if (c is IDrawableComponent drawable)
+                    drawable.Hidden = false;
+        }
+
+        private void ShowPlayerSpottedGameOverComponents()
+        {
+            foreach (var c in playerSpottedComponents)
+                if (c is IDrawableComponent drawable)
+                    drawable.Hidden = false;
         }
 
         protected bool PlayerSpotted()
