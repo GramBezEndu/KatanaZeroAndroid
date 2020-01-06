@@ -26,21 +26,23 @@ namespace KatanaZero.States
             game.PlaySong(songs["Club"]);
             SpawnCrowdGroupOne();
             SpawnCrowdGroupTwo();
-            SpawnPatrollingGangster(new Vector2(475, 350));
-            SpawnPatrollingGangster(new Vector2(650, 350), 4.5f, false);
-            SpawnPatrollingGangster(new Vector2(920, 350), 6.5f);
             SpawnCrowdGroupThree();
             SpawnCrowdGroupFour();
             SpawnCrowdGroupFive();
             SpawnCrowdGroupSix();
 
+            SpawnPatrollingGangster(new Vector2(475, 350));
+            SpawnPatrollingGangster(new Vector2(650, 350), 4.5f, false);
+            SpawnPatrollingGangster(new Vector2(920, 350), 6.5f);
+
             TeleportToSecondFloor();
-            SpawnPatrollingGangster(new Vector2(860, 220));
-            SpawnPatrollingGangster(new Vector2(650, 220), 4.5f, false);
             SpawnCrowdGroupSeven();
             SpawnCrowdGroupEight();
             SpawnCrowdGroupNine();
             SpawnCrowdGroupTen();
+
+            SpawnPatrollingGangster(new Vector2(860, 220));
+            SpawnPatrollingGangster(new Vector2(650, 220), 4.5f, false);
         }
 
         protected override void LoadMap()

@@ -67,6 +67,9 @@ namespace Engine.States
             commonTextures.Add("PoliceCar", content.Load<Texture2D>("Textures/PoliceCar"));
             commonTextures.Add("GoArrow", content.Load<Texture2D>("Textures/GoArrow"));
             commonTextures.Add("GoText", content.Load<Texture2D>("Textures/GoText"));
+            commonTextures.Add("HudTimer", content.Load<Texture2D>("Textures/HudTimer"));
+            commonTextures.Add("Timer", content.Load<Texture2D>("Textures/Timer"));
+            commonTextures.Add("Hud", content.Load<Texture2D>("Textures/Hud"));
             //DirectoryInfo directoryInfo = new DirectoryInfo(content.RootDirectory + "/Textures/");
             //if (!directoryInfo.Exists)
             //    throw new DirectoryNotFoundException();
@@ -112,6 +115,7 @@ namespace Engine.States
         protected virtual void DrawToRenderTarget(GameTime gameTime)
         {
             graphicsDevice.SetRenderTarget(uiLayerRenderTarget);
+            graphicsDevice.Clear(Color.Transparent);
             uiSpriteBatch.Begin();
             foreach (var c in uiComponents)
             {

@@ -13,7 +13,7 @@ namespace Engine.Sprites
     /// </summary>
     public class Sprite : ISprite
     {
-        public Vector2 Scale { get; private set; } = Vector2.One;
+        public Vector2 Scale { get; set; } = Vector2.One;
         public bool Hidden { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Size
@@ -49,7 +49,8 @@ namespace Engine.Sprites
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, Position, null, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects, 0f);
+            if(!Hidden)
+                spriteBatch.Draw(texture, Position, null, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects, 0f);
         }
 
         public virtual void Update(GameTime gameTime)

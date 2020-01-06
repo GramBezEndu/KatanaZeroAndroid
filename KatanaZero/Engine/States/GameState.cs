@@ -13,6 +13,8 @@ using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using Engine.Physics;
 using Engine.MoveStrategies;
+using PlatformerEngine.Timers;
+using System.Diagnostics;
 
 namespace Engine.States
 {
@@ -28,6 +30,11 @@ namespace Engine.States
         protected List<IComponent> gameComponents = new List<IComponent>();
         //protected List<IComponent> gameCharacters = new List<IComponent>();
         protected List<IComponent> stageClearComponents = new List<IComponent>();
+        protected double levelTimeInSeconds = 120;
+        protected GameTimer stageTimer;
+        private readonly float timerScale = 2.5f;
+        private Sprite timer;
+
         /// <summary>
         /// Determines where the floor level is (in pixels)
         /// </summary>
@@ -42,6 +49,33 @@ namespace Engine.States
             CreatePlayer();
             CreateCamera(gameReference);
             AddStageClearComponents();
+            AddHud();
+            CreateLevelTimer();
+        }
+
+        private void CreateLevelTimer()
+        {
+            stageTimer = new GameTimer(levelTimeInSeconds)
+            {
+                OnTimedEvent = (o, e) =>
+                {
+                    Debug.WriteLine("Level end!");
+                    timer.Hidden = true;
+                }
+            };
+        }
+
+        private void AddHud()
+        {
+            var hud = new Sprite(commonTextures["Hud"], new Vector2(2f, 3f));
+            var hudTimer = new Sprite(commonTextures["HudTimer"], new Vector2(timerScale, timerScale));
+            hudTimer.Position = new Vector2(game.LogicalSize.X / 2 - hudTimer.Size.X / 2, 0.01f * game.LogicalSize.Y);
+            Vector2 timerAdjustments = new Vector2(20, 5);
+            timer = new Sprite(commonTextures["Timer"], new Vector2(timerScale, timerScale));
+            timer.Position = new Vector2(game.LogicalSize.X / 2 - timer.Size.X / 2 + timerAdjustments.X, 0.01f * game.LogicalSize.Y + timerAdjustments.Y);
+            AddUiComponent(hud);
+            AddUiComponent(hudTimer);
+            AddUiComponent(timer);
         }
 
         private void CreateCamera(Game1 gameReference)
@@ -104,7 +138,15 @@ namespace Engine.States
                 foreach (var c in stageClearComponents)
                     c.Update(gameTime);
             }
+            stageTimer?.Update(gameTime);
+            UpdateTimerSize();
         }
+
+        private void UpdateTimerSize()
+        {
+            timer.Scale = new Vector2((float)(timerScale * (stageTimer.CurrentInterval / levelTimeInSeconds)), timer.Scale.Y);
+        }
+
         protected bool StageClear()
         {
             //foreach(var c in gameCharacters)
@@ -124,7 +166,7 @@ namespace Engine.States
             mapBatch.Begin(/*transformMatrix: camera.ViewMatrix*/SpriteSortMode.Immediate, BlendState.Opaque);
             mapBatch.Draw(mapLayerRenderTarget, new Rectangle(0, 0, (int)game.WindowSize.X, (int)game.WindowSize.Y), Color.White);
             mapBatch.End();
-            //base.DrawToScreen();
+            base.DrawToScreen();
         }
 
         protected override void DrawToRenderTarget(GameTime gameTime)
@@ -165,6 +207,7 @@ namespace Engine.States
             player.Draw(gameTime, mapBatch);
             mapBatch.End();
             graphicsDevice.SetRenderTarget(null);
+            base.DrawToRenderTarget(gameTime);
         }
 
         protected void SpawnOfficer(Vector2 position, string startingAnimation = "Idle")

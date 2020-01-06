@@ -42,7 +42,9 @@ namespace Engine
 
         public Color Color { get; set; } = Color.White;
 
-        public float LineThickness { get; set; } = 1;
+        public int LineThickness { get; set; } = 1;
+
+        public bool Filled { get; set; } = false;
 
         public DrawableRectangle(Rectangle rec)
         {
@@ -53,7 +55,10 @@ namespace Engine
         {
             if (!Hidden)
             {
-                spriteBatch.DrawRectangle(rectangle, Color, LineThickness);
+                if (Filled)
+                    spriteBatch.FillRectangle(rectangle, Color, LineThickness);
+                else
+                    spriteBatch.DrawRectangle(rectangle, Color, LineThickness);
             }
         }
 
