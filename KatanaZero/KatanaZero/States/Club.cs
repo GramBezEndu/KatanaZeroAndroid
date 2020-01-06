@@ -24,6 +24,7 @@ namespace KatanaZero.States
         public Club(Game1 gameReference) : base(gameReference)
         {
             game.PlaySong(songs["Club"]);
+            gameComponents.Add(new ClubLights());
             SpawnCrowdGroupOne();
             SpawnCrowdGroupTwo();
             SpawnCrowdGroupThree();
@@ -161,7 +162,11 @@ namespace KatanaZero.States
             Rectangle intentRectangle = new Rectangle(1215, 400, 35, 50);
             TeleportIntent teleportIntent = new TeleportIntent(inputManager, camera, player, intentRectangle, new Vector2(1215, 220))
             {
-                OnFinished = (o, e) => camera.MultiplierOriginX = 0.75f
+                OnFinished = (o, e) =>
+                {
+                    camera.MultiplierOriginX = 0.75f;
+                    player.SpriteEffects = SpriteEffects.FlipHorizontally;
+                }
             };
             gameComponents.Add(teleportIntent);
         }
