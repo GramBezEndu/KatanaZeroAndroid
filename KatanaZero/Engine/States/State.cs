@@ -21,7 +21,7 @@ namespace Engine.States
         protected readonly InputManager inputManager;
         protected readonly GraphicsDevice graphicsDevice;
         protected readonly ContentManager content;
-        protected SpriteFont font;
+        protected Dictionary<string, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
         protected RenderTarget2D uiLayerRenderTarget;
         protected List<IComponent> uiComponents = new List<IComponent>();
         protected SpriteBatch uiSpriteBatch;
@@ -47,16 +47,17 @@ namespace Engine.States
             inputManager = game.InputManager;
             content = game.Content;
             CreateRenderTarget();
-            LoadFont();
+            LoadFonts();
             LoadCommonTextures();
             LoadSongs();
             if(sounds.Count == 0)
                 LoadSoundEffects();
         }
 
-        private void LoadFont()
+        private void LoadFonts()
         {
-            font = content.Load<SpriteFont>("Font");
+            fonts["Standard"] = content.Load<SpriteFont>("Font");
+            fonts["Small"] = content.Load<SpriteFont>("FontSmall");
         }
 
         private void LoadCommonTextures()

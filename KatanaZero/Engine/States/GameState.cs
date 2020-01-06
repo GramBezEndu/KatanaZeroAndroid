@@ -30,15 +30,40 @@ namespace Engine.States
         protected List<IComponent> gameComponents = new List<IComponent>();
         //protected List<IComponent> gameCharacters = new List<IComponent>();
         protected List<IComponent> stageClearComponents = new List<IComponent>();
+        protected List<IComponent> gameOverComponents = new List<IComponent>();
         protected double levelTimeInSeconds = 120;
         protected GameTimer stageTimer;
         private readonly float timerScale = 2.5f;
         private Sprite timer;
+        private bool gameOver;
 
         /// <summary>
         /// Determines where the floor level is (in pixels)
         /// </summary>
         protected int floorLevel;
+
+        protected bool GameOver
+        {
+            get => gameOver;
+            set
+            {
+                if(gameOver != value)
+                {
+                    gameOver = value;
+                    if (gameOver == true)
+                    {
+                        foreach (var c in gameOverComponents)
+                            if (c is IDrawableComponent drawable)
+                                drawable.Hidden = false;
+                        //Hide all intents
+                        foreach (var c in gameComponents)
+                            if (c is Intent intent)
+                                intent.Hidden = true;
+                    }
+                }
+            }
+        }
+
         public GameState(Game1 gameReference) : base(gameReference)
         {
             mapBatch = new SpriteBatch(graphicsDevice);
@@ -49,8 +74,41 @@ namespace Engine.States
             CreatePlayer();
             CreateCamera(gameReference);
             AddStageClearComponents();
+            AddGameOverComponents();
             AddHud();
             CreateLevelTimer();
+        }
+
+        private void AddGameOverComponents()
+        {
+            var textColor = Color.LightBlue;
+            var font = fonts["Small"];
+            var cantBeSeen = new Text(font, "I can't be seen.")
+            {
+                Color = textColor,
+            };
+            cantBeSeen.Position = new Vector2(game.LogicalSize.X / 2 - cantBeSeen.Size.X / 2, game.LogicalSize.Y / 2 - cantBeSeen.Size.Y / 2);
+            cantBeSeen.Hidden = true;
+
+            var moreCareful = new Text(font, "I need to be more careful.")
+            {
+                Color = textColor,
+            };
+            moreCareful.Position = new Vector2(game.LogicalSize.X / 2 - moreCareful.Size.X / 2, cantBeSeen.Position.Y + cantBeSeen.Size.Y);
+            moreCareful.Hidden = true;
+
+            var restartText = new Text(font, "(Shake phone or tap to restart)")
+            {
+                Color = textColor,
+            };
+            restartText.Position = new Vector2(game.LogicalSize.X / 2 - restartText.Size.X / 2, moreCareful.Position.Y + moreCareful.Size.Y);
+            restartText.Hidden = true;
+
+            gameOverComponents.Add(cantBeSeen);
+            gameOverComponents.Add(moreCareful);
+            gameOverComponents.Add(restartText);
+            foreach (var c in gameOverComponents)
+                AddUiComponent(c);
         }
 
         private void CreateLevelTimer()
@@ -131,6 +189,11 @@ namespace Engine.States
         {
             physicsManager.SetStaticBodies(GetCollisionRectangles());
             physicsManager.Update(gameTime);
+            if(PlayerSpotted())
+            {
+                GameOver = true;
+                //player.Hidden = true;
+            }
             camera.Update(gameTime);
             mapRenderer.Update(gameTime);
             foreach (var c in gameComponents)
@@ -146,6 +209,11 @@ namespace Engine.States
             }
             stageTimer?.Update(gameTime);
             UpdateTimerSize();
+        }
+
+        protected bool PlayerSpotted()
+        {
+            return physicsManager.Spotted(player);
         }
 
         private void UpdateTimerSize()

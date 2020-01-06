@@ -151,5 +151,10 @@ namespace Engine.Physics
                 c.MoveableBodyState = MoveableBodyStates.Idle;
             }
         }
+
+        public bool Spotted(Player p)
+        {
+            return collisionManager.Spotted(p);
+        }
     }
 }

@@ -55,20 +55,24 @@ namespace Engine.PlayerIntents
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            DrawableRectangle.Draw(gameTime, spriteBatch);
+            if(!Hidden)
+                DrawableRectangle.Draw(gameTime, spriteBatch);
         }
 
         public abstract void IntentFinished();
 
         public void Update(GameTime gameTime)
         {
-            DrawableRectangle.Update(gameTime);
-            if (inputManager.WorldRectnagleWasJustClicked(DrawableRectangle.Rectangle, camera))
+            if(!Hidden)
             {
-                //Player is not on the same level -> you can not start this intent
-                if (player.Rectangle.Top > DrawableRectangle.Rectangle.Bottom || player.Rectangle.Bottom < DrawableRectangle.Rectangle.Top)
-                    return;
-                player.AddIntent(this);
+                DrawableRectangle.Update(gameTime);
+                if (inputManager.WorldRectnagleWasJustClicked(DrawableRectangle.Rectangle, camera))
+                {
+                    //Player is not on the same level -> you can not start this intent
+                    if (player.Rectangle.Top > DrawableRectangle.Rectangle.Bottom || player.Rectangle.Bottom < DrawableRectangle.Rectangle.Top)
+                        return;
+                    player.AddIntent(this);
+                }
             }
         }
 

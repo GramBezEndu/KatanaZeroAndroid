@@ -1,4 +1,5 @@
-﻿using Engine.Sprites.Crowd;
+﻿using Engine.Sprites;
+using Engine.Sprites.Crowd;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -117,6 +118,24 @@ namespace Engine.Physics
                     continue;
                 if (body is CharacterCrowd && p.Rectangle.Intersects(body.Rectangle))
                     return true;
+            }
+            return false;
+        }
+
+        public bool Spotted(Player p)
+        {
+            foreach(var body in collidableBodies)
+            {
+                if (p == body || !(body is Enemy enemy))
+                    continue;
+                else if (enemy.PatrollingSprite.Rectangle.Intersects(p.Rectangle))
+                {
+                    if(p.MoveableBodyState != MoveableBodyStates.Dance)
+                    {
+                        enemy.PatrollingSprite.Color = Color.Red * 0.7f;
+                        return true;
+                    }
+                }
             }
             return false;
         }
