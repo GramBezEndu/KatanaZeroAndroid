@@ -18,9 +18,28 @@ namespace KatanaZero.LightStrategies
     public abstract class Toggle : LightStrategy
     {
         protected GameTimer toggleLightsTimer;
+        private double _timeToggle = 0.5f;
+
+        public double TimeToggle
+        {
+            get => _timeToggle;
+            set
+            {
+                if(_timeToggle != value)
+                {
+                    _timeToggle = value;
+                    CreateTimer();
+                }
+            }
+        }
         public Toggle(ClubLights cl) : base(cl)
         {
-            toggleLightsTimer = new GameTimer(0.5f)
+            CreateTimer();
+        }
+
+        private void CreateTimer()
+        {
+            toggleLightsTimer = new GameTimer(TimeToggle)
             {
                 OnTimedEvent = (o, e) =>
                 {

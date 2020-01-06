@@ -32,16 +32,25 @@ namespace KatanaZero.States
 
         LightStrategy currentStrategy;
 
+        GameTimer speedUpTimer;
         GameTimer changeStrategyTimer;
         int changeStrategiesCount;
 
         public ClubLights()
         {
-            //currentStrategy = new ToggleAll(this);
             currentStrategy = new ToggleEvenLights(this);
             changeStrategyTimer = new GameTimer(15f)
             {
                 OnTimedEvent = (o, e) => ChangeStrategy()
+            };
+            speedUpTimer = new GameTimer(11f)
+            {
+                OnTimedEvent = (o, e) =>
+                {
+                    SpeedUp();
+                    //It's just a one time effect, we don't need this timer anymore
+                    speedUpTimer = null;
+                }
             };
             //starting position
             Position = new Vector2(180, 290);
@@ -53,6 +62,12 @@ namespace KatanaZero.States
                     Filled = true,
                 });
             }
+        }
+
+        private void SpeedUp()
+        {
+            if (currentStrategy is Toggle toggle)
+                toggle.TimeToggle = 0.1f;
         }
 
         private void ChangeStrategy()
@@ -97,6 +112,7 @@ namespace KatanaZero.States
         {
             if(!Hidden)
             {
+                speedUpTimer?.Update(gameTime);
                 changeStrategyTimer.Update(gameTime);
                 currentStrategy.Update(gameTime);
                 foreach (var l in Lights)
