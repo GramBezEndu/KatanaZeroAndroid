@@ -105,6 +105,12 @@ namespace Engine.States
                 Hidden = true,
             };
             player.KatanaSlash.AddAnimation("Slash", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.05f));
+            player.HiddenNotification = new AnimatedObject(content.Load<Texture2D>("Character/Hidden/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Hidden/Map"), new Vector2(1f, 1f))
+            {
+                Hidden = true,
+                Color = Color.OrangeRed
+            };
+            player.HiddenNotification.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1 }, frameDuration: 0.2f));
             physicsManager.AddMoveableBody(player);
         }
 

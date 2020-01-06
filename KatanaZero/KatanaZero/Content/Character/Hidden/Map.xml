@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_hiddenicon_0</Key><Value>0 0 16 14</Value></Item>
+<Item><Key>spr_hiddenicon_1</Key><Value>0 15 16 14</Value></Item>
+</Asset>
+</XnaContent>

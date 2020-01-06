@@ -13,6 +13,23 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Character/Hidden/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Character/Hidden/Map.xml
+
+#begin Character/Hidden/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/Hidden/Spritesheet.png
+
 #begin Character/Katana/Map.xml
 /importer:XmlImporter
 /processor:PassThroughProcessor

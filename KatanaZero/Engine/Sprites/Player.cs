@@ -58,6 +58,7 @@ namespace Engine
         private readonly InputManager inputManager;
         private List<Intent> playerIntents = new List<Intent>();
         public AnimatedObject KatanaSlash;
+        public AnimatedObject HiddenNotification;
         private MoveableBodyStates _moveableBodyState;
 
         public MoveableBodyStates MoveableBodyState
@@ -72,20 +73,24 @@ namespace Engine
                     switch (value)
                     {
                         case MoveableBodyStates.Idle:
+                            HiddenNotification.Hidden = true;
                             Color = Color.White;
                             PlayAnimation("Idle");
                             break;
                         case MoveableBodyStates.WalkRight:
+                            HiddenNotification.Hidden = true;
                             Color = Color.White;
                             SpriteEffects = SpriteEffects.None;
                             PlayAnimation("Run");
                             break;
                         case MoveableBodyStates.WalkLeft:
+                            HiddenNotification.Hidden = true;
                             Color = Color.White;
                             SpriteEffects = SpriteEffects.FlipHorizontally;
                             PlayAnimation("Run");
                             break;
                         case MoveableBodyStates.Attack:
+                            HiddenNotification.Hidden = true;
                             Color = Color.White;
                             State.sounds["WeaponSlash"].Play();
                             KatanaSlash.Hidden = false;
@@ -101,8 +106,10 @@ namespace Engine
                             });
                             break;
                         case MoveableBodyStates.Dance:
+                            HiddenNotification.Hidden = false;
                             Color = Color.Black;
                             PlayAnimation("Dance");
+                            HiddenNotification.PlayAnimation("Idle");
                             break;
                     }
                 }
@@ -125,12 +132,15 @@ namespace Engine
             //Update animationSprite
             base.Update(gameTime);
             KatanaSlash.Update(gameTime);
+            HiddenNotification.Position = new Vector2(this.Position.X + this.Size.X / 2 - HiddenNotification.Size.X / 2, this.Position.Y - HiddenNotification.Size.Y);
+            HiddenNotification.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             base.Draw(gameTime, spriteBatch);
             KatanaSlash.Draw(gameTime, spriteBatch);
+            HiddenNotification.Draw(gameTime, spriteBatch);
         }
 
         private void ManagePlayerIntent(GameTime gameTime)
