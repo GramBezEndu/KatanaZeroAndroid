@@ -32,11 +32,14 @@ namespace Engine.States
         protected List<IComponent> stageClearComponents = new List<IComponent>();
         protected List<IComponent> timeIsUpComponents = new List<IComponent>();
         protected List<IComponent> playerSpottedComponents = new List<IComponent>();
-        protected double levelTimeInSeconds = 100;
+        protected double levelTimeInSeconds = 120;
         protected GameTimer stageTimer;
         private readonly float timerScale = 2.5f;
         private Sprite timer;
         private bool gameOver;
+
+        public EventHandler OnCompleted { get; set; }
+        protected bool completed;
 
         /// <summary>
         /// Determines where the floor level is (in pixels)
@@ -76,6 +79,7 @@ namespace Engine.States
             AddTimeIsUpComponents();
             AddHud();
             CreateLevelTimer();
+            OnCompleted += (o, e) => AddHighscore();
         }
 
         private void AddTimeIsUpComponents()
@@ -235,7 +239,7 @@ namespace Engine.States
             }
             stageTimer?.Update(gameTime);
             UpdateTimerSize();
-            if(GameOver)
+            if (GameOver)
             {
                 player.Color = Color.Red;
                 if (inputManager.AnyTapDetected())
@@ -244,7 +248,11 @@ namespace Engine.States
                     game.ChangeState((GameState)Activator.CreateInstance(type, game));
                 }
             }
+            else if (completed)
+                OnCompleted?.Invoke(this, new EventArgs());
         }
+
+        protected abstract void AddHighscore();
 
         private void ShowTimeIsUpGameOverComponents()
         {

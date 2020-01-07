@@ -45,6 +45,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\State.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\HighScoresStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\ClubNeonScore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Text.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Timers\GameTimer.cs" />
   </ItemGroup>

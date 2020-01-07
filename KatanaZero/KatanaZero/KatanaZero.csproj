@@ -83,6 +83,7 @@
     <Compile Include="States\ClubLights.cs" />
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="States\Club.cs" />
+    <Compile Include="States\Rankings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

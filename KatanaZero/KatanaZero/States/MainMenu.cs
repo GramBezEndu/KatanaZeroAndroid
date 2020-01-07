@@ -22,13 +22,17 @@ namespace KatanaZero.States
     {
         public MainMenu(Game1 gameReference) : base(gameReference)
         {
-            game.PlaySong(songs["MainMenu"]);
+            if(!game.IsThisSongPlaying(songs["MainMenu"]))
+                game.PlaySong(songs["MainMenu"]);
             AddUiComponent(new Sprite(commonTextures["MainMenu"]));
             var playButton = new TextButton(inputManager, fonts["Standard"], "PLAY")
             {
                 OnClick = (o, e) => game.ChangeState(new Club(game))
             };
-            var rankingButton = new TextButton(inputManager, fonts["Standard"], "RANKINGS");
+            var rankingButton = new TextButton(inputManager, fonts["Standard"], "HIGH-SCORES")
+            {
+                OnClick = (o, e) => game.ChangeState(new Rankings(game))
+            };
             var exitButton = new TextButton(inputManager, fonts["Standard"], "EXIT")
             {
                 OnClick = (o, e) => game.Exit()

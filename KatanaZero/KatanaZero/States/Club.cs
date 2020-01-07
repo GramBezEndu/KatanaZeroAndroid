@@ -13,6 +13,7 @@ using Engine.PlayerIntents;
 using Engine.Sprites;
 using Engine.Sprites.Crowd;
 using Engine.States;
+using Engine.Storage;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Tiled;
@@ -45,6 +46,8 @@ namespace KatanaZero.States
 
             SpawnPatrollingGangster(new Vector2(860, 220));
             SpawnPatrollingGangster(new Vector2(650, 220), 4.5f, false);
+
+            OnCompleted += (o, e) => game.ChangeState(new MainMenu(game));
         }
 
         protected override void LoadMap()
@@ -223,10 +226,17 @@ namespace KatanaZero.States
                 OnFinished = (o,e) =>
                 {
                     if(!GameOver)
-                        game.ChangeState(new MainMenu(game));
+                    {
+                        completed = true;
+                    }
                 }
             };
             gameComponents.Add(goToIntent);
+        }
+
+        protected override void AddHighscore()
+        {
+            HighScoresStorage.Instance.AddTime(new ClubNeonScore(stageTimer.Interval - stageTimer.CurrentInterval));
         }
     }
 }

@@ -71,6 +71,9 @@ namespace Engine.States
             commonTextures.Add("HudTimer", content.Load<Texture2D>("Textures/HudTimer"));
             commonTextures.Add("Timer", content.Load<Texture2D>("Textures/Timer"));
             commonTextures.Add("Hud", content.Load<Texture2D>("Textures/Hud"));
+            commonTextures.Add("JobFolderBack", content.Load<Texture2D>("Textures/JobFolderBack"));
+            commonTextures.Add("JobFolderFrontOpen", content.Load<Texture2D>("Textures/JobFolderFrontOpen"));
+            commonTextures.Add("JobFolderFrontClosed", content.Load<Texture2D>("Textures/JobFolderFrontClosed"));
             //DirectoryInfo directoryInfo = new DirectoryInfo(content.RootDirectory + "/Textures/");
             //if (!directoryInfo.Exists)
             //    throw new DirectoryNotFoundException();
