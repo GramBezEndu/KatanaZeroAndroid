@@ -15,6 +15,7 @@ using Engine.Physics;
 using Engine.MoveStrategies;
 using PlatformerEngine.Timers;
 using System.Diagnostics;
+using KatanaZero.States;
 
 namespace Engine.States
 {
@@ -39,7 +40,7 @@ namespace Engine.States
         private bool gameOver;
 
         public EventHandler OnCompleted { get; set; }
-        protected bool completed;
+        private bool completed;
 
         /// <summary>
         /// Determines where the floor level is (in pixels)
@@ -65,6 +66,20 @@ namespace Engine.States
             }
         }
 
+        protected bool Completed
+        {
+            get => completed;
+            set
+            {
+                if(completed != value)
+                {
+                    completed = value;
+                    if(completed == true)
+                        OnCompleted?.Invoke(this, new EventArgs());
+                }
+            }
+        }
+
         public GameState(Game1 gameReference) : base(gameReference)
         {
             mapBatch = new SpriteBatch(graphicsDevice);
@@ -74,12 +89,20 @@ namespace Engine.States
             physicsManager = new PhysicsManager();
             CreatePlayer();
             CreateCamera(gameReference);
-            AddStageClearComponents();
             AddGameOverComponents();
             AddTimeIsUpComponents();
             AddHud();
             CreateLevelTimer();
+            OnCompleted += (o, e) => AddStageClearComponents();
+            OnCompleted += (o, e) => ShowStageClearComponents();
             OnCompleted += (o, e) => AddHighscore();
+        }
+
+        private void ShowStageClearComponents()
+        {
+            foreach (var c in stageClearComponents)
+                if (c is IDrawableComponent drawable)
+                    drawable.Hidden = false;
         }
 
         private void AddTimeIsUpComponents()
@@ -203,15 +226,40 @@ namespace Engine.States
 
         private void AddStageClearComponents()
         {
-            var goToArrow = new TextureButton(inputManager, commonTextures["GoArrow"], new Vector2(3f, 3f));
-            goToArrow.Position = new Vector2(game.LogicalSize.X - goToArrow.Size.X, floorLevel - 2 * goToArrow.Size.Y);
-            goToArrow.OnClick += (o, e) => player.AddIntent(new GoToIntent(inputManager, camera, player, goToArrow.Rectangle));
-            stageClearComponents.Add(goToArrow);
+            //var goToArrow = new TextureButton(inputManager, commonTextures["GoArrow"], new Vector2(3f, 3f));
+            //goToArrow.Position = new Vector2(game.LogicalSize.X - goToArrow.Size.X, floorLevel - 2 * goToArrow.Size.Y);
+            //goToArrow.OnClick += (o, e) => player.AddIntent(new GoToIntent(inputManager, camera, player, goToArrow.Rectangle));
+            //stageClearComponents.Add(goToArrow);
 
-            var goToText = new TextureButton(inputManager, commonTextures["GoText"], new Vector2(2.5f, 2.5f));
-            goToText.Position = new Vector2(goToArrow.Position.X + goToArrow.Size.X/2 - goToText.Size.X/2, goToArrow.Position.Y - goToText.Size.Y);
-            goToText.OnClick += (o, e) => player.AddIntent(new GoToIntent(inputManager, camera, player, goToText.Rectangle));
-            stageClearComponents.Add(goToText);
+            //var goToText = new TextureButton(inputManager, commonTextures["GoText"], new Vector2(2.5f, 2.5f));
+            //goToText.Position = new Vector2(goToArrow.Position.X + goToArrow.Size.X/2 - goToText.Size.X/2, goToArrow.Position.Y - goToText.Size.Y);
+            //goToText.OnClick += (o, e) => player.AddIntent(new GoToIntent(inputManager, camera, player, goToText.Rectangle));
+            //stageClearComponents.Add(goToText);
+            var levelCompleteText = new Text(fonts["Standard"], "LEVEL COMPLETE")
+            {
+                Hidden = true
+            };
+            levelCompleteText.Position = new Vector2(game.LogicalSize.X / 2 - levelCompleteText.Size.X / 2, game.LogicalSize.Y / 2 - levelCompleteText.Size.Y / 2);
+
+            var timeText = new Text(fonts["Standard"], "TIME " + Math.Round(stageTimer.Interval - stageTimer.CurrentInterval, 2).ToString())
+            {
+                Hidden = true
+            };
+            timeText.Position = new Vector2(game.LogicalSize.X / 2 - timeText.Size.X / 2, levelCompleteText.Position.Y + levelCompleteText.Size.Y);
+
+            var goToMenu = new TextButton(inputManager, fonts["Small"], "BACK")
+            {
+                OnClick = (o, e) => game.ChangeState(new MainMenu(game)),
+                Hidden = true
+            };
+            goToMenu.Position = new Vector2(game.LogicalSize.X / 2 - goToMenu.Size.X / 2, game.LogicalSize.Y * (0.9f) - goToMenu.Size.Y / 2);
+
+            stageClearComponents.Add(levelCompleteText);
+            stageClearComponents.Add(timeText);
+            stageClearComponents.Add(goToMenu);
+
+            foreach (var c in stageClearComponents)
+                AddUiComponent(c);
         }
 
         public override void Update(GameTime gameTime)
@@ -248,8 +296,6 @@ namespace Engine.States
                     game.ChangeState((GameState)Activator.CreateInstance(type, game));
                 }
             }
-            else if (completed)
-                OnCompleted?.Invoke(this, new EventArgs());
         }
 
         protected abstract void AddHighscore();

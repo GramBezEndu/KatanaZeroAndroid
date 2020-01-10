@@ -31,12 +31,7 @@ namespace Engine.States
 
         public void AddUiComponent(IComponent component)
         {
-            if (component is IButton)
-            {
-                throw new Exception("UiComponents list can not directly contain buttons. Did you mean to create a NavigationMenu with list of buttons?");
-            }
-            else
-                uiComponents.Add(component);
+            uiComponents.Add(component);
         }
 
         public State(Game1 gameReference)

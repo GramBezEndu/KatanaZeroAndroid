@@ -46,8 +46,6 @@ namespace KatanaZero.States
 
             SpawnPatrollingGangster(new Vector2(860, 220));
             SpawnPatrollingGangster(new Vector2(650, 220), 4.5f, false);
-
-            OnCompleted += (o, e) => game.ChangeState(new MainMenu(game));
         }
 
         protected override void LoadMap()
@@ -227,7 +225,7 @@ namespace KatanaZero.States
                 {
                     if(!GameOver)
                     {
-                        completed = true;
+                        Completed = true;
                     }
                 }
             };
