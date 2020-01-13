@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CameraSystem\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Buttons\IButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Buttons\RectangleButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Buttons\TextButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Buttons\TextureButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\NavigationMenu.cs" />

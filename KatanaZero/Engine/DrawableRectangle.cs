@@ -10,7 +10,7 @@ namespace Engine
     public class DrawableRectangle : IDrawableComponent
     {
         public bool Hidden { get; set; }
-        public Vector2 Position
+        public virtual Vector2 Position
         {
             get
             {
@@ -18,7 +18,7 @@ namespace Engine
             }
             set
             {
-                rectangle = new Rectangle((int)Position.X, (int)Position.X, rectangle.Width, rectangle.Height);
+                rectangle = new Rectangle((int)value.X, (int)value.Y, rectangle.Width, rectangle.Height);
             }
         }
 
@@ -30,7 +30,7 @@ namespace Engine
             }
         }
 
-        private Rectangle rectangle;
+        protected Rectangle rectangle;
 
         public Rectangle Rectangle
         {
@@ -51,7 +51,7 @@ namespace Engine
             rectangle = rec;
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (!Hidden)
             {
@@ -62,7 +62,7 @@ namespace Engine
             }
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
 
         }

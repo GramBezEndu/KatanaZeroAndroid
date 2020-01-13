@@ -31,8 +31,10 @@ namespace KatanaZero.States
             //    Filled = true,
             //    Color = Color.Black * 0.9f,
             //});
-            var backButton = new TextButton(inputManager, fonts["Standard"], "BACK")
+            var backButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "BACK")
             {
+                Color = Color.Gray * 0.3f,
+                Filled = true,
                 OnClick = (o, e) => game.ChangeState(new MainMenu(game))
             };
             var menu = new VerticalNavigationMenu(inputManager, new List<IButton>

@@ -25,25 +25,32 @@ namespace KatanaZero.States
             if(!game.IsThisSongPlaying(songs["MainMenu"]))
                 game.PlaySong(songs["MainMenu"]);
             AddUiComponent(new Sprite(commonTextures["MainMenu"]));
-            var playButton = new TextButton(inputManager, fonts["Standard"], "PLAY")
+            var playButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "PLAY")
             {
-                OnClick = (o, e) => game.ChangeState(new Club(game))
+                Color = Color.Gray * 0.3f,
+                Filled = true,
+                OnClick = (o, e) => game.ChangeState(new Club(game)),
             };
-            var rankingButton = new TextButton(inputManager, fonts["Standard"], "HIGH-SCORES")
+            var rankingButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "HIGH_SCORES")
             {
+                Color = Color.Gray * 0.3f,
+                Filled = true,
                 OnClick = (o, e) => game.ChangeState(new Rankings(game))
-            };
-            var exitButton = new TextButton(inputManager, fonts["Standard"], "EXIT")
-            {
-                OnClick = (o, e) => game.Exit()
             };
             var menu = new VerticalNavigationMenu(inputManager, new List<IButton>
                 {
                     playButton,
                     rankingButton,
-                    //exitButton
                 });
             menu.Position = new Vector2(game.LogicalSize.X / 2 - menu.Size.X / 2, game.LogicalSize.Y * (4/5f) - menu.Size.Y / 2);
+            var backgroundMenu = new DrawableRectangle(new Rectangle(0, 0, (int)(menu.Size.X * 1.1f), (int)(menu.Size.Y * 1.4f)))
+            {
+                Color = Color.Black * 0.7f,
+                Filled = true,
+            };
+            //Need refactoring
+            backgroundMenu.Position = new Vector2(menu.Position.X - 0.05f * menu.Size.X, menu.Position.Y - 0.2f * menu.Size.Y);
+            AddUiComponent(backgroundMenu);
             AddUiComponent(menu);
         }
     }
