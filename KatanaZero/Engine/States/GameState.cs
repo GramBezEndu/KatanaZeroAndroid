@@ -285,7 +285,8 @@ namespace Engine.States
                 foreach (var c in stageClearComponents)
                     c.Update(gameTime);
             }
-            stageTimer?.Update(gameTime);
+            if(!GameOver)
+                stageTimer?.Update(gameTime);
             UpdateTimerSize();
             if (GameOver)
             {
