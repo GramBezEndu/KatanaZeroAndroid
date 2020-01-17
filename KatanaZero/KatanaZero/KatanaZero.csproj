@@ -83,7 +83,7 @@
     <Compile Include="SpecialEffects\Rain.cs" />
     <Compile Include="States\ClubLights.cs" />
     <Compile Include="States\MainMenu.cs" />
-    <Compile Include="States\Club.cs" />
+    <Compile Include="States\ClubNeon.cs" />
     <Compile Include="States\Rankings.cs" />
   </ItemGroup>
   <ItemGroup>

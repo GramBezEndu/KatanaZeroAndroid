@@ -9,6 +9,7 @@ namespace PlatformerEngine.Timers
 {
     public class GameTimer : IComponent
     {
+        public bool Enabled { get; set; } = true;
         public double Interval { get; private set; }
         public double CurrentInterval { get; private set; }
 
@@ -21,11 +22,14 @@ namespace PlatformerEngine.Timers
         }
         public void Update(GameTime gameTime)
         {
-            CurrentInterval -= gameTime.ElapsedGameTime.TotalSeconds;
-            if (CurrentInterval <= 0)
+            if(Enabled)
             {
-                OnTimedEvent?.Invoke(this, new EventArgs());
-                CurrentInterval = Interval;
+                CurrentInterval -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (CurrentInterval <= 0)
+                {
+                    OnTimedEvent?.Invoke(this, new EventArgs());
+                    CurrentInterval = Interval;
+                }
             }
         }
     }

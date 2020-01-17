@@ -185,6 +185,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Font.spritefont
 
+#begin FontBig.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:FontBig.spritefont
+
 #begin FontSmall.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -233,6 +240,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/GunShoot.wav
+
+#begin Sounds/LevelFail.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/LevelFail.wav
 
 #begin Sounds/OptionSelect.wav
 /importer:WavImporter

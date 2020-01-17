@@ -53,6 +53,7 @@ namespace Engine.States
         {
             fonts["Standard"] = content.Load<SpriteFont>("Font");
             fonts["Small"] = content.Load<SpriteFont>("FontSmall");
+            fonts["Big"] = content.Load<SpriteFont>("FontBig");
         }
 
         private void LoadCommonTextures()
@@ -93,6 +94,7 @@ namespace Engine.States
         {
             Sounds.Add("WeaponSlash", content.Load<SoundEffect>("Sounds/WeaponSlash"));
             Sounds.Add("OptionSelect", content.Load<SoundEffect>("Sounds/OptionSelect"));
+            Sounds.Add("LevelFail", content.Load<SoundEffect>("Sounds/LevelFail"));
         }
 
         private void CreateRenderTarget()

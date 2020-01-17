@@ -16,6 +16,8 @@ using Engine.MoveStrategies;
 using PlatformerEngine.Timers;
 using System.Diagnostics;
 using KatanaZero.States;
+using Microsoft.Xna.Framework.Media;
+using System.Text.RegularExpressions;
 
 namespace Engine.States
 {
@@ -33,6 +35,7 @@ namespace Engine.States
         protected List<IComponent> stageClearComponents = new List<IComponent>();
         protected List<IComponent> timeIsUpComponents = new List<IComponent>();
         protected List<IComponent> playerSpottedComponents = new List<IComponent>();
+        protected List<IComponent> levelTitleComponents = new List<IComponent>();
         protected double levelTimeInSeconds = 120;
         protected GameTimer stageTimer;
         private readonly float timerScale = 2.5f;
@@ -57,6 +60,8 @@ namespace Engine.States
                     gameOver = value;
                     if (gameOver == true)
                     {
+                        MediaPlayer.Stop();
+                        State.Sounds["LevelFail"].Play();
                         //Hide all intents
                         foreach (var c in gameComponents)
                             if (c is Intent intent)
@@ -80,7 +85,7 @@ namespace Engine.States
             }
         }
 
-        public GameState(Game1 gameReference) : base(gameReference)
+        public GameState(Game1 gameReference, bool showLevelTitle) : base(gameReference)
         {
             mapBatch = new SpriteBatch(graphicsDevice);
             mapLayerRenderTarget = new RenderTarget2D(graphicsDevice, (int)game.LogicalSize.X, (int)game.LogicalSize.Y);
@@ -93,9 +98,58 @@ namespace Engine.States
             AddTimeIsUpComponents();
             AddHud();
             CreateLevelTimer();
+            if(showLevelTitle)
+                CreateLevelTitleComponents();
             OnCompleted += (o, e) => AddStageClearComponents();
             OnCompleted += (o, e) => ShowStageClearComponents();
             OnCompleted += (o, e) => AddHighscore();
+        }
+
+        private void CreateLevelTitleComponents()
+        {
+            var fadeTimer = new GameTimer(0.1f)
+            {
+                Enabled = false,
+                OnTimedEvent = (o, e) =>
+                {
+                    //Fade out effect
+                    foreach (var c in levelTitleComponents)
+                    {
+                        if (c is IDrawableComponent drawable)
+                        {
+                            drawable.Color = drawable.Color * 0.8f;
+                        }
+                    }
+                }
+            };
+            var startFadeTimer = new GameTimer(3f)
+            {
+                //After 3 seconds activate timer that will do fade out effect
+                OnTimedEvent = (o, e) =>
+                {
+                    fadeTimer.Enabled = true;
+                }
+            };
+            levelTitleComponents.Add(startFadeTimer);
+            levelTitleComponents.Add(fadeTimer);
+
+            var levelTitle = new Text(fonts["Big"], Regex.Replace(this.GetType().Name, "([a-z])([A-Z])", "$1 $2"));
+            levelTitle.Position = new Vector2(game.LogicalSize.X / 2 - levelTitle.Size.X / 2,
+                game.LogicalSize.Y / 2 - levelTitle.Size.Y / 2);
+
+            var backgroundText = new DrawableRectangle(new Rectangle(0, 0, (int)(game.LogicalSize.X), (int)(levelTitle.Size.Y * 1.4f)))
+            {
+                Color = Color.Black * 0.7f,
+                Filled = true,
+            };
+            //TODO: Need refactoring
+            backgroundText.Position = new Vector2(0, levelTitle.Position.Y - 0.2f * levelTitle.Size.Y);
+
+            levelTitleComponents.Add(backgroundText);
+            levelTitleComponents.Add(levelTitle);
+
+            foreach (var c in levelTitleComponents)
+                AddUiComponent(c);
         }
 
         private void ShowStageClearComponents()
@@ -294,7 +348,7 @@ namespace Engine.States
                 if (inputManager.AnyTapDetected())
                 {
                     Type type = this.GetType();
-                    game.ChangeState((GameState)Activator.CreateInstance(type, game));
+                    game.ChangeState((GameState)Activator.CreateInstance(type, game, false));
                 }
             }
         }
