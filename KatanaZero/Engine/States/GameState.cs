@@ -291,7 +291,7 @@ namespace Engine.States
             //goToText.Position = new Vector2(goToArrow.Position.X + goToArrow.Size.X/2 - goToText.Size.X/2, goToArrow.Position.Y - goToText.Size.Y);
             //goToText.OnClick += (o, e) => player.AddIntent(new GoToIntent(inputManager, camera, player, goToText.Rectangle));
             //stageClearComponents.Add(goToText);
-            var levelCompleteText = new Text(fonts["Standard"], "LEVEL COMPLETE")
+            var levelCompleteText = new Text(fonts["Big"], "LEVEL COMPLETE")
             {
                 Hidden = true
             };
