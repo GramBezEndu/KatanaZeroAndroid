@@ -28,6 +28,12 @@ namespace Engine.PlayerIntents
                 Finished = true;
                 OnFinished?.Invoke(this, new EventArgs());
             }
+
+            //if(player.Position.X >= Rectangle.X && player.Position.X <= Rectangle.X)
+            //{
+            //    Finished = true;
+            //    OnFinished?.Invoke(this, new EventArgs());
+            //}
             //if(playerAproachingFromLeft)
             //{
             //    if(player.Rectangle.Center.X > middleOfRectangle.X)
@@ -67,7 +73,7 @@ namespace Engine.PlayerIntents
         public override void UpdateIntent(GameTime gameTime)
         {
             IntentFinished();
-            if(!Finished)
+            if (!Finished)
             {
                 if (middleOfRectangle.X >= player.Rectangle.X)
                 {
@@ -78,6 +84,17 @@ namespace Engine.PlayerIntents
                     player.MoveLeft();
                 }
             }
+            //if (!Finished)
+            //{
+            //    if (player.Position.X < Rectangle.X)
+            //    {
+            //        player.MoveRight();
+            //    }
+            //    else
+            //    {
+            //        player.MoveLeft();
+            //    }
+            //}
         }
     }
 }

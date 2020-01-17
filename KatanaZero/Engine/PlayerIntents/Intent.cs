@@ -53,6 +53,11 @@ namespace Engine.PlayerIntents
             DrawableRectangle.Color = Color.DarkBlue;
         }
 
+        public void ResetIntent()
+        {
+            Finished = false;
+        }
+
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if(!Hidden)
@@ -71,7 +76,8 @@ namespace Engine.PlayerIntents
                     //Player is not on the same level -> you can not start this intent
                     if (player.Rectangle.Top > DrawableRectangle.Rectangle.Bottom || player.Rectangle.Bottom < DrawableRectangle.Rectangle.Top)
                         return;
-                    player.AddIntent(this);
+                    else
+                        player.AddIntent(this);
                 }
             }
         }

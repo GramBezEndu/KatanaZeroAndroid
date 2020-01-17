@@ -56,7 +56,7 @@ namespace Engine
         //    }
         //}
         private readonly InputManager inputManager;
-        private List<Intent> playerIntents = new List<Intent>();
+        private Intent currentPlayerItent;
         public AnimatedObject KatanaSlash;
         public AnimatedObject HiddenNotification;
         private MoveableBodyStates _moveableBodyState;
@@ -145,11 +145,15 @@ namespace Engine
 
         private void ManagePlayerIntent(GameTime gameTime)
         {
-            if (playerIntents.Count > 0)
+            if (currentPlayerItent != null)
             {
-                playerIntents[0].UpdateIntent(gameTime);
-                if (playerIntents[0].Finished)
-                    playerIntents.Remove(playerIntents[0]);
+                currentPlayerItent.UpdateIntent(gameTime);
+                if (currentPlayerItent.Finished)
+                {
+                    //Resetting intent will alow to complete it again in the future
+                    currentPlayerItent.ResetIntent();
+                    currentPlayerItent = null;
+                }
             }
             //else
             //{
@@ -175,7 +179,7 @@ namespace Engine
 
         public void AddIntent(Intent intent)
         {
-            playerIntents.Add(intent);
+            currentPlayerItent = intent;
         }
 
         public void PrepareMove(GameTime gameTime)

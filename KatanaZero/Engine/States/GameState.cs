@@ -18,6 +18,7 @@ using System.Diagnostics;
 using KatanaZero.States;
 using Microsoft.Xna.Framework.Media;
 using System.Text.RegularExpressions;
+using Engine.Controls;
 
 namespace Engine.States
 {
@@ -32,7 +33,7 @@ namespace Engine.States
         protected PhysicsManager physicsManager;
         protected List<IComponent> gameComponents = new List<IComponent>();
         //protected List<IComponent> gameCharacters = new List<IComponent>();
-        protected List<IComponent> stageClearComponents = new List<IComponent>();
+        protected List<IComponent> levelCompleteComponents = new List<IComponent>();
         protected List<IComponent> timeIsUpComponents = new List<IComponent>();
         protected List<IComponent> playerSpottedComponents = new List<IComponent>();
         protected List<IComponent> levelTitleComponents = new List<IComponent>();
@@ -100,7 +101,7 @@ namespace Engine.States
             CreateLevelTimer();
             if(showLevelTitle)
                 CreateLevelTitleComponents();
-            OnCompleted += (o, e) => AddStageClearComponents();
+            OnCompleted += (o, e) => AddLevelCompleteComponents();
             OnCompleted += (o, e) => ShowStageClearComponents();
             OnCompleted += (o, e) => AddHighscore();
         }
@@ -154,7 +155,7 @@ namespace Engine.States
 
         private void ShowStageClearComponents()
         {
-            foreach (var c in stageClearComponents)
+            foreach (var c in levelCompleteComponents)
                 if (c is IDrawableComponent drawable)
                     drawable.Hidden = false;
         }
@@ -263,7 +264,8 @@ namespace Engine.States
         private void CreatePlayer()
         {
             player = new Player(content.Load<Texture2D>("Character/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, new Vector2(1f, 1f));
-            player.Position = new Vector2(10, 375/*floorLevel - player.Size.Y*/);
+            player.Position = new Vector2(10, 375);
+            //player.Position = new Vector2(200, 125);
             player.KatanaSlash = new AnimatedObject(content.Load<Texture2D>("Character/Katana/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Katana/Map"), new Vector2(1f, 1f))
             {
                 Hidden = true,
@@ -278,7 +280,7 @@ namespace Engine.States
             physicsManager.AddMoveableBody(player);
         }
 
-        private void AddStageClearComponents()
+        private void AddLevelCompleteComponents()
         {
             //var goToArrow = new TextureButton(inputManager, commonTextures["GoArrow"], new Vector2(3f, 3f));
             //goToArrow.Position = new Vector2(game.LogicalSize.X - goToArrow.Size.X, floorLevel - 2 * goToArrow.Size.Y);
@@ -295,24 +297,37 @@ namespace Engine.States
             };
             levelCompleteText.Position = new Vector2(game.LogicalSize.X / 2 - levelCompleteText.Size.X / 2, game.LogicalSize.Y / 2 - levelCompleteText.Size.Y / 2);
 
-            var timeText = new Text(fonts["Standard"], "TIME " + Math.Round(stageTimer.Interval - stageTimer.CurrentInterval, 2).ToString())
+            var timeText = new Text(fonts["Standard"], String.Format("TIME {0}s.", Math.Round(stageTimer.Interval - stageTimer.CurrentInterval, 2).ToString()))
             {
                 Hidden = true
             };
             timeText.Position = new Vector2(game.LogicalSize.X / 2 - timeText.Size.X / 2, levelCompleteText.Position.Y + levelCompleteText.Size.Y);
 
-            var goToMenu = new TextButton(inputManager, fonts["Small"], "BACK")
+            var backButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "BACK")
             {
-                Hidden = true
+                Color = Color.Gray * 0.3f,
+                Filled = true,
             };
-            goToMenu.OnClick += (o, e) => game.ChangeState(new MainMenu(game));
-            goToMenu.Position = new Vector2(game.LogicalSize.X / 2 - goToMenu.Size.X / 2, game.LogicalSize.Y * (0.9f) - goToMenu.Size.Y / 2);
+            backButton.OnClick += (o, e) => game.ChangeState(new MainMenu(game));
+            var menu = new VerticalNavigationMenu(inputManager, new List<IButton>
+            {
+                backButton,
+            });
+            menu.Position = new Vector2(game.LogicalSize.X / 2 - menu.Size.X / 2, game.LogicalSize.Y * (0.925f) - menu.Size.Y / 2);
+            var backgroundMenu = new DrawableRectangle(new Rectangle(0, 0, (int)(game.LogicalSize.X), (int)(menu.Size.Y * 1.5f)))
+            {
+                Color = Color.Black * 0.7f,
+                Filled = true,
+            };
+            //TODO: Need refactoring
+            backgroundMenu.Position = new Vector2(0, menu.Position.Y - 0.25f * menu.Size.Y);
 
-            stageClearComponents.Add(levelCompleteText);
-            stageClearComponents.Add(timeText);
-            stageClearComponents.Add(goToMenu);
+            levelCompleteComponents.Add(levelCompleteText);
+            levelCompleteComponents.Add(timeText);
+            levelCompleteComponents.Add(backgroundMenu);
+            levelCompleteComponents.Add(menu);
 
-            foreach (var c in stageClearComponents)
+            foreach (var c in levelCompleteComponents)
                 AddUiComponent(c);
         }
 
@@ -336,7 +351,7 @@ namespace Engine.States
             //    c.Update(gameTime);
             if (StageClear())
             {
-                foreach (var c in stageClearComponents)
+                foreach (var c in levelCompleteComponents)
                     c.Update(gameTime);
             }
             if(!GameOver)
