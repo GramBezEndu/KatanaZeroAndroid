@@ -15,6 +15,7 @@ using Engine.Controls.Buttons;
 using Engine.Sprites;
 using Engine.States;
 using Engine.Storage;
+using KatanaZero.SpecialEffects;
 using Microsoft.Xna.Framework;
 
 namespace KatanaZero.States
@@ -24,6 +25,7 @@ namespace KatanaZero.States
         public Rankings(Game1 gameReference) : base(gameReference)
         {
             AddUiComponent(new Sprite(commonTextures["MainMenu"]));
+            AddUiComponent(new Rain());
             CreateJobFolder();
             //Rectangle backgroundRankings = new Rectangle((int)(game.LogicalSize.X * (0.2f)), (int)(game.LogicalSize.Y * (0.1f)), (int)(game.LogicalSize.X * 0.6f), (int)(game.LogicalSize.Y * 0.7f));
             //AddUiComponent(new DrawableRectangle(backgroundRankings)
@@ -35,13 +37,21 @@ namespace KatanaZero.States
             {
                 Color = Color.Gray * 0.3f,
                 Filled = true,
-                OnClick = (o, e) => game.ChangeState(new MainMenu(game))
             };
+            backButton.OnClick += (o, e) => game.ChangeState(new MainMenu(game));
             var menu = new VerticalNavigationMenu(inputManager, new List<IButton>
             {
                 backButton,
             });
-            menu.Position = new Vector2(game.LogicalSize.X / 2 - menu.Size.X / 2, game.LogicalSize.Y * (0.9f) - menu.Size.Y / 2);
+            menu.Position = new Vector2(game.LogicalSize.X / 2 - menu.Size.X / 2, game.LogicalSize.Y * (0.925f) - menu.Size.Y / 2);
+            var backgroundMenu = new DrawableRectangle(new Rectangle(0, 0, (int)(menu.Size.X * 1.1f), (int)(menu.Size.Y * 1.4f)))
+            {
+                Color = Color.Black * 0.7f,
+                Filled = true,
+            };
+            //TODO: Need refactoring
+            backgroundMenu.Position = new Vector2(menu.Position.X - 0.05f * menu.Size.X, menu.Position.Y - 0.2f * menu.Size.Y);
+            AddUiComponent(backgroundMenu);
             AddUiComponent(menu);
         }
 
@@ -49,9 +59,9 @@ namespace KatanaZero.States
         {
             float jobFolderScale = 2f;
             var folderFront = new Sprite(commonTextures["JobFolderFrontOpen"], new Vector2(jobFolderScale));
-            folderFront.Position = new Vector2(game.LogicalSize.X * (0.15f), game.LogicalSize.Y * (0.05f));
+            folderFront.Position = new Vector2(game.LogicalSize.X * (0.15f), game.LogicalSize.Y * (0.02f));
             var folderBack = new Sprite(commonTextures["JobFolderBack"], new Vector2(jobFolderScale));
-            folderBack.Position = new Vector2(folderFront.Rectangle.Right, game.LogicalSize.Y * (0.05f));
+            folderBack.Position = new Vector2(folderFront.Rectangle.Right, folderFront.Position.Y);
             var clubNeonText = new Text(fonts["Small"], "CLUB\nNEON")
             {
                 Color = Color.Blue,

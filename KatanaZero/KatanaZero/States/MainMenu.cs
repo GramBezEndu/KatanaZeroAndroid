@@ -15,6 +15,7 @@ using Engine.Sprites;
 using Microsoft.Xna.Framework;
 using Engine.Controls.Buttons;
 using Engine.Controls;
+using KatanaZero.SpecialEffects;
 
 namespace KatanaZero.States
 {
@@ -25,18 +26,20 @@ namespace KatanaZero.States
             if(!game.IsThisSongPlaying(songs["MainMenu"]))
                 game.PlaySong(songs["MainMenu"]);
             AddUiComponent(new Sprite(commonTextures["MainMenu"]));
+            AddUiComponent(new Rain());
+            //AddUiComponent(new Sprite(commonTextures["Fence"]));
             var playButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "PLAY")
             {
                 Color = Color.Gray * 0.3f,
                 Filled = true,
-                OnClick = (o, e) => game.ChangeState(new Club(game)),
             };
-            var rankingButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "HIGH_SCORES")
+            playButton.OnClick += (o, e) => game.ChangeState(new Club(game));
+            var rankingButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "HIGHSCORES")
             {
                 Color = Color.Gray * 0.3f,
                 Filled = true,
-                OnClick = (o, e) => game.ChangeState(new Rankings(game))
             };
+            rankingButton.OnClick += (o, e) => game.ChangeState(new Rankings(game));
             var menu = new VerticalNavigationMenu(inputManager, new List<IButton>
                 {
                     playButton,
@@ -48,7 +51,7 @@ namespace KatanaZero.States
                 Color = Color.Black * 0.7f,
                 Filled = true,
             };
-            //Need refactoring
+            //TODO: Need refactoring
             backgroundMenu.Position = new Vector2(menu.Position.X - 0.05f * menu.Size.X, menu.Position.Y - 0.2f * menu.Size.Y);
             AddUiComponent(backgroundMenu);
             AddUiComponent(menu);

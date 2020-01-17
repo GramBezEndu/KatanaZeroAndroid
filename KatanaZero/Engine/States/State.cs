@@ -27,7 +27,7 @@ namespace Engine.States
         protected SpriteBatch uiSpriteBatch;
         protected Dictionary<string, Texture2D> commonTextures = new Dictionary<string, Texture2D>();
         protected Dictionary<string, Song> songs = new Dictionary<string, Song>();
-        public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
+        public static Dictionary<string, SoundEffect> Sounds = new Dictionary<string, SoundEffect>();
 
         public void AddUiComponent(IComponent component)
         {
@@ -45,7 +45,7 @@ namespace Engine.States
             LoadFonts();
             LoadCommonTextures();
             LoadSongs();
-            if(sounds.Count == 0)
+            if(Sounds.Count == 0)
                 LoadSoundEffects();
         }
 
@@ -59,6 +59,7 @@ namespace Engine.States
         {
             //TODO: loop through directory and add to dictionary
             commonTextures.Add("MainMenu", content.Load<Texture2D>("Textures/MainMenu"));
+            commonTextures.Add("Fence", content.Load<Texture2D>("Textures/Fence"));
             commonTextures.Add("Floor", content.Load<Texture2D>("Textures/Floor"));
             commonTextures.Add("PoliceCar", content.Load<Texture2D>("Textures/PoliceCar"));
             commonTextures.Add("GoArrow", content.Load<Texture2D>("Textures/GoArrow"));
@@ -90,7 +91,8 @@ namespace Engine.States
 
         private void LoadSoundEffects()
         {
-            sounds.Add("WeaponSlash", content.Load<SoundEffect>("Sounds/WeaponSlash"));
+            Sounds.Add("WeaponSlash", content.Load<SoundEffect>("Sounds/WeaponSlash"));
+            Sounds.Add("OptionSelect", content.Load<SoundEffect>("Sounds/OptionSelect"));
         }
 
         private void CreateRenderTarget()

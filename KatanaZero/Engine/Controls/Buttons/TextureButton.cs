@@ -14,6 +14,7 @@ namespace Engine.Controls.Buttons
         public TextureButton(InputManager im, Texture2D t, Vector2 objScale) : base(t, objScale)
         {
             inputManager = im;
+            OnClick += (o, e) => Engine.States.State.Sounds["OptionSelect"].Play();
         }
 
         public override void Update(GameTime gameTime)

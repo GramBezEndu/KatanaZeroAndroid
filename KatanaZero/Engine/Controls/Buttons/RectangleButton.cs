@@ -18,6 +18,7 @@ namespace Engine.Controls.Buttons
             message = new Text(f, msg);
             message.Position = new Vector2(Position.X + this.Size.X / 2 - message.Size.X / 2,
                 Position.Y + this.Size.Y / 2 - message.Size.Y / 2);
+            OnClick += (o, e) => Engine.States.State.Sounds["OptionSelect"].Play();
         }
 
         public override Vector2 Position 

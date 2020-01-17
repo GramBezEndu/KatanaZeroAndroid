@@ -249,9 +249,9 @@ namespace Engine.States
 
             var goToMenu = new TextButton(inputManager, fonts["Small"], "BACK")
             {
-                OnClick = (o, e) => game.ChangeState(new MainMenu(game)),
                 Hidden = true
             };
+            goToMenu.OnClick += (o, e) => game.ChangeState(new MainMenu(game));
             goToMenu.Position = new Vector2(game.LogicalSize.X / 2 - goToMenu.Size.X / 2, game.LogicalSize.Y * (0.9f) - goToMenu.Size.Y / 2);
 
             stageClearComponents.Add(levelCompleteText);

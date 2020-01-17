@@ -80,6 +80,7 @@
     <Compile Include="LightStrategies\ToggleEvenLights.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecialEffects\Rain.cs" />
     <Compile Include="States\ClubLights.cs" />
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="States\Club.cs" />

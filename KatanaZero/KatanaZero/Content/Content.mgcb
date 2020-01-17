@@ -276,6 +276,18 @@
 /processorParam:Quality=Best
 /build:Sounds/WeaponSlash3.wav
 
+#begin Textures/Fence.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Fence.png
+
 #begin Textures/Floor.png
 /importer:TextureImporter
 /processor:TextureProcessor
