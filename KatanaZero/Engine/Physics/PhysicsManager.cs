@@ -87,48 +87,6 @@ namespace Engine.Physics
             c.Velocity = new Vector2(c.Velocity.X, c.Velocity.Y + downForce);
         }
 
-        //private void UpdateBodyState(ICollidable c)
-        //{
-        //    if (c.Velocity.X > 0 && c.Velocity.Y != 0)
-        //    {
-        //        c.MoveableBodyState = MoveableBodyStates.InAirRight;
-        //    }
-        //    else if (c.Velocity.X < 0 && c.Velocity.Y != 0)
-        //    {
-        //        c.MoveableBodyState = MoveableBodyStates.InAirLeft;
-        //    }
-        //    else if (c.Velocity.Y != 0)
-        //    {
-        //        c.MoveableBodyState = MoveableBodyStates.InAir;
-        //    }
-        //    else if (c.Velocity.X > 0)
-        //    {
-        //        if (collisionManager.InAir(c))
-        //            c.MoveableBodyState = MoveableBodyStates.InAirRight;
-        //        else
-        //            c.MoveableBodyState = MoveableBodyStates.WalkRight;
-        //    }
-        //    else if (c.Velocity.X < 0)
-        //    {
-        //        if (collisionManager.InAir(c))
-        //            c.MoveableBodyState = MoveableBodyStates.InAirLeft;
-        //        else
-        //            c.MoveableBodyState = MoveableBodyStates.WalkLeft;
-        //    }
-        //    else
-        //    {
-        //        if (c is Player player)
-        //        {
-        //            if (collisionManager.InDancingGroup(player))
-        //                c.MoveableBodyState = MoveableBodyStates.Dance;
-        //        }
-        //        else if (collisionManager.InAir(c))
-        //            c.MoveableBodyState = MoveableBodyStates.InAir;
-        //        else
-        //            c.MoveableBodyState = MoveableBodyStates.Idle;
-        //    }
-        //}
-
         private void UpdateBodyState(ICollidable c)
         {
             if (c.Velocity.X > 0)

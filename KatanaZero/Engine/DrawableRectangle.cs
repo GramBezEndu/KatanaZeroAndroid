@@ -30,13 +30,17 @@ namespace Engine
             }
         }
 
-        protected Rectangle rectangle;
+        private Rectangle rectangle;
 
         public Rectangle Rectangle
         {
             get
             {
                 return rectangle;
+            }
+            protected set
+            {
+                rectangle = value;
             }
         }
 

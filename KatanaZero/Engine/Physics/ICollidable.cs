@@ -12,9 +12,6 @@ namespace Engine.Physics
         WalkLeft,
         Attack,
         Dance,
-        //InAirRight,
-        //InAirLeft,
-        //InAir,
     }
 
     public interface ICollidable : IDrawableComponent

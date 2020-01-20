@@ -15,7 +15,8 @@ namespace Engine.MoveStrategies
         GameTimer idleTimer;
         float idleTime;
         /// <summary>
-        /// Going left on first move
+        /// Determines in which direction (left/right) will go now
+        /// Note: If not specified enemy will go left on first move
         /// </summary>
         bool goingLeft = true;
         public PatrollingStrategy(Enemy e, float startX, float endX, float idleTimeSeconds = 3.5f, bool startingLeft = true) : base(e)

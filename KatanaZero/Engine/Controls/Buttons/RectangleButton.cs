@@ -29,8 +29,8 @@ namespace Engine.Controls.Buttons
             }
             set
             {
-                //set protected rectangle
-                rectangle = new Rectangle((int)value.X, (int)value.Y, Rectangle.Width, Rectangle.Height);
+                //set new rectangle
+                Rectangle = new Rectangle((int)value.X, (int)value.Y, Rectangle.Width, Rectangle.Height);
                 if (message != null)
                 {
                     message.Position = new Vector2(Position.X + this.Size.X / 2 - message.Size.X / 2,

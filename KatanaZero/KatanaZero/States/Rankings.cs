@@ -27,12 +27,6 @@ namespace KatanaZero.States
             AddUiComponent(new Sprite(commonTextures["MainMenu"]));
             AddUiComponent(new Rain());
             CreateJobFolder();
-            //Rectangle backgroundRankings = new Rectangle((int)(game.LogicalSize.X * (0.2f)), (int)(game.LogicalSize.Y * (0.1f)), (int)(game.LogicalSize.X * 0.6f), (int)(game.LogicalSize.Y * 0.7f));
-            //AddUiComponent(new DrawableRectangle(backgroundRankings)
-            //{
-            //    Filled = true,
-            //    Color = Color.Black * 0.9f,
-            //});
             var backButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "BACK")
             {
                 Color = Color.Gray * 0.3f,
@@ -49,7 +43,6 @@ namespace KatanaZero.States
                 Color = Color.Black * 0.7f,
                 Filled = true,
             };
-            //TODO: Need refactoring
             backgroundMenu.Position = new Vector2(menu.Position.X - 0.05f * menu.Size.X, menu.Position.Y - 0.2f * menu.Size.Y);
             AddUiComponent(backgroundMenu);
             AddUiComponent(menu);

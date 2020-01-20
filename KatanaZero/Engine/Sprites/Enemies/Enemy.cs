@@ -15,14 +15,8 @@ namespace Engine.Sprites
     {
         public Strategy CurrentStrategy;
         protected readonly Player player;
-        //public EventHandler OnInteract { get; set; }
         public virtual MoveableBodyStates MoveableBodyState { get; set; }
         public Vector2 Velocity { get; set; }
-
-        //protected IButton interactionOption;
-        //protected InputManager inputManager;
-        //TODO: Make states like in player
-        //public bool IsDead;
         public Sprite PatrollingSprite { get; set; }
         public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p) : base(spritesheet, map, scale)
         {
@@ -46,32 +40,40 @@ namespace Engine.Sprites
             {
                 PatrollingSprite.Update(gameTime);
                 //Adjust beam position based on current animation (state)
-                if(MoveableBodyState == MoveableBodyStates.WalkRight)
-                {
-                    Vector2 adjustment = new Vector2(-10, -13);
+                AdjustPatrollBeamPosition();
+            }
+        }
+
+        private void AdjustPatrollBeamPosition()
+        {
+            Vector2 adjustment;
+            switch (MoveableBodyState)
+            {
+                case MoveableBodyStates.WalkRight:
+                    adjustment = new Vector2(-10, -13);
                     PatrollingSprite.SpriteEffects = SpriteEffects.None;
                     PatrollingSprite.Position = new Vector2(this.Position.X + this.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
-                }
-                else if(MoveableBodyState == MoveableBodyStates.WalkLeft)
-                {
-                    Vector2 adjustment = new Vector2(10, -13);
+                    break;
+                case MoveableBodyStates.WalkLeft:
+                    adjustment = new Vector2(10, -13);
                     PatrollingSprite.SpriteEffects = SpriteEffects.FlipHorizontally;
                     PatrollingSprite.Position = new Vector2(this.Position.X - PatrollingSprite.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
-                }
-                //Idle right
-                else if(MoveableBodyState == MoveableBodyStates.Idle && this.SpriteEffects == SpriteEffects.None)
-                {
-                    Vector2 adjustment = new Vector2(-15, 0);
-                    PatrollingSprite.SpriteEffects = SpriteEffects.None;
-                    PatrollingSprite.Position = new Vector2(this.Position.X + this.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
-                }
-                //Idle left
-                else if(MoveableBodyState == MoveableBodyStates.Idle && this.SpriteEffects == SpriteEffects.FlipHorizontally)
-                {
-                    Vector2 adjustment = new Vector2(15, 0);
-                    PatrollingSprite.SpriteEffects = SpriteEffects.FlipHorizontally;
-                    PatrollingSprite.Position = new Vector2(this.Position.X - PatrollingSprite.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
-                }
+                    break;
+                case MoveableBodyStates.Idle:
+                    //Idle right
+                    if (this.SpriteEffects == SpriteEffects.None)
+                    {
+                        adjustment = new Vector2(-15, 0);
+                        PatrollingSprite.SpriteEffects = SpriteEffects.None;
+                        PatrollingSprite.Position = new Vector2(this.Position.X + this.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
+                    }
+                    else
+                    {
+                        adjustment = new Vector2(15, 0);
+                        PatrollingSprite.SpriteEffects = SpriteEffects.FlipHorizontally;
+                        PatrollingSprite.Position = new Vector2(this.Position.X - PatrollingSprite.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
+                    }
+                    break;
             }
         }
 

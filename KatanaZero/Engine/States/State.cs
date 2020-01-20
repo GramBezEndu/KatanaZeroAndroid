@@ -58,7 +58,6 @@ namespace Engine.States
 
         private void LoadCommonTextures()
         {
-            //TODO: loop through directory and add to dictionary
             commonTextures.Add("MainMenu", content.Load<Texture2D>("Textures/MainMenu"));
             commonTextures.Add("Fence", content.Load<Texture2D>("Textures/Fence"));
             commonTextures.Add("Floor", content.Load<Texture2D>("Textures/Floor"));
@@ -71,20 +70,10 @@ namespace Engine.States
             commonTextures.Add("JobFolderBack", content.Load<Texture2D>("Textures/JobFolderBack"));
             commonTextures.Add("JobFolderFrontOpen", content.Load<Texture2D>("Textures/JobFolderFrontOpen"));
             commonTextures.Add("JobFolderFrontClosed", content.Load<Texture2D>("Textures/JobFolderFrontClosed"));
-            //DirectoryInfo directoryInfo = new DirectoryInfo(content.RootDirectory + "/Textures/");
-            //if (!directoryInfo.Exists)
-            //    throw new DirectoryNotFoundException();
-            //FileInfo[] files = directoryInfo.GetFiles("*.*");
-            //foreach (FileInfo file in files)
-            //{
-            //    string key = Path.GetFileNameWithoutExtension(file.Name);
-            //    commonTextures[key] = content.Load<Texture2D>(Directory.GetCurrentDirectory() + "/Content/Textures/" + key);
-            //}
         }
 
         private void LoadSongs()
         {
-            //TODO: loop through directory and add to dictionary
             songs.Add("MainMenu", content.Load<Song>("Songs/MainMenu"));
             songs.Add("Stage1", content.Load<Song>("Songs/Stage1"));
             songs.Add("Club", content.Load<Song>("Songs/Club"));

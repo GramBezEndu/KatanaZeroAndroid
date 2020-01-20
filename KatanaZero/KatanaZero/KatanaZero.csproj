@@ -74,14 +74,14 @@
   <ItemGroup>
     <Compile Include="Activity1.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="LightStrategies\LightStrategy.cs" />
-    <Compile Include="LightStrategies\Toggle.cs" />
-    <Compile Include="LightStrategies\ToggleAll.cs" />
-    <Compile Include="LightStrategies\ToggleEvenLights.cs" />
+    <Compile Include="SpecialEffects\LightStrategies\LightStrategy.cs" />
+    <Compile Include="SpecialEffects\LightStrategies\Toggle.cs" />
+    <Compile Include="SpecialEffects\LightStrategies\ToggleAll.cs" />
+    <Compile Include="SpecialEffects\LightStrategies\ToggleEvenLights.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialEffects\Rain.cs" />
-    <Compile Include="States\ClubLights.cs" />
+    <Compile Include="SpecialEffects\ClubLights.cs" />
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="States\ClubNeon.cs" />
     <Compile Include="States\Rankings.cs" />

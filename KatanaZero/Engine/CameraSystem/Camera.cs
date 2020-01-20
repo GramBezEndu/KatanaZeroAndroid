@@ -7,9 +7,6 @@ using Microsoft.Xna.Framework;
 
 namespace Engine
 {
-    /// <summary>
-    /// Camera is controlled now by player (for display purposes), it will be locked in the future
-    /// </summary>
     public class Camera : IComponent
     {
         public enum CameraModes
@@ -24,9 +21,7 @@ namespace Engine
         public Vector2 Position { get; private set; } = Vector2.Zero;
         public float Zoom { get; private set; } = 2.5f;
         public float MultiplierOriginX { get; set; } = 0.25f;
-
         public Vector2 Origin { get; private set; } = Vector2.Zero;
-
         private Vector2 freeroamVelocity = new Vector2(10f, 10f);
         public Camera(Game1 gameReference, Player p)
         {

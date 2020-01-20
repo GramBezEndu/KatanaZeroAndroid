@@ -27,7 +27,6 @@ namespace KatanaZero.States
                 game.PlaySong(songs["MainMenu"]);
             AddUiComponent(new Sprite(commonTextures["MainMenu"]));
             AddUiComponent(new Rain());
-            //AddUiComponent(new Sprite(commonTextures["Fence"]));
             var playButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "PLAY")
             {
                 Color = Color.Gray * 0.3f,
@@ -51,7 +50,6 @@ namespace KatanaZero.States
                 Color = Color.Black * 0.7f,
                 Filled = true,
             };
-            //TODO: Need refactoring
             backgroundMenu.Position = new Vector2(menu.Position.X - 0.05f * menu.Size.X, menu.Position.Y - 0.2f * menu.Size.Y);
             AddUiComponent(backgroundMenu);
             AddUiComponent(menu);

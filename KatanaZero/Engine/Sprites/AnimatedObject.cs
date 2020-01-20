@@ -13,11 +13,9 @@ namespace Engine.Sprites
     public class AnimatedObject : ISprite
     {
         public Vector2 Scale { get; private set; } = Vector2.One;
-
         public SpriteEffects SpriteEffects { get; set; } = SpriteEffects.None;
         public bool Hidden { get; set; }
         public Vector2 Position { get; set; }
-
         public Vector2 Size
         {
             get
@@ -26,13 +24,10 @@ namespace Engine.Sprites
                     animatedSprite.TextureRegion.Height * Scale.Y);
             }
         }
-
         private readonly AnimatedSprite animatedSprite;
         private readonly SpriteSheetAnimationFactory animationFactory;
         private readonly TextureAtlas spriteAtlas;
-
         public Color Color { get; set; } = Color.White;
-
         public Rectangle Rectangle
         {
             get
@@ -55,7 +50,6 @@ namespace Engine.Sprites
 
         public AnimatedObject(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale)
         {
-            //TextureAtlas name is not used now
             spriteAtlas = new TextureAtlas("animations", spritesheet, map);
             animationFactory = new SpriteSheetAnimationFactory(spriteAtlas);
             animatedSprite = new AnimatedSprite(animationFactory);

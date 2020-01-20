@@ -15,7 +15,6 @@ namespace Engine.Input
     {
         private AccelerometerManager accelometerManager;
         public TouchCollection CurrentTouchCollection { get; private set; }
-        //public TouchCollection PreviousTouchCollection { get; private set; }
         /// <summary>
         /// Initializes new InputManager
         /// </summary>
@@ -25,13 +24,7 @@ namespace Engine.Input
         }
         public void Update(GameTime gameTime)
         {
-            //PreviousTouchCollection = CurrentTouchCollection;
             CurrentTouchCollection = TouchPanel.GetState();
-            //Debug
-            foreach (TouchLocation touchLocation in CurrentTouchCollection)
-            {
-                //Debug.WriteLine(String.Format("{0} Touch: {1} {2}", gameTime.TotalGameTime.TotalSeconds, touchLocation.Position.X, touchLocation.Position.Y));
-            }
             accelometerManager.Update(gameTime);
         }
         public bool RectangleWasJustClicked(Rectangle rec)
@@ -43,39 +36,27 @@ namespace Engine.Input
                 {
                     return true;
                 }
-                //touchLocation.State == TouchLocationState.
             }
             return false;
         }
 
         /// <summary>
-        /// The tochLocation position needs to be translated to world space
+        /// Checks if rectangle placed in world coordinates was clicked
+        /// Implementation note: The tochLocation position is translated to world (game) coordinates
         /// </summary>
         /// <param name="rec"></param>
         /// <param name="camera"></param>
         /// <returns></returns>
         public bool WorldRectnagleWasJustClicked(Rectangle rec, Camera camera)
         {
-            //var position = new Vector2(rec.X, rec.Y);
-            //var positionTranslated = Vector2.Transform(position, Matrix.Invert(camera.ViewMatrix));
-            ////Zoom too?
-            //var rectangleTranslated = new Rectangle((int)positionTranslated.X, (int)positionTranslated.Y, (int)(rec.Width * camera.Zoom), (int)(rec.Height * camera.Zoom));
-
-            //Debug
-            //Debug.WriteLine(rectangleTranslated);
             foreach (TouchLocation touchLocation in CurrentTouchCollection)
             {
                 Vector2 touchPosition = Vector2.Transform(new Vector2(touchLocation.Position.X, touchLocation.Position.Y), Matrix.Invert(camera.ViewMatrix));
                 var touchRectangle = new Rectangle((int)touchPosition.X, (int)touchPosition.Y, 1, 1);
-                //Debug.WriteLine(String.Format("Touch location in worlds space: {0}", touchPosition));
                 if (touchRectangle.Intersects(rec) && touchLocation.State == TouchLocationState.Pressed)
                 {
                     return true;
                 }
-                //Vector2 mouseTranslated = new Vector2(touchLocation.Position.X, touchLocation.Position.Y);
-                //mouseTranslated = Vector2.Transform(mouseTranslated, Matrix.Invert(camera.ViewMatrix));
-                //Debug.WriteLine(String.Format("Touch location in worlds space: {0}", mouseTranslated));
-                //touchLocation.State == TouchLocationState.
             }
             return false;
         }

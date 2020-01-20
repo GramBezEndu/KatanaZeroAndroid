@@ -17,44 +17,6 @@ namespace Engine
 {
     public class Player : AnimatedObject, ICollidable
     {
-
-        //private void SetPlayerState(PlayersStates value, Enemy enemy = null)
-        //{
-        //    if (playerState != value)
-        //    {
-        //        playerState = value;
-        //        switch (value)
-        //        {
-        //            case PlayersStates.Idle:
-        //                PlayAnimation("Idle");
-        //                break;
-        //            case PlayersStates.RunRight:
-        //                SpriteEffects = SpriteEffects.None;
-        //                PlayAnimation("Run");
-        //                break;
-        //            case PlayersStates.RunLeft:
-        //                SpriteEffects = SpriteEffects.FlipHorizontally;
-        //                PlayAnimation("Run");
-        //                break;
-        //            case PlayersStates.Attack:
-        //                State.sounds["WeaponSlash"].Play();
-        //                KatanaSlash.Hidden = false;
-        //                KatanaSlash.Position = this.Position;
-        //                KatanaSlash.PlayAnimation("Slash");
-        //                //Adjust player position on attack start
-        //                //Position = new Vector2(Position.X - 0.3f * Size.X, Position.Y);
-        //                PlayAnimation("Attack", () =>
-        //                {
-        //                    //Adjust player position after attacking
-        //                    //Position = new Vector2(Position.X + 0.3f * Size.X, Position.Y);
-        //                    SetPlayerState(PlayersStates.Idle);
-        //                    enemy.Die();
-        //                    KatanaSlash.Hidden = true;
-        //                });
-        //                break;
-        //        }
-        //    }
-        //}
         private readonly InputManager inputManager;
         private Intent currentPlayerItent;
         public AnimatedObject KatanaSlash;
@@ -68,7 +30,6 @@ namespace Engine
             {
                 if(_moveableBodyState != value)
                 {
-                    Debug.WriteLine("{0} -> {1}  [SIZE {2}]", _moveableBodyState, value, Size);
                     _moveableBodyState = value;
                     switch (value)
                     {
@@ -98,10 +59,6 @@ namespace Engine
                             KatanaSlash.PlayAnimation("Slash");
                             PlayAnimation("Attack", () =>
                             {
-                                //Adjust player position after attacking
-                                //Position = new Vector2(Position.X + 0.3f * Size.X, Position.Y);
-                                //SetPlayerState(PlayersStates.Idle);
-                                //enemy.Die();
                                 KatanaSlash.Hidden = true;
                             });
                             break;
@@ -155,10 +112,6 @@ namespace Engine
                     currentPlayerItent = null;
                 }
             }
-            //else
-            //{
-            //    SetPlayerState(PlayersStates.Idle);
-            //}
         }
 
         public void MoveRight()
@@ -174,7 +127,6 @@ namespace Engine
         public void Kill(Enemy e)
         {
             throw new NotImplementedException();
-            //SetPlayerState(PlayersStates.Attack, e);
         }
 
         public void AddIntent(Intent intent)

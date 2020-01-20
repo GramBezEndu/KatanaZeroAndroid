@@ -32,7 +32,6 @@ namespace Engine.States
         protected Player player;
         protected PhysicsManager physicsManager;
         protected List<IComponent> gameComponents = new List<IComponent>();
-        //protected List<IComponent> gameCharacters = new List<IComponent>();
         protected List<IComponent> levelCompleteComponents = new List<IComponent>();
         protected List<IComponent> timeIsUpComponents = new List<IComponent>();
         protected List<IComponent> playerSpottedComponents = new List<IComponent>();
@@ -143,7 +142,6 @@ namespace Engine.States
                 Color = Color.Black * 0.7f,
                 Filled = true,
             };
-            //TODO: Need refactoring
             backgroundText.Position = new Vector2(0, levelTitle.Position.Y - 0.2f * levelTitle.Size.Y);
 
             levelTitleComponents.Add(backgroundText);
@@ -265,7 +263,6 @@ namespace Engine.States
         {
             player = new Player(content.Load<Texture2D>("Character/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, new Vector2(1f, 1f));
             player.Position = new Vector2(10, 375);
-            //player.Position = new Vector2(200, 125);
             player.KatanaSlash = new AnimatedObject(content.Load<Texture2D>("Character/Katana/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Katana/Map"), new Vector2(1f, 1f))
             {
                 Hidden = true,
@@ -282,15 +279,6 @@ namespace Engine.States
 
         private void AddLevelCompleteComponents()
         {
-            //var goToArrow = new TextureButton(inputManager, commonTextures["GoArrow"], new Vector2(3f, 3f));
-            //goToArrow.Position = new Vector2(game.LogicalSize.X - goToArrow.Size.X, floorLevel - 2 * goToArrow.Size.Y);
-            //goToArrow.OnClick += (o, e) => player.AddIntent(new GoToIntent(inputManager, camera, player, goToArrow.Rectangle));
-            //stageClearComponents.Add(goToArrow);
-
-            //var goToText = new TextureButton(inputManager, commonTextures["GoText"], new Vector2(2.5f, 2.5f));
-            //goToText.Position = new Vector2(goToArrow.Position.X + goToArrow.Size.X/2 - goToText.Size.X/2, goToArrow.Position.Y - goToText.Size.Y);
-            //goToText.OnClick += (o, e) => player.AddIntent(new GoToIntent(inputManager, camera, player, goToText.Rectangle));
-            //stageClearComponents.Add(goToText);
             var levelCompleteText = new Text(fonts["Big"], "LEVEL COMPLETE")
             {
                 Hidden = true
@@ -319,7 +307,6 @@ namespace Engine.States
                 Color = Color.Black * 0.7f,
                 Filled = true,
             };
-            //TODO: Need refactoring
             backgroundMenu.Position = new Vector2(0, menu.Position.Y - 0.25f * menu.Size.Y);
 
             levelCompleteComponents.Add(levelCompleteText);
@@ -339,21 +326,11 @@ namespace Engine.States
             {
                 GameOver = true;
                 ShowPlayerSpottedGameOverComponents();
-                //player.Hidden = true;
             }
             camera.Update(gameTime);
             mapRenderer.Update(gameTime);
             foreach (var c in gameComponents)
                 c.Update(gameTime);
-            base.Update(gameTime);
-            //base.Update(gameTime);
-            //foreach (var c in gameCharacters)
-            //    c.Update(gameTime);
-            if (StageClear())
-            {
-                foreach (var c in levelCompleteComponents)
-                    c.Update(gameTime);
-            }
             if(!GameOver)
                 stageTimer?.Update(gameTime);
             UpdateTimerSize();
@@ -366,6 +343,7 @@ namespace Engine.States
                     game.ChangeState((GameState)Activator.CreateInstance(type, game, false));
                 }
             }
+            base.Update(gameTime);
         }
 
         protected abstract void AddHighscore();
@@ -394,23 +372,9 @@ namespace Engine.States
             timer.Scale = new Vector2((float)(timerScale * (stageTimer.CurrentInterval / levelTimeInSeconds)), timer.Scale.Y);
         }
 
-        protected bool StageClear()
-        {
-            //foreach(var c in gameCharacters)
-            //{
-            //    if(c is Enemy enemy)
-            //    {
-            //        if (enemy.IsDead == false)
-            //            return false;
-            //    }
-            //}
-            //return true;
-            return false;
-        }
-
         protected override void DrawToScreen()
         {
-            mapBatch.Begin(/*transformMatrix: camera.ViewMatrix*/SpriteSortMode.Immediate, BlendState.Opaque);
+            mapBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
             mapBatch.Draw(mapLayerRenderTarget, new Rectangle(0, 0, (int)game.WindowSize.X, (int)game.WindowSize.Y), Color.White);
             mapBatch.End();
             base.DrawToScreen();
@@ -418,31 +382,7 @@ namespace Engine.States
 
         protected override void DrawToRenderTarget(GameTime gameTime)
         {
-            //graphicsDevice.SetRenderTarget(gameLayerRenderTarget);
-            //gameBatch.Begin(transformMatrix: camera.ViewMatrix);
-            //graphicsDevice.Clear(Color.Black);
-            //foreach(var c in gameComponents)
-            //{
-            //    if (c is IDrawableComponent drawable)
-            //        drawable.Draw(gameTime, gameBatch);
-            //}
-            //foreach (var c in gameCharacters)
-            //{
-            //    if (c is IDrawableComponent drawable)
-            //        drawable.Draw(gameTime, gameBatch);
-            //}
-            //if (StageClear())
-            //{
-            //    foreach (var c in stageClearComponents)
-            //        if(c is IDrawableComponent drawable)
-            //            drawable.Draw(gameTime, gameBatch);
-            //}
-            //gameBatch.End();
-            //graphicsDevice.SetRenderTarget(null);
-
-            //base.DrawToRenderTarget(gameTime);
-
-            mapBatch.Begin(transformMatrix: camera.ViewMatrix/*SpriteSortMode.Immediate, BlendState.Opaque*/);
+            mapBatch.Begin(transformMatrix: camera.ViewMatrix);
             graphicsDevice.SetRenderTarget(mapLayerRenderTarget);
             graphicsDevice.Clear(Color.Black);
             mapRenderer.Draw(camera.ViewMatrix);
@@ -455,17 +395,6 @@ namespace Engine.States
             mapBatch.End();
             graphicsDevice.SetRenderTarget(null);
             base.DrawToRenderTarget(gameTime);
-        }
-
-        protected void SpawnOfficer(Vector2 position, string startingAnimation = "Idle")
-        {
-            var texture = content.Load<Texture2D>("Enemies/Officer/Spritesheet");
-            var map = content.Load < Dictionary < string, Rectangle>>("Enemies/Officer/Map");
-            var officer = new Officer(texture, map, new Vector2(1f, 1f), player);
-            officer.PlayAnimation(startingAnimation);
-            officer.Position = position;
-            //gameCharacters.Add(officer);
-            //TODO: Finish after rework
         }
 
         protected void SpawnPatrollingGangster(Vector2 position, float idleTimeSeconds = 3.5f, bool startPatrollingToleft = true)

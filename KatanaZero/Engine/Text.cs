@@ -8,9 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Engine
 {
-    /// <summary>
-    /// Currently text is being scaled
-    /// </summary>
     public class Text : IDrawableComponent
     {
         private string _message;
