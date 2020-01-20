@@ -360,7 +360,7 @@ namespace Engine.States
             if (GameOver)
             {
                 player.Color = Color.Red;
-                if (inputManager.AnyTapDetected())
+                if (inputManager.AnyTapDetected() || inputManager.ShakeDetected())
                 {
                     Type type = this.GetType();
                     game.ChangeState((GameState)Activator.CreateInstance(type, game, false));

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Devices.Sensors;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -12,6 +13,7 @@ namespace Engine.Input
 {
     public class InputManager : IComponent
     {
+        private AccelerometerManager accelometerManager;
         public TouchCollection CurrentTouchCollection { get; private set; }
         //public TouchCollection PreviousTouchCollection { get; private set; }
         /// <summary>
@@ -19,7 +21,7 @@ namespace Engine.Input
         /// </summary>
         public InputManager()
         {
-
+            accelometerManager = new AccelerometerManager();
         }
         public void Update(GameTime gameTime)
         {
@@ -30,6 +32,7 @@ namespace Engine.Input
             {
                 //Debug.WriteLine(String.Format("{0} Touch: {1} {2}", gameTime.TotalGameTime.TotalSeconds, touchLocation.Position.X, touchLocation.Position.Y));
             }
+            accelometerManager.Update(gameTime);
         }
         public bool RectangleWasJustClicked(Rectangle rec)
         {
@@ -85,6 +88,11 @@ namespace Engine.Input
                     return true;
             }
             return false;
+        }
+
+        public bool ShakeDetected()
+        {
+            return accelometerManager.ShakeDetected();
         }
     }
 }
