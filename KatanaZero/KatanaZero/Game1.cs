@@ -18,7 +18,6 @@ namespace KatanaZero
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
         State currentState;
         State nextState;
         Song currentSong;
@@ -100,9 +99,6 @@ namespace KatanaZero
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -123,7 +119,8 @@ namespace KatanaZero
         protected override void Update(GameTime gameTime)
         {
             // TODO: Add your update logic here
-
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                this.ChangeState(new MainMenu(this));
             //Handle changing states
             if (nextState != null)
             {
