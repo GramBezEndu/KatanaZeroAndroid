@@ -331,7 +331,7 @@ namespace Engine.States
             mapRenderer.Update(gameTime);
             foreach (var c in gameComponents)
                 c.Update(gameTime);
-            if(!GameOver)
+            if(!GameOver && !Completed)
                 stageTimer?.Update(gameTime);
             UpdateTimerSize();
             if (GameOver)
