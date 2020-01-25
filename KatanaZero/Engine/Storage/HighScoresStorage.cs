@@ -23,24 +23,25 @@ namespace Engine.Storage
                 if (fullPath == null)
                     CreateFullPath();
 
+                //Create instance if does not exist
                 if (instance == null)
                 {
                     if(!File.Exists(fullPath))
-                        return new HighScoresStorage();
+                    {
+                        instance = new HighScoresStorage();
+                    }
                     else
                     {
                         using (var reader = new StreamReader(new FileStream(fullPath, FileMode.Open)))
                         {
                             var serilizer = new XmlSerializer(typeof(List<ClubNeonScore>));
                             var scores = (List<ClubNeonScore>)serilizer.Deserialize(reader);
-                            return new HighScoresStorage(scores);
+                            instance = new HighScoresStorage(scores);
                         }
                     }
                 }
-                else
-                {
-                    return instance;
-                }
+                //Return highscores storage
+                return instance;
             }
         }
 

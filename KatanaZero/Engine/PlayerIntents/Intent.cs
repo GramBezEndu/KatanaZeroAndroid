@@ -60,7 +60,7 @@ namespace Engine.PlayerIntents
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if(!Hidden)
+            if (!Hidden)
                 DrawableRectangle.Draw(gameTime, spriteBatch);
         }
 
