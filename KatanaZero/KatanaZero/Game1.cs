@@ -27,7 +27,7 @@ namespace KatanaZero
         {
             get
             {
-                return new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+                return new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             }
         }
 
@@ -65,19 +65,11 @@ namespace KatanaZero
             Content.RootDirectory = "Content";
 
             graphics.IsFullScreen = true;
-            //graphics.PreferredBackBufferWidth = 1280;
-            //graphics.PreferredBackBufferHeight = 720;
             SoundEffect.MasterVolume = 1f;
             MediaPlayer.Volume = 0.2f;
             MediaPlayer.IsRepeating = true;
-            TouchPanel.DisplayWidth = (int)LogicalSize.X;
-            TouchPanel.DisplayHeight = (int)LogicalSize.Y;
-            if(System.Diagnostics.Debugger.IsAttached)
-            {
-                TouchPanel.EnableMouseTouchPoint = true;
-            }
             graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
-            InputManager = new InputManager();
+            InputManager = new InputManager(this);
         }
 
         /// <summary>
@@ -90,6 +82,14 @@ namespace KatanaZero
         {
             // TODO: Add your initialization logic here
             currentState = new MainMenu(this);
+            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            TouchPanel.DisplayWidth = (int)WindowSize.X;
+            TouchPanel.DisplayHeight = (int)WindowSize.Y;
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                TouchPanel.EnableMouseTouchPoint = true;
+            }
             base.Initialize();
         }
 

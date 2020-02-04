@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KatanaZero;
 using Microsoft.Devices.Sensors;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -14,13 +15,15 @@ namespace Engine.Input
     public class InputManager : IComponent
     {
         private AccelerometerManager accelometerManager;
+        private readonly Game1 game;
         public TouchCollection CurrentTouchCollection { get; private set; }
         /// <summary>
         /// Initializes new InputManager
         /// </summary>
-        public InputManager()
+        public InputManager(Game1 g)
         {
             accelometerManager = new AccelerometerManager();
+            game = g;
         }
         public void Update(GameTime gameTime)
         {
@@ -31,8 +34,8 @@ namespace Engine.Input
         {
             foreach(TouchLocation touchLocation in CurrentTouchCollection)
             {
-                var touchRectangle = new Rectangle((int)touchLocation.Position.X, (int)touchLocation.Position.Y, 1, 1);
-                if(touchRectangle.Intersects(rec) && touchLocation.State == TouchLocationState.Pressed)
+                var touchRectangle = new Rectangle((int)(touchLocation.Position.X / (game.WindowSize.X / game.LogicalSize.X)), (int)(touchLocation.Position.Y / (game.WindowSize.Y / game.LogicalSize.Y)), 1, 1);
+                if (touchRectangle.Intersects(rec) && touchLocation.State == TouchLocationState.Pressed)
                 {
                     return true;
                 }
@@ -51,7 +54,8 @@ namespace Engine.Input
         {
             foreach (TouchLocation touchLocation in CurrentTouchCollection)
             {
-                Vector2 touchPosition = Vector2.Transform(new Vector2(touchLocation.Position.X, touchLocation.Position.Y), Matrix.Invert(camera.ViewMatrix));
+                Vector2 touchPosition = Vector2.Transform(new Vector2((int)(touchLocation.Position.X / (game.WindowSize.X / game.LogicalSize.X)), (int)(touchLocation.Position.Y / (game.WindowSize.Y / game.LogicalSize.Y))),
+                    Matrix.Invert(camera.ViewMatrix));
                 var touchRectangle = new Rectangle((int)touchPosition.X, (int)touchPosition.Y, 1, 1);
                 if (touchRectangle.Intersects(rec) && touchLocation.State == TouchLocationState.Pressed)
                 {
