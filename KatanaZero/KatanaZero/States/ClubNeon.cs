@@ -237,5 +237,10 @@ namespace KatanaZero.States
         {
             HighScoresStorage.Instance.AddTime(new ClubNeonScore(stageTimer.Interval - stageTimer.CurrentInterval));
         }
+
+        internal override Vector2 SetMapSize()
+        {
+            return new Vector2(1295, 464);
+        }
     }
 }

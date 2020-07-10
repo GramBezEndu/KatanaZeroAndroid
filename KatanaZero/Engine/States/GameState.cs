@@ -25,6 +25,7 @@ namespace Engine.States
     public abstract class GameState : State
     {
         protected TiledMap map;
+        protected Vector2 mapSize;
         protected TiledMapRenderer mapRenderer;
         protected SpriteBatch mapBatch;
         protected RenderTarget2D mapLayerRenderTarget;
@@ -90,6 +91,7 @@ namespace Engine.States
             mapBatch = new SpriteBatch(graphicsDevice);
             mapLayerRenderTarget = new RenderTarget2D(graphicsDevice, (int)game.LogicalSize.X, (int)game.LogicalSize.Y);
             LoadMap();
+            mapSize = SetMapSize();
             CreateMapRenderer();
             physicsManager = new PhysicsManager();
             CreatePlayer();
@@ -104,6 +106,8 @@ namespace Engine.States
             OnCompleted += (o, e) => ShowStageClearComponents();
             OnCompleted += (o, e) => AddHighscore();
         }
+
+        internal abstract Vector2 SetMapSize();
 
         private void CreateLevelTitleComponents()
         {
@@ -243,7 +247,7 @@ namespace Engine.States
 
         private void CreateCamera(Game1 gameReference)
         {
-            camera = new Camera(gameReference, player);
+            camera = new Camera(gameReference, mapSize, player);
             gameComponents.Add(camera);
         }
 
