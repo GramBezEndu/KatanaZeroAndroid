@@ -19,6 +19,8 @@ using KatanaZero.States;
 using Microsoft.Xna.Framework.Media;
 using System.Text.RegularExpressions;
 using Engine.Controls;
+using System.Linq;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Engine.States
 {
@@ -63,10 +65,10 @@ namespace Engine.States
                     {
                         MediaPlayer.Stop();
                         State.Sounds["LevelFail"].Play();
-                        //Hide all intents
-                        foreach (var c in gameComponents)
-                            if (c is Intent intent)
-                                intent.Hidden = true;
+                        ////Hide all intents
+                        //foreach (var c in gameComponents)
+                        //    if (c is Intent intent)
+                        //        intent.Hidden = true;
                     }
                 }
             }
@@ -324,6 +326,8 @@ namespace Engine.States
 
         public override void Update(GameTime gameTime)
         {
+            if (!GameOver)
+                PlayerClick();
             physicsManager.SetStaticBodies(GetCollisionRectangles());
             physicsManager.Update(gameTime);
             if(PlayerSpotted())
@@ -348,6 +352,17 @@ namespace Engine.States
                 }
             }
             base.Update(gameTime);
+        }
+
+        protected void PlayerClick()
+        {
+            if (inputManager.AnyTapDetected())
+            {
+                foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed))
+                {
+                    player.AddIntent(new GoToIntent(inputManager, camera, player, inputManager.ScreenToWorld(touch.Position, camera)));
+                }
+            }
         }
 
         protected abstract void AddHighscore();

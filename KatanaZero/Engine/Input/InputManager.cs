@@ -65,6 +65,12 @@ namespace Engine.Input
             return false;
         }
 
+        public Vector2 ScreenToWorld(Vector2 position, Camera camera)
+        {
+            return Vector2.Transform(new Vector2((int)(position.X / (game.WindowSize.X / game.LogicalSize.X)), (int)(position.Y / (game.WindowSize.Y / game.LogicalSize.Y))),
+                    Matrix.Invert(camera.ViewMatrix));
+        }
+
         public bool AnyTapDetected()
         {
             foreach (TouchLocation touchLocation in CurrentTouchCollection)

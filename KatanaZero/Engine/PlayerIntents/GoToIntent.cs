@@ -8,28 +8,38 @@ namespace Engine.PlayerIntents
 {
     public class GoToIntent : Intent
     {
-        //We are using middle of the given rectangle to check if player touches this point
-        private Point middleOfRectangle;
-        public GoToIntent(InputManager im, Camera c, Player p, Rectangle rec) : base(im, c, p, rec)
+        bool commingFromLeft;
+        Vector2 destination;
+        public GoToIntent(InputManager im, Camera c, Player p, Vector2 destination) : base(im, c, p)
         {
-            middleOfRectangle = new Point(rec.X + rec.Width/2,
-                rec.Y + rec.Height/2);
+            this.destination = destination;
+            if (player.Position.X < destination.X)
+                commingFromLeft = true;
         }
         public override void IntentFinished()
         {
-            if (player.Rectangle.Contains(middleOfRectangle))
+            if (commingFromLeft)
             {
-                Finished = true;
+                if (player.Position.X >= destination.X)
+                    Finished = true;
+            }
+            else
+            {
+                if (player.Position.X <= destination.X)
+                    Finished = true;
+            }
+            if (Finished)
+            {
                 OnFinished?.Invoke(this, new EventArgs());
             }
         }
 
-        public override void UpdateIntent(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             IntentFinished();
             if (!Finished)
             {
-                if (middleOfRectangle.X >= player.Rectangle.X)
+                if (commingFromLeft)
                 {
                     player.MoveRight();
                 }

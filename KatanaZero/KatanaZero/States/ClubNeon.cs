@@ -102,8 +102,10 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(303, 350), SpriteEffects.FlipHorizontally);
 
             Rectangle intentRectangle = new Rectangle(240, 400, 95, 50);
-            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
-            gameComponents.Add(goToIntent);
+            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            {
+                Color = Color.Blue
+            });
         }
 
         private void SpawnCrowdGroupTwo()
@@ -112,8 +114,10 @@ namespace KatanaZero.States
             SpawnGirl2(new Vector2(495, 350), SpriteEffects.FlipHorizontally);
 
             Rectangle intentRectangle = new Rectangle(475, 400, 50, 50);
-            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
-            gameComponents.Add(goToIntent);
+            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            {
+                Color = Color.Blue
+            });
         }
 
         private void SpawnCrowdGroupThree()
@@ -122,8 +126,10 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(590, 350));
 
             Rectangle intentRectangle = new Rectangle(570, 400, 50, 50);
-            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
-            gameComponents.Add(goToIntent);
+            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            {
+                Color = Color.Blue
+            });
         }
 
         private void SpawnCrowdGroupFour()
@@ -132,8 +138,10 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(695, 350));
 
             Rectangle intentRectangle = new Rectangle(675, 400, 50, 50);
-            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
-            gameComponents.Add(goToIntent);
+            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            {
+                Color = Color.Blue
+            }); ;
         }
 
         private void SpawnCrowdGroupFive()
@@ -142,8 +150,10 @@ namespace KatanaZero.States
             SpawnGuy2(new Vector2(890, 350));
 
             Rectangle intentRectangle = new Rectangle(870, 400, 50, 50);
-            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
-            gameComponents.Add(goToIntent);
+            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            {
+                Color = Color.Blue
+            });
         }
 
         private void SpawnCrowdGroupSix()
@@ -155,22 +165,24 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(1063, 350), SpriteEffects.FlipHorizontally);
 
             Rectangle intentRectangle = new Rectangle(1000, 400, 95, 50);
-            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
-            gameComponents.Add(goToIntent);
+            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            {
+                Color = Color.Blue
+            });
         }
 
         private void TeleportToSecondFloor()
         {
-            Rectangle intentRectangle = new Rectangle(1215, 400, 35, 50);
-            TeleportIntent teleportIntent = new TeleportIntent(inputManager, camera, player, intentRectangle, new Vector2(1215, 220))
-            {
-                OnFinished = (o, e) =>
-                {
-                    camera.MultiplierOriginX = 0.75f;
-                    player.SpriteEffects = SpriteEffects.FlipHorizontally;
-                }
-            };
-            gameComponents.Add(teleportIntent);
+            //Rectangle intentRectangle = new Rectangle(1215, 400, 35, 50);
+            //TeleportIntent teleportIntent = new TeleportIntent(inputManager, camera, player, intentRectangle, new Vector2(1215, 220))
+            //{
+            //    OnFinished = (o, e) =>
+            //    {
+            //        camera.MultiplierOriginX = 0.75f;
+            //        player.SpriteEffects = SpriteEffects.FlipHorizontally;
+            //    }
+            //};
+            //gameComponents.Add(teleportIntent);
         }
 
         private void SpawnCrowdGroupSeven()
@@ -180,8 +192,10 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(980, 220));
 
             Rectangle intentRectangle = new Rectangle(940, 210, 70, 50);
-            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
-            gameComponents.Add(goToIntent);
+            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            {
+                Color = Color.Blue
+            });
         }
 
         private void SpawnCrowdGroupEight()
@@ -193,8 +207,10 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(753, 220), SpriteEffects.FlipHorizontally);
 
             Rectangle intentRectangle = new Rectangle(690, 210, 95, 50);
-            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
-            gameComponents.Add(goToIntent);
+            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            {
+                Color = Color.Blue
+            });
         }
 
         private void SpawnCrowdGroupNine()
@@ -203,8 +219,10 @@ namespace KatanaZero.States
             SpawnGuy1(new Vector2(560, 220));
 
             Rectangle intentRectangle = new Rectangle(560, 210, 50, 50);
-            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
-            gameComponents.Add(goToIntent);
+            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            {
+                Color = Color.Blue
+            });
         }
 
         private void SpawnCrowdGroupTen()
@@ -213,24 +231,26 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(340, 220));
 
             Rectangle intentRectangle = new Rectangle(340, 210, 50, 50);
-            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle);
-            gameComponents.Add(goToIntent);
+            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            {
+                Color = Color.Blue
+            });
         }
 
         private void AddEndLevelIntent()
         {
-            Rectangle intentRectangle = new Rectangle(222, 208, 37, 49);
-            GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle)
-            {
-                OnFinished = (o,e) =>
-                {
-                    if(!GameOver)
-                    {
-                        Completed = true;
-                    }
-                }
-            };
-            gameComponents.Add(goToIntent);
+            //Rectangle intentRectangle = new Rectangle(222, 208, 37, 49);
+            //GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle)
+            //{
+            //    OnFinished = (o,e) =>
+            //    {
+            //        if(!GameOver)
+            //        {
+            //            Completed = true;
+            //        }
+            //    }
+            //};
+            //gameComponents.Add(goToIntent);
         }
 
         protected override void AddHighscore()

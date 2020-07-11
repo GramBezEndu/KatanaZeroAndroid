@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Engine.PlayerIntents
 {
-    public interface IPlayerIntent : IDrawableComponent
+    public interface IPlayerIntent : IComponent
     {
         void IntentFinished();
     }

@@ -104,7 +104,7 @@ namespace Engine
         {
             if (currentPlayerItent != null)
             {
-                currentPlayerItent.UpdateIntent(gameTime);
+                currentPlayerItent.Update(gameTime);
                 if (currentPlayerItent.Finished)
                 {
                     //Resetting intent will alow to complete it again in the future
