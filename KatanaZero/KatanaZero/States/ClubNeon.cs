@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Engine;
-using Engine.PlayerIntents;
+﻿using Engine;
 using Engine.Sprites;
 using Engine.Sprites.Crowd;
 using Engine.States;
@@ -18,11 +6,16 @@ using Engine.Storage;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Tiled;
+using System;
+using System.Collections.Generic;
 
 namespace KatanaZero.States
 {
     public class ClubNeon : GameState
     {
+        Rectangle doorSecondFloor;
+        Rectangle doorLevelEnd;
+
         public ClubNeon(Game1 gameReference, bool showLevelTitle) : base(gameReference, showLevelTitle)
         {
             game.PlaySong(songs["Club"]);
@@ -38,15 +31,49 @@ namespace KatanaZero.States
             SpawnPatrollingGangster(new Vector2(650, 350), 4.5f, false);
             SpawnPatrollingGangster(new Vector2(920, 350), 6.5f);
 
-            TeleportToSecondFloor();
+            AddDoorRectangle();
             SpawnCrowdGroupSeven();
             SpawnCrowdGroupEight();
             SpawnCrowdGroupNine();
             SpawnCrowdGroupTen();
-            AddEndLevelIntent();
+            AddEndLevelRectangle();
 
             SpawnPatrollingGangster(new Vector2(860, 220));
             SpawnPatrollingGangster(new Vector2(650, 220), 4.5f, false);
+
+            gameComponents.Add(new Script()
+            {
+                OnUpdate = TeleportToSecondFloor,
+            });
+
+            gameComponents.Add(new Script()
+            {
+                OnUpdate = CheckLevelEnd,
+            });
+        }
+
+        private void TeleportToSecondFloor(object sender, EventArgs e)
+        {
+            if (!GameOver)
+            {
+                if (player.Rectangle.Intersects(doorSecondFloor))
+                {
+                    player.Position = new Vector2(1215, 220);
+                    camera.MultiplierOriginX = 0.75f;
+                    player.SpriteEffects = SpriteEffects.FlipHorizontally;
+                }
+            }
+        }
+
+        private void CheckLevelEnd(object sender, EventArgs e)
+        {
+            if (!GameOver)
+            {
+                if (player.Rectangle.Intersects(doorLevelEnd))
+                {
+                    Completed = true;
+                }
+            }
         }
 
         protected override void LoadMap()
@@ -101,8 +128,8 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(290, 350), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(303, 350), SpriteEffects.FlipHorizontally);
 
-            Rectangle intentRectangle = new Rectangle(240, 400, 95, 50);
-            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            Rectangle crowdRectangle = new Rectangle(240, 400, 95, 50);
+            gameComponents.Add(new DrawableRectangle(crowdRectangle)
             {
                 Color = Color.Blue
             });
@@ -113,8 +140,8 @@ namespace KatanaZero.States
             SpawnGirl2(new Vector2(470, 350));
             SpawnGirl2(new Vector2(495, 350), SpriteEffects.FlipHorizontally);
 
-            Rectangle intentRectangle = new Rectangle(475, 400, 50, 50);
-            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            Rectangle crowdRectangle = new Rectangle(475, 400, 50, 50);
+            gameComponents.Add(new DrawableRectangle(crowdRectangle)
             {
                 Color = Color.Blue
             });
@@ -125,8 +152,8 @@ namespace KatanaZero.States
             SpawnGuy2(new Vector2(570, 350));
             SpawnGirl1(new Vector2(590, 350));
 
-            Rectangle intentRectangle = new Rectangle(570, 400, 50, 50);
-            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            Rectangle crowdRectangle = new Rectangle(570, 400, 50, 50);
+            gameComponents.Add(new DrawableRectangle(crowdRectangle)
             {
                 Color = Color.Blue
             });
@@ -137,8 +164,8 @@ namespace KatanaZero.States
             SpawnGirl2(new Vector2(675, 350), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(695, 350));
 
-            Rectangle intentRectangle = new Rectangle(675, 400, 50, 50);
-            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            Rectangle crowdRectangle = new Rectangle(675, 400, 50, 50);
+            gameComponents.Add(new DrawableRectangle(crowdRectangle)
             {
                 Color = Color.Blue
             }); ;
@@ -149,8 +176,8 @@ namespace KatanaZero.States
             SpawnGuy2(new Vector2(870, 350));
             SpawnGuy2(new Vector2(890, 350));
 
-            Rectangle intentRectangle = new Rectangle(870, 400, 50, 50);
-            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            Rectangle crowdRectangle = new Rectangle(870, 400, 50, 50);
+            gameComponents.Add(new DrawableRectangle(crowdRectangle)
             {
                 Color = Color.Blue
             });
@@ -164,25 +191,20 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(1050, 350), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(1063, 350), SpriteEffects.FlipHorizontally);
 
-            Rectangle intentRectangle = new Rectangle(1000, 400, 95, 50);
-            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            Rectangle crowdRectangle = new Rectangle(1000, 400, 95, 50);
+            gameComponents.Add(new DrawableRectangle(crowdRectangle)
             {
                 Color = Color.Blue
             });
         }
 
-        private void TeleportToSecondFloor()
+        private void AddDoorRectangle()
         {
-            //Rectangle intentRectangle = new Rectangle(1215, 400, 35, 50);
-            //TeleportIntent teleportIntent = new TeleportIntent(inputManager, camera, player, intentRectangle, new Vector2(1215, 220))
-            //{
-            //    OnFinished = (o, e) =>
-            //    {
-            //        camera.MultiplierOriginX = 0.75f;
-            //        player.SpriteEffects = SpriteEffects.FlipHorizontally;
-            //    }
-            //};
-            //gameComponents.Add(teleportIntent);
+            doorSecondFloor = new Rectangle(1215, 400, 35, 50);
+            gameComponents.Add(new DrawableRectangle(doorSecondFloor)
+            {
+                Color = Color.Blue
+            });
         }
 
         private void SpawnCrowdGroupSeven()
@@ -191,8 +213,8 @@ namespace KatanaZero.States
             SpawnGirl2(new Vector2(950, 220));
             SpawnGirl1(new Vector2(980, 220));
 
-            Rectangle intentRectangle = new Rectangle(940, 210, 70, 50);
-            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            Rectangle crowdRectangle = new Rectangle(940, 210, 70, 50);
+            gameComponents.Add(new DrawableRectangle(crowdRectangle)
             {
                 Color = Color.Blue
             });
@@ -206,8 +228,8 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(740, 220), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(753, 220), SpriteEffects.FlipHorizontally);
 
-            Rectangle intentRectangle = new Rectangle(690, 210, 95, 50);
-            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            Rectangle crowdRectangle = new Rectangle(690, 210, 95, 50);
+            gameComponents.Add(new DrawableRectangle(crowdRectangle)
             {
                 Color = Color.Blue
             });
@@ -218,8 +240,8 @@ namespace KatanaZero.States
             SpawnGuy2(new Vector2(580, 220));
             SpawnGuy1(new Vector2(560, 220));
 
-            Rectangle intentRectangle = new Rectangle(560, 210, 50, 50);
-            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            Rectangle crowdRectangle = new Rectangle(560, 210, 50, 50);
+            gameComponents.Add(new DrawableRectangle(crowdRectangle)
             {
                 Color = Color.Blue
             });
@@ -230,27 +252,20 @@ namespace KatanaZero.States
             SpawnGirl2(new Vector2(365, 220), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(340, 220));
 
-            Rectangle intentRectangle = new Rectangle(340, 210, 50, 50);
-            gameComponents.Add(new DrawableRectangle(intentRectangle)
+            Rectangle crowdRectangle = new Rectangle(340, 210, 50, 50);
+            gameComponents.Add(new DrawableRectangle(crowdRectangle)
             {
                 Color = Color.Blue
             });
         }
 
-        private void AddEndLevelIntent()
+        private void AddEndLevelRectangle()
         {
-            //Rectangle intentRectangle = new Rectangle(222, 208, 37, 49);
-            //GoToIntent goToIntent = new GoToIntent(inputManager, camera, player, intentRectangle)
-            //{
-            //    OnFinished = (o,e) =>
-            //    {
-            //        if(!GameOver)
-            //        {
-            //            Completed = true;
-            //        }
-            //    }
-            //};
-            //gameComponents.Add(goToIntent);
+            doorLevelEnd = new Rectangle(222, 208, 37, 49);
+            gameComponents.Add(new DrawableRectangle(doorLevelEnd)
+            {
+                Color = Color.Blue
+            });
         }
 
         protected override void AddHighscore()

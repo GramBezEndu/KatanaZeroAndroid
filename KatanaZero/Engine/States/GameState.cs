@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using Engine.Controls;
 using System.Linq;
 using Microsoft.Xna.Framework.Input.Touch;
+using Engine.States;
 
 namespace Engine.States
 {
@@ -64,7 +65,7 @@ namespace Engine.States
                     if (gameOver == true)
                     {
                         MediaPlayer.Stop();
-                        State.Sounds["LevelFail"].Play();
+                        GameState.Sounds["LevelFail"].Play();
                         ////Hide all intents
                         //foreach (var c in gameComponents)
                         //    if (c is Intent intent)

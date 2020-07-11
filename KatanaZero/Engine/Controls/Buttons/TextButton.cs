@@ -16,7 +16,7 @@ namespace Engine.Controls.Buttons
         public TextButton(InputManager im, SpriteFont f, string msg, Vector2 scale) : base(f, msg, scale)
         {
             inputManager = im;
-            OnClick += (o, e) => Engine.States.State.Sounds["OptionSelect"].Play();
+            OnClick += (o, e) => Engine.States.GameState.Sounds["OptionSelect"].Play();
         }
 
         public TextButton(InputManager im, SpriteFont f, string msg) : base(f, msg)

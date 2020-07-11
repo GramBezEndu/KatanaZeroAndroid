@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\Intent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\IPlayerIntent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\TeleportIntent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Script.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AnimatedObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\CharacterCrowd.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl1.cs" />

@@ -53,7 +53,7 @@ namespace Engine
                         case MoveableBodyStates.Attack:
                             HiddenNotification.Hidden = true;
                             Color = Color.White;
-                            State.Sounds["WeaponSlash"].Play();
+                            GameState.Sounds["WeaponSlash"].Play();
                             KatanaSlash.Hidden = false;
                             KatanaSlash.Position = this.Position;
                             KatanaSlash.PlayAnimation("Slash");
