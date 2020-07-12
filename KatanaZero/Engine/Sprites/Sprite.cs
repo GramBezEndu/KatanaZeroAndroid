@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Engine.SpecialEffects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -13,6 +14,7 @@ namespace Engine.Sprites
     /// </summary>
     public class Sprite : ISprite
     {
+        private List<SpecialEffect> specialEffects = new List<SpecialEffect>();
         public Vector2 Scale { get; set; } = Vector2.One;
         public bool Hidden { get; set; }
         public Vector2 Position { get; set; }
@@ -57,7 +59,19 @@ namespace Engine.Sprites
 
         public virtual void Update(GameTime gameTime)
         {
+            if (!Hidden)
+            {
+                foreach(var effect in specialEffects)
+                {
+                    effect.Update(gameTime);
+                }
+            }
+        }
 
+        public void AddSpecialEffect(SpecialEffect effect)
+        {
+            specialEffects.Add(effect);
+            effect.AddTarget(this);
         }
     }
 }

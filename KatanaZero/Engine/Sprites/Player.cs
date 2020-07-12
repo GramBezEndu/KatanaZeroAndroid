@@ -19,7 +19,7 @@ namespace Engine
     public class Player : AnimatedObject, ICollidable
     {
         private readonly InputManager inputManager;
-        private Intent currentPlayerItent;
+        private Intent currentIntent;
         public AnimatedObject KatanaSlash;
         public AnimatedObject HiddenNotification;
         private MoveableBodyStates _moveableBodyState;
@@ -110,14 +110,14 @@ namespace Engine
 
         private void ManagePlayerIntent(GameTime gameTime)
         {
-            if (currentPlayerItent != null)
+            if (currentIntent != null)
             {
-                currentPlayerItent.Update(gameTime);
-                if (currentPlayerItent.Finished)
+                currentIntent.Update(gameTime);
+                if (currentIntent.Finished)
                 {
                     //Resetting intent will alow to complete it again in the future
-                    currentPlayerItent.ResetIntent();
-                    currentPlayerItent = null;
+                    currentIntent.ResetIntent();
+                    currentIntent = null;
                 }
             }
         }
@@ -139,7 +139,12 @@ namespace Engine
 
         public void AddIntent(Intent intent)
         {
-            currentPlayerItent = intent;
+            currentIntent = intent;
+        }
+
+        public void ResetIntent()
+        {
+            currentIntent = null;
         }
 
         public void PrepareMove(GameTime gameTime)

@@ -1,4 +1,5 @@
 ﻿using Engine;
+using Engine.SpecialEffects;
 using Engine.Sprites;
 using Engine.Sprites.Crowd;
 using Engine.States;
@@ -50,6 +51,7 @@ namespace KatanaZero.States
                 {
                     player.Position = new Vector2(1215, 220);
                     player.Velocity = new Vector2(0, player.Velocity.Y);
+                    player.ResetIntent();
                     camera.MultiplierOriginX = 0.75f;
                     player.SpriteEffects = SpriteEffects.FlipHorizontally;
                 }
@@ -164,6 +166,7 @@ namespace KatanaZero.States
                 SpriteEffects = SpriteEffects.FlipVertically,
             };
             arrow.Position = new Vector2(doorToSecondFloor.Center.X, doorToSecondFloor.Y - arrow.Size.Y);
+            arrow.AddSpecialEffect(new JumpingEffect());
             gameComponents.Add(arrow);
             gameComponents.Add(new Script()
             {
@@ -210,6 +213,7 @@ namespace KatanaZero.States
                 SpriteEffects = SpriteEffects.FlipVertically,
             };
             arrow.Position = new Vector2(doorLevelEnd.Center.X, doorLevelEnd.Y - arrow.Size.Y);
+            arrow.AddSpecialEffect(new JumpingEffect());
             gameComponents.Add(arrow);
             gameComponents.Add(new Script()
             {
