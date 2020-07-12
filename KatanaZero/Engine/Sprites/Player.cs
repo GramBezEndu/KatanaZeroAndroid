@@ -5,6 +5,7 @@ using Engine.Sprites;
 using Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using MonoGame.Extended.Animations;
 using MonoGame.Extended.Animations.SpriteSheets;
 using MonoGame.Extended.TextureAtlases;
@@ -73,6 +74,10 @@ namespace Engine
             }
         }
         public Vector2 Velocity { get; set; } = Vector2.Zero;
+
+        public Vector2 CollisionSize { get { return new Vector2(24, 35); } }
+
+        public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
 
         public Player(Texture2D characterSpritesheetTexture, Dictionary<string, Rectangle> characterMap, InputManager input, Vector2 scale) : base(characterSpritesheetTexture, characterMap, scale)
         {

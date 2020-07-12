@@ -19,5 +19,7 @@ namespace Engine.Sprites.Enemies
             AddAnimation("Die", new SpriteSheetAnimationData(new int[] { 32 }));
             PlayAnimation("Idle");
         }
+
+        public override Vector2 CollisionSize { get { return new Vector2(64, 64); } }
     }
 }

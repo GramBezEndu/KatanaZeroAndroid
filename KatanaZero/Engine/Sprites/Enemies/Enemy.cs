@@ -8,6 +8,7 @@ using Engine.Physics;
 using Engine.PlayerIntents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 
 namespace Engine.Sprites
 {
@@ -18,6 +19,10 @@ namespace Engine.Sprites
         public virtual MoveableBodyStates MoveableBodyState { get; set; }
         public Vector2 Velocity { get; set; }
         public Sprite PatrollingSprite { get; set; }
+
+        public abstract Vector2 CollisionSize { get; }
+        public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
+
         public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p) : base(spritesheet, map, scale)
         {
             player = p;
@@ -55,7 +60,7 @@ namespace Engine.Sprites
                     PatrollingSprite.Position = new Vector2(this.Position.X + this.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
                     break;
                 case MoveableBodyStates.WalkLeft:
-                    adjustment = new Vector2(10, -13);
+                    adjustment = new Vector2(5, -13);
                     PatrollingSprite.SpriteEffects = SpriteEffects.FlipHorizontally;
                     PatrollingSprite.Position = new Vector2(this.Position.X - PatrollingSprite.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
                     break;
@@ -63,13 +68,13 @@ namespace Engine.Sprites
                     //Idle right
                     if (this.SpriteEffects == SpriteEffects.None)
                     {
-                        adjustment = new Vector2(-15, 0);
+                        adjustment = new Vector2(-33, -11);
                         PatrollingSprite.SpriteEffects = SpriteEffects.None;
                         PatrollingSprite.Position = new Vector2(this.Position.X + this.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
                     }
                     else
                     {
-                        adjustment = new Vector2(15, 0);
+                        adjustment = new Vector2(0, -11);
                         PatrollingSprite.SpriteEffects = SpriteEffects.FlipHorizontally;
                         PatrollingSprite.Position = new Vector2(this.Position.X - PatrollingSprite.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
                     }

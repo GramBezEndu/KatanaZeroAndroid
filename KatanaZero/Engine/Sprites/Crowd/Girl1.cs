@@ -15,5 +15,7 @@ namespace Engine.Sprites.Crowd
             AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 2, 3 }, frameDuration: 0.2f));
             PlayAnimation("Idle");
         }
+
+        public override Vector2 CollisionSize { get { return new Vector2(30, 40); } }
     }
 }

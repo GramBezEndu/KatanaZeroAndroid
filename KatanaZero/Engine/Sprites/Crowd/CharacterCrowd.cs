@@ -1,6 +1,7 @@
 ﻿using Engine.Physics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using MonoGame.Extended.Animations.SpriteSheets;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Engine.Sprites.Crowd
 {
-    public class CharacterCrowd : AnimatedObject, ICollidable
+    public abstract class CharacterCrowd : AnimatedObject, ICollidable
     {
         public CharacterCrowd(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale) : base(spritesheet, map, scale)
         {
@@ -16,6 +17,10 @@ namespace Engine.Sprites.Crowd
 
         public MoveableBodyStates MoveableBodyState { get; set; }
         public Vector2 Velocity { get; set; }
+
+        public abstract Vector2 CollisionSize { get; }
+
+        public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
 
         public void PrepareMove(GameTime gameTime)
         {

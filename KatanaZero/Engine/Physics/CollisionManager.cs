@@ -21,34 +21,174 @@ namespace Engine.Physics
             {
                 foreach (var s in staticBodies)
                 {
-                    if (IsTouchingRight(c, s))
+                    CheckHorizontal(gameTime, c, s);
+                    CheckVertical(gameTime, c, s);
+                    CheckDiagonal(gameTime, c, s);
+                    //if (IsTouchingRight(c, s))
+                    //{
+                    //    float distanceX = c.Rectangle.Left - s.Right;
+                    //    c.Velocity = new Vector2(-distanceX, c.Velocity.Y);
+                    //}
+                    //else if (IsTouchingLeft(c, s))
+                    //{
+                    //    float distanceX = s.Left - c.Rectangle.Right;
+                    //    c.Velocity = new Vector2(distanceX, c.Velocity.Y);
+                    //}
+                    //if (IsTouchingBottom(c, s))
+                    //{
+                    //    float distanceY = c.Rectangle.Top - s.Bottom;
+
+                    //    //Is in the block -> adjust position
+                    //    c.Velocity = new Vector2(c.Velocity.X, 0f);
+                    //    c.Position = new Vector2(c.Position.X, c.Position.Y - distanceY);
+                    //}
+                    //if (IsTouchingTop(c, s))
+                    //{
+                    //    float distanceY = s.Top - c.Rectangle.Bottom;
+
+                    //    //Is in the block -> adjust position
+                    //    c.Velocity = new Vector2(c.Velocity.X, 0f);
+                    //    c.Position = new Vector2(c.Position.X, c.Position.Y + distanceY);
+                    //}
+                }
+            }
+        }
+
+        private void CheckDiagonal(GameTime gameTime, ICollidable c, Rectangle s)
+        {
+            if (c.Velocity.X == 0)
+                return;
+            Rectangle moved = new Rectangle(
+                (int)(c.Position.X + c.Velocity.X),
+                (int)(c.Position.Y + c.Velocity.Y),
+                (int)c.CollisionSize.X,
+                (int)c.CollisionSize.Y
+                );
+            if (ShareXCoordinate(c.CollisionRectangle, s) || ShareYCoordinate(c.CollisionRectangle, s))
+                return;
+            if (moved.Intersects(s))
+            {
+                float distanceX = GetHorizontalDistance(c.CollisionRectangle, s);
+                float distanceY = GetVerticalDistance(c.CollisionRectangle, s);
+                float velocityProportion = c.Velocity.X / c.Velocity.Y;
+
+                if (distanceX == 0 && distanceY == 0)
+                {
+                    c.Velocity = new Vector2(0, c.Velocity.Y);
+                    return;
+                }
+                if (distanceY == 0)
+                {
+                    c.Velocity = new Vector2(distanceX, distanceX / velocityProportion);
+                    return;
+                }
+                float distanceProportion = distanceX / distanceY;
+                if (Math.Abs(velocityProportion) < Math.Abs(distanceProportion))
+                {
+                    c.Velocity = new Vector2(distanceX, distanceX / velocityProportion);
+                    return;
+                }
+                else
+                {
+                    c.Velocity = new Vector2(distanceY * velocityProportion, distanceY);
+                    return;
+                }
+            }
+        }
+
+        private int GetVerticalDistance(Rectangle c, Rectangle r)
+        {
+            if (GetDistanceBeneath(c, r) >= 0)
+                return GetDistanceBeneath(c, r);
+            return -GetDistanceAbove(c, r);
+        }
+
+        private int GetHorizontalDistance(Rectangle c, Rectangle r)
+        {
+            if (GetDistanceToTheRight(c, r) >= 0)
+                return GetDistanceToTheRight(c, r);
+            return -GetDistanceToTheLeft(c, r);
+        }
+
+        private void CheckHorizontal(GameTime gameTime, ICollidable c, Rectangle s)
+        {
+            if (ShareYCoordinate(c.CollisionRectangle, s))
+            {
+                if (c.Velocity.X > 0)
+                {
+                    float distanceX = GetDistanceToTheRight(c.CollisionRectangle, s);
+                    if (distanceX >= 0 && distanceX < c.Velocity.X)
                     {
-                        float distanceX = c.Rectangle.Left - s.Right;
-                        c.Velocity = new Vector2(-distanceX, c.Velocity.Y);
-                    }
-                    else if (IsTouchingLeft(c, s))
-                    {
-                        float distanceX = s.Left - c.Rectangle.Right;
                         c.Velocity = new Vector2(distanceX, c.Velocity.Y);
+                        //c.NotifyHorizontalCollision(gameTime, s);
                     }
-                    if (IsTouchingBottom(c, s))
+                }
+                else if (c.Velocity.X < 0)
+                {
+                    float distanceX = GetDistanceToTheLeft(c.CollisionRectangle, s);
+                    if (distanceX >= 0 && distanceX < -c.Velocity.X)
                     {
-                        float distanceY = c.Rectangle.Top - s.Bottom;
-
-                        //Is in the block -> adjust position
-                        c.Velocity = new Vector2(c.Velocity.X, 0f);
-                        c.Position = new Vector2(c.Position.X, c.Position.Y - distanceY);
-                    }
-                    if (IsTouchingTop(c, s))
-                    {
-                        float distanceY = s.Top - c.Rectangle.Bottom;
-
-                        //Is in the block -> adjust position
-                        c.Velocity = new Vector2(c.Velocity.X, 0f);
-                        c.Position = new Vector2(c.Position.X, c.Position.Y + distanceY);
+                        c.Velocity = new Vector2(-distanceX, c.Velocity.Y);
+                        //c.NotifyHorizontalCollision(gameTime, s);
                     }
                 }
             }
+        }
+
+        private void CheckVertical(GameTime gameTime, ICollidable c, Rectangle s)
+        {
+            if (ShareXCoordinate(c.CollisionRectangle, s))
+            {
+                if (c.Velocity.Y > 0)
+                {
+                    float distanceY = GetDistanceBeneath(c.CollisionRectangle, s);
+                    if (distanceY >= 0 && distanceY < c.Velocity.Y)
+                    {
+                        //CheckDamageFromFall(c);
+                        c.Velocity = new Vector2(c.Velocity.X, distanceY);
+                    }
+                }
+                else if (c.Velocity.Y < 0)
+                {
+                    float distanceY = GetDistanceAbove(c.CollisionRectangle, s);
+                    if (distanceY >= 0 && distanceY < -c.Velocity.Y)
+                    {
+                        c.Velocity = new Vector2(c.Velocity.X, -distanceY);
+                    }
+                }
+            }
+        }
+
+        private bool ShareXCoordinate(Rectangle c, Rectangle r)
+        {
+            return c.Left < r.Right && c.Right > r.Left;
+        }
+
+        private bool ShareXCoordinateClosed(Rectangle c, Rectangle r)
+        {
+            return c.Left <= r.Right && c.Right >= r.Left;
+        }
+
+        private bool ShareYCoordinate(Rectangle c, Rectangle r)
+        {
+            return c.Top < r.Bottom && c.Bottom > r.Top;
+        }
+
+        private int GetDistanceBeneath(Rectangle c, Rectangle r)
+        {
+            return r.Top - c.Bottom;
+        }
+        private int GetDistanceAbove(Rectangle c, Rectangle r)
+        {
+            return c.Top - r.Bottom;
+        }
+        private int GetDistanceToTheRight(Rectangle c, Rectangle r)
+        {
+            return r.Left - c.Right;
+        }
+        private int GetDistanceToTheLeft(Rectangle c, Rectangle r)
+        {
+            return c.Left - r.Right;
         }
 
         public void SetCollisionBodies(List<ICollidable> collidables)
@@ -61,49 +201,47 @@ namespace Engine.Physics
             staticBodies = rectangles;
         }
 
-        private bool IsTouchingLeft(ICollidable c, Rectangle r)
-        {
-            return c.Rectangle.Right + c.Velocity.X > r.Left &&
-              c.Rectangle.Left < r.Left &&
-              c.Rectangle.Bottom > r.Top &&
-              c.Rectangle.Top < r.Bottom;
-        }
+        //private bool IsTouchingLeft(ICollidable c, Rectangle r)
+        //{
+        //    return c.Rectangle.Right + c.Velocity.X > r.Left &&
+        //      c.Rectangle.Left < r.Left &&
+        //      c.Rectangle.Bottom > r.Top &&
+        //      c.Rectangle.Top < r.Bottom;
+        //}
 
-        private bool IsTouchingRight(ICollidable c, Rectangle r)
-        {
-            return c.Rectangle.Left + c.Velocity.X < r.Right &&
-              c.Rectangle.Right > r.Right &&
-              c.Rectangle.Bottom > r.Top &&
-              c.Rectangle.Top < r.Bottom;
-        }
+        //private bool IsTouchingRight(ICollidable c, Rectangle r)
+        //{
+        //    return c.Rectangle.Left + c.Velocity.X < r.Right &&
+        //      c.Rectangle.Right > r.Right &&
+        //      c.Rectangle.Bottom > r.Top &&
+        //      c.Rectangle.Top < r.Bottom;
+        //}
 
-        private bool IsTouchingTop(ICollidable c, Rectangle r)
-        {
-            return c.Rectangle.Bottom + c.Velocity.Y > r.Top &&
-              c.Rectangle.Top < r.Top &&
-              c.Rectangle.Right > r.Left &&
-              c.Rectangle.Left < r.Right;
-        }
+        //private bool IsTouchingTop(ICollidable c, Rectangle r)
+        //{
+        //    return c.Rectangle.Bottom + c.Velocity.Y > r.Top &&
+        //      c.Rectangle.Top < r.Top &&
+        //      c.Rectangle.Right > r.Left &&
+        //      c.Rectangle.Left < r.Right;
+        //}
 
-        private bool IsTouchingBottom(ICollidable c, Rectangle r)
-        {
-            return (c.Rectangle.Top + c.Velocity.Y < r.Bottom &&
-              c.Rectangle.Bottom > r.Bottom &&
-              c.Rectangle.Right > r.Left &&
-              c.Rectangle.Left < r.Right);
-        }
+        //private bool IsTouchingBottom(ICollidable c, Rectangle r)
+        //{
+        //    return (c.Rectangle.Top + c.Velocity.Y < r.Bottom &&
+        //      c.Rectangle.Bottom > r.Bottom &&
+        //      c.Rectangle.Right > r.Left &&
+        //      c.Rectangle.Left < r.Right);
+        //}
 
         public bool InAir(ICollidable c)
         {
-            Rectangle collidableEnlarged = new Rectangle(
-                (int)c.Position.X,
-                (int)c.Position.Y,
-                (int)c.Size.X,
-                (int)c.Size.Y + 1);
             foreach (var s in staticBodies)
             {
-                if (collidableEnlarged.Intersects(s))
-                    return false;
+                if (ShareXCoordinate(c.CollisionRectangle, s))
+                {
+                    if (GetDistanceBeneath(c.CollisionRectangle, s) == 0)
+                        return false;
+                }
             }
             return true;
         }
@@ -114,7 +252,7 @@ namespace Engine.Physics
             {
                 if (body == p)
                     continue;
-                if (body is CharacterCrowd && p.Rectangle.Intersects(body.Rectangle))
+                if (body is CharacterCrowd && p.CollisionRectangle.Intersects(body.CollisionRectangle))
                     return true;
             }
             return false;
@@ -126,7 +264,7 @@ namespace Engine.Physics
             {
                 if (p == body || !(body is Enemy enemy))
                     continue;
-                else if (enemy.PatrollingSprite.Rectangle.Intersects(p.Rectangle))
+                else if (enemy.PatrollingSprite.Rectangle.Intersects(p.CollisionRectangle))
                 {
                     if(p.MoveableBodyState != MoveableBodyStates.Dance)
                     {

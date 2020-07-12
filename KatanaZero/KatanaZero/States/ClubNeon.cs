@@ -128,11 +128,11 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(290, 350), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(303, 350), SpriteEffects.FlipHorizontally);
 
-            Rectangle crowdRectangle = new Rectangle(240, 400, 95, 50);
-            gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            {
-                Color = Color.Blue
-            });
+            //Rectangle crowdRectangle = new Rectangle(240, 400, 95, 50);
+            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
+            //{
+            //    Color = Color.Blue
+            //});
         }
 
         private void SpawnCrowdGroupTwo()
@@ -140,11 +140,11 @@ namespace KatanaZero.States
             SpawnGirl2(new Vector2(470, 350));
             SpawnGirl2(new Vector2(495, 350), SpriteEffects.FlipHorizontally);
 
-            Rectangle crowdRectangle = new Rectangle(475, 400, 50, 50);
-            gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            {
-                Color = Color.Blue
-            });
+            //Rectangle crowdRectangle = new Rectangle(475, 400, 50, 50);
+            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
+            //{
+            //    Color = Color.Blue
+            //});
         }
 
         private void SpawnCrowdGroupThree()
@@ -152,11 +152,11 @@ namespace KatanaZero.States
             SpawnGuy2(new Vector2(570, 350));
             SpawnGirl1(new Vector2(590, 350));
 
-            Rectangle crowdRectangle = new Rectangle(570, 400, 50, 50);
-            gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            {
-                Color = Color.Blue
-            });
+            //Rectangle crowdRectangle = new Rectangle(570, 400, 50, 50);
+            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
+            //{
+            //    Color = Color.Blue
+            //});
         }
 
         private void SpawnCrowdGroupFour()
@@ -164,11 +164,11 @@ namespace KatanaZero.States
             SpawnGirl2(new Vector2(675, 350), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(695, 350));
 
-            Rectangle crowdRectangle = new Rectangle(675, 400, 50, 50);
-            gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            {
-                Color = Color.Blue
-            }); ;
+            //Rectangle crowdRectangle = new Rectangle(675, 400, 50, 50);
+            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
+            //{
+            //    Color = Color.Blue
+            //}); ;
         }
 
         private void SpawnCrowdGroupFive()
@@ -176,11 +176,11 @@ namespace KatanaZero.States
             SpawnGuy2(new Vector2(870, 350));
             SpawnGuy2(new Vector2(890, 350));
 
-            Rectangle crowdRectangle = new Rectangle(870, 400, 50, 50);
-            gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            {
-                Color = Color.Blue
-            });
+            //Rectangle crowdRectangle = new Rectangle(870, 400, 50, 50);
+            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
+            //{
+            //    Color = Color.Blue
+            //});
         }
 
         private void SpawnCrowdGroupSix()
@@ -191,11 +191,11 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(1050, 350), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(1063, 350), SpriteEffects.FlipHorizontally);
 
-            Rectangle crowdRectangle = new Rectangle(1000, 400, 95, 50);
-            gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            {
-                Color = Color.Blue
-            });
+            //Rectangle crowdRectangle = new Rectangle(1000, 400, 95, 50);
+            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
+            //{
+            //    Color = Color.Blue
+            //});
         }
 
         private void AddDoorRectangle()
@@ -213,11 +213,11 @@ namespace KatanaZero.States
             SpawnGirl2(new Vector2(950, 220));
             SpawnGirl1(new Vector2(980, 220));
 
-            Rectangle crowdRectangle = new Rectangle(940, 210, 70, 50);
-            gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            {
-                Color = Color.Blue
-            });
+            //Rectangle crowdRectangle = new Rectangle(940, 210, 70, 50);
+            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
+            //{
+            //    Color = Color.Blue
+            //});
         }
 
         private void SpawnCrowdGroupEight()
@@ -228,11 +228,11 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(740, 220), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(753, 220), SpriteEffects.FlipHorizontally);
 
-            Rectangle crowdRectangle = new Rectangle(690, 210, 95, 50);
-            gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            {
-                Color = Color.Blue
-            });
+            //Rectangle crowdRectangle = new Rectangle(690, 210, 95, 50);
+            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
+            //{
+            //    Color = Color.Blue
+            //});
         }
 
         private void SpawnCrowdGroupNine()
@@ -240,11 +240,11 @@ namespace KatanaZero.States
             SpawnGuy2(new Vector2(580, 220));
             SpawnGuy1(new Vector2(560, 220));
 
-            Rectangle crowdRectangle = new Rectangle(560, 210, 50, 50);
-            gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            {
-                Color = Color.Blue
-            });
+            //Rectangle crowdRectangle = new Rectangle(560, 210, 50, 50);
+            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
+            //{
+            //    Color = Color.Blue
+            //});
         }
 
         private void SpawnCrowdGroupTen()
@@ -252,11 +252,11 @@ namespace KatanaZero.States
             SpawnGirl2(new Vector2(365, 220), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(340, 220));
 
-            Rectangle crowdRectangle = new Rectangle(340, 210, 50, 50);
-            gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            {
-                Color = Color.Blue
-            });
+            //Rectangle crowdRectangle = new Rectangle(340, 210, 50, 50);
+            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
+            //{
+            //    Color = Color.Blue
+            //});
         }
 
         private void AddEndLevelRectangle()

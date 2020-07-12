@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Engine.Physics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Animations;
@@ -16,7 +17,21 @@ namespace Engine.Sprites
         public SpriteEffects SpriteEffects { get; set; } = SpriteEffects.None;
         public bool Hidden { get; set; }
         public Vector2 Position { get; set; }
-        public Vector2 Size
+        public Vector2 DrawingPosition
+        {
+            get
+            {
+                if (this is ICollidable collidable)
+                {
+                    return new Vector2(Position.X - (Size.X - collidable.CollisionSize.X), Position.Y - (Size.Y - collidable.CollisionSize.Y));
+                }
+                else
+                {
+                    return Position;
+                }
+            }
+        }
+        public virtual Vector2 Size
         {
             get
             {
@@ -32,14 +47,14 @@ namespace Engine.Sprites
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
+                return new Rectangle((int)DrawingPosition.X, (int)DrawingPosition.Y, (int)Size.X, (int)Size.Y);
             }
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if(!Hidden)
-                spriteBatch.Draw(animatedSprite.TextureRegion, Position, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects, 0f);
+                spriteBatch.Draw(animatedSprite.TextureRegion, DrawingPosition, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects, 0f);
         }
 
         public virtual void Update(GameTime gameTime)

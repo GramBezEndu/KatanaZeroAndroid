@@ -45,5 +45,7 @@ namespace Engine.Sprites.Enemies
                 }
             }
         }
+
+        public override Vector2 CollisionSize { get { return new Vector2(30, 38); } }
     }
 }
