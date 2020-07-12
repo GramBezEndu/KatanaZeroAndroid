@@ -32,7 +32,7 @@ namespace KatanaZero.States
                 Color = Color.Gray * 0.3f,
                 Filled = true,
             };
-            playButton.OnClick += (o, e) => game.ChangeState(new ClubNeon(game, true));
+            playButton.OnClick += (o, e) => game.ChangeState(/*new ClubNeon(game, true)*/new LevelSelect(game));
             var rankingButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "HIGHSCORES")
             {
                 Color = Color.Gray * 0.3f,

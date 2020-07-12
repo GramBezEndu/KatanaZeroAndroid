@@ -22,7 +22,7 @@ namespace Engine.Sprites
         {
             get
             {
-                return new Vector2(texture.Width * Scale.X, texture.Height * Scale.Y);
+                return new Vector2(Texture.Width * Scale.X, Texture.Height * Scale.Y);
             }
         }
         public Color Color { get; set; } = Color.White;
@@ -38,23 +38,23 @@ namespace Engine.Sprites
             }
         }
 
-        protected readonly Texture2D texture;
+        public Texture2D Texture;
 
         public Sprite(Texture2D t, Vector2 objScale)
         {
-            texture = t;
+            Texture = t;
             Scale = objScale;
         }
 
         public Sprite(Texture2D t)
         {
-            texture = t;
+            Texture = t;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if(!Hidden)
-                spriteBatch.Draw(texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects, 0f);
+                spriteBatch.Draw(Texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects, 0f);
         }
 
         public virtual void Update(GameTime gameTime)
