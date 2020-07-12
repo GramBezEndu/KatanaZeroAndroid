@@ -13,7 +13,7 @@ namespace KatanaZero.States
 {
     public class ClubNeon : GameState
     {
-        Rectangle doorSecondFloor;
+        Rectangle doorToSecondFloor;
         Rectangle doorLevelEnd;
 
         public ClubNeon(Game1 gameReference, bool showLevelTitle) : base(gameReference, showLevelTitle)
@@ -31,34 +31,25 @@ namespace KatanaZero.States
             SpawnPatrollingGangster(new Vector2(650, 350), 4.5f, false);
             SpawnPatrollingGangster(new Vector2(920, 350), 6.5f);
 
-            AddDoorRectangle();
+            AddDoorToSecondFloor();
             SpawnCrowdGroupSeven();
             SpawnCrowdGroupEight();
             SpawnCrowdGroupNine();
             SpawnCrowdGroupTen();
-            AddEndLevelRectangle();
+            AddEndLevelDoor();
 
             SpawnPatrollingGangster(new Vector2(860, 218));
             SpawnPatrollingGangster(new Vector2(650, 218), 4.5f, false);
-
-            gameComponents.Add(new Script()
-            {
-                OnUpdate = TeleportToSecondFloor,
-            });
-
-            gameComponents.Add(new Script()
-            {
-                OnUpdate = CheckLevelEnd,
-            });
         }
 
         private void TeleportToSecondFloor(object sender, EventArgs e)
         {
             if (!GameOver)
             {
-                if (player.Rectangle.Intersects(doorSecondFloor))
+                if (player.Rectangle.Intersects(doorToSecondFloor))
                 {
                     player.Position = new Vector2(1215, 220);
+                    player.Velocity = new Vector2(0, player.Velocity.Y);
                     camera.MultiplierOriginX = 0.75f;
                     player.SpriteEffects = SpriteEffects.FlipHorizontally;
                 }
@@ -127,60 +118,30 @@ namespace KatanaZero.States
             SpawnGuy1(new Vector2(275, 350));
             SpawnGirl1(new Vector2(290, 350), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(303, 350), SpriteEffects.FlipHorizontally);
-
-            //Rectangle crowdRectangle = new Rectangle(240, 400, 95, 50);
-            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            //{
-            //    Color = Color.Blue
-            //});
         }
 
         private void SpawnCrowdGroupTwo()
         {
             SpawnGirl2(new Vector2(470, 350));
             SpawnGirl2(new Vector2(495, 350), SpriteEffects.FlipHorizontally);
-
-            //Rectangle crowdRectangle = new Rectangle(475, 400, 50, 50);
-            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            //{
-            //    Color = Color.Blue
-            //});
         }
 
         private void SpawnCrowdGroupThree()
         {
             SpawnGuy2(new Vector2(570, 350));
             SpawnGirl1(new Vector2(590, 350));
-
-            //Rectangle crowdRectangle = new Rectangle(570, 400, 50, 50);
-            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            //{
-            //    Color = Color.Blue
-            //});
         }
 
         private void SpawnCrowdGroupFour()
         {
             SpawnGirl2(new Vector2(675, 350), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(695, 350));
-
-            //Rectangle crowdRectangle = new Rectangle(675, 400, 50, 50);
-            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            //{
-            //    Color = Color.Blue
-            //}); ;
         }
 
         private void SpawnCrowdGroupFive()
         {
             SpawnGuy2(new Vector2(870, 350));
             SpawnGuy2(new Vector2(890, 350));
-
-            //Rectangle crowdRectangle = new Rectangle(870, 400, 50, 50);
-            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            //{
-            //    Color = Color.Blue
-            //});
         }
 
         private void SpawnCrowdGroupSix()
@@ -190,20 +151,23 @@ namespace KatanaZero.States
             SpawnGuy1(new Vector2(1035, 350));
             SpawnGirl1(new Vector2(1050, 350), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(1063, 350), SpriteEffects.FlipHorizontally);
-
-            //Rectangle crowdRectangle = new Rectangle(1000, 400, 95, 50);
-            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            //{
-            //    Color = Color.Blue
-            //});
         }
 
-        private void AddDoorRectangle()
+        private void AddDoorToSecondFloor()
         {
-            doorSecondFloor = new Rectangle(1215, 400, 35, 50);
-            gameComponents.Add(new DrawableRectangle(doorSecondFloor)
+            doorToSecondFloor = new Rectangle(1215, 400, 35, 50);
+            var arrowTexture = content.Load<Texture2D>("Textures/GoArrow");
+            var arrow = new Sprite(arrowTexture)
             {
-                Color = Color.Blue
+                Rotation = 1.5708f,
+                Origin = new Vector2(arrowTexture.Width / 2, arrowTexture.Height / 2),
+                SpriteEffects = SpriteEffects.FlipVertically,
+            };
+            arrow.Position = new Vector2(doorToSecondFloor.Center.X, doorToSecondFloor.Y - arrow.Size.Y);
+            gameComponents.Add(arrow);
+            gameComponents.Add(new Script()
+            {
+                OnUpdate = TeleportToSecondFloor,
             });
         }
 
@@ -212,12 +176,6 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(940, 215));
             SpawnGirl2(new Vector2(950, 215));
             SpawnGirl1(new Vector2(980, 215));
-
-            //Rectangle crowdRectangle = new Rectangle(940, 210, 70, 50);
-            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            //{
-            //    Color = Color.Blue
-            //});
         }
 
         private void SpawnCrowdGroupEight()
@@ -227,44 +185,35 @@ namespace KatanaZero.States
             SpawnGuy1(new Vector2(725, 215));
             SpawnGirl1(new Vector2(740, 215), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(753, 215), SpriteEffects.FlipHorizontally);
-
-            //Rectangle crowdRectangle = new Rectangle(690, 210, 95, 50);
-            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            //{
-            //    Color = Color.Blue
-            //});
         }
 
         private void SpawnCrowdGroupNine()
         {
             SpawnGuy2(new Vector2(580, 215));
             SpawnGuy1(new Vector2(560, 215));
-
-            //Rectangle crowdRectangle = new Rectangle(560, 210, 50, 50);
-            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            //{
-            //    Color = Color.Blue
-            //});
         }
 
         private void SpawnCrowdGroupTen()
         {
             SpawnGirl2(new Vector2(365, 215), SpriteEffects.FlipHorizontally);
             SpawnGirl1(new Vector2(340, 215));
-
-            //Rectangle crowdRectangle = new Rectangle(340, 210, 50, 50);
-            //gameComponents.Add(new DrawableRectangle(crowdRectangle)
-            //{
-            //    Color = Color.Blue
-            //});
         }
 
-        private void AddEndLevelRectangle()
+        private void AddEndLevelDoor()
         {
             doorLevelEnd = new Rectangle(222, 208, 37, 49);
-            gameComponents.Add(new DrawableRectangle(doorLevelEnd)
+            var arrowTexture = content.Load<Texture2D>("Textures/GoArrow");
+            var arrow = new Sprite(arrowTexture)
             {
-                Color = Color.Blue
+                Rotation = 1.5708f,
+                Origin = new Vector2(arrowTexture.Width / 2, arrowTexture.Height / 2),
+                SpriteEffects = SpriteEffects.FlipVertically,
+            };
+            arrow.Position = new Vector2(doorLevelEnd.Center.X, doorLevelEnd.Y - arrow.Size.Y);
+            gameComponents.Add(arrow);
+            gameComponents.Add(new Script()
+            {
+                OnUpdate = CheckLevelEnd,
             });
         }
 

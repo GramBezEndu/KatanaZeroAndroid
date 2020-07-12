@@ -25,6 +25,8 @@ namespace Engine.Sprites
         }
         public Color Color { get; set; } = Color.White;
         public SpriteEffects SpriteEffects { get; set; } = SpriteEffects.None;
+        public Vector2 Origin { get; set; } = Vector2.Zero;
+        public float Rotation { get; set; } = 0f;
 
         public Rectangle Rectangle
         {
@@ -50,7 +52,7 @@ namespace Engine.Sprites
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if(!Hidden)
-                spriteBatch.Draw(texture, Position, null, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects, 0f);
+                spriteBatch.Draw(texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects, 0f);
         }
 
         public virtual void Update(GameTime gameTime)
