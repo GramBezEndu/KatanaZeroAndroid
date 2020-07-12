@@ -38,8 +38,8 @@ namespace KatanaZero.States
             SpawnCrowdGroupTen();
             AddEndLevelRectangle();
 
-            SpawnPatrollingGangster(new Vector2(860, 220));
-            SpawnPatrollingGangster(new Vector2(650, 220), 4.5f, false);
+            SpawnPatrollingGangster(new Vector2(860, 218));
+            SpawnPatrollingGangster(new Vector2(650, 218), 4.5f, false);
 
             gameComponents.Add(new Script()
             {
@@ -209,9 +209,9 @@ namespace KatanaZero.States
 
         private void SpawnCrowdGroupSeven()
         {
-            SpawnGirl1(new Vector2(940, 220));
-            SpawnGirl2(new Vector2(950, 220));
-            SpawnGirl1(new Vector2(980, 220));
+            SpawnGirl1(new Vector2(940, 215));
+            SpawnGirl2(new Vector2(950, 215));
+            SpawnGirl1(new Vector2(980, 215));
 
             //Rectangle crowdRectangle = new Rectangle(940, 210, 70, 50);
             //gameComponents.Add(new DrawableRectangle(crowdRectangle)
@@ -222,11 +222,11 @@ namespace KatanaZero.States
 
         private void SpawnCrowdGroupEight()
         {
-            SpawnGirl1(new Vector2(690, 220));
-            SpawnGuy2(new Vector2(705, 220));
-            SpawnGuy1(new Vector2(725, 220));
-            SpawnGirl1(new Vector2(740, 220), SpriteEffects.FlipHorizontally);
-            SpawnGirl1(new Vector2(753, 220), SpriteEffects.FlipHorizontally);
+            SpawnGirl1(new Vector2(690, 215));
+            SpawnGuy2(new Vector2(705, 215));
+            SpawnGuy1(new Vector2(725, 215));
+            SpawnGirl1(new Vector2(740, 215), SpriteEffects.FlipHorizontally);
+            SpawnGirl1(new Vector2(753, 215), SpriteEffects.FlipHorizontally);
 
             //Rectangle crowdRectangle = new Rectangle(690, 210, 95, 50);
             //gameComponents.Add(new DrawableRectangle(crowdRectangle)
@@ -237,8 +237,8 @@ namespace KatanaZero.States
 
         private void SpawnCrowdGroupNine()
         {
-            SpawnGuy2(new Vector2(580, 220));
-            SpawnGuy1(new Vector2(560, 220));
+            SpawnGuy2(new Vector2(580, 215));
+            SpawnGuy1(new Vector2(560, 215));
 
             //Rectangle crowdRectangle = new Rectangle(560, 210, 50, 50);
             //gameComponents.Add(new DrawableRectangle(crowdRectangle)
@@ -249,8 +249,8 @@ namespace KatanaZero.States
 
         private void SpawnCrowdGroupTen()
         {
-            SpawnGirl2(new Vector2(365, 220), SpriteEffects.FlipHorizontally);
-            SpawnGirl1(new Vector2(340, 220));
+            SpawnGirl2(new Vector2(365, 215), SpriteEffects.FlipHorizontally);
+            SpawnGirl1(new Vector2(340, 215));
 
             //Rectangle crowdRectangle = new Rectangle(340, 210, 50, 50);
             //gameComponents.Add(new DrawableRectangle(crowdRectangle)

@@ -94,7 +94,10 @@ namespace Engine
             //Update animationSprite
             base.Update(gameTime);
             KatanaSlash.Update(gameTime);
-            HiddenNotification.Position = new Vector2(this.Position.X + this.Size.X / 2 - HiddenNotification.Size.X / 2, this.Position.Y - HiddenNotification.Size.Y);
+            if (SpriteEffects == SpriteEffects.None)
+                HiddenNotification.Position = new Vector2(this.Position.X + this.CollisionSize.X / 2 - HiddenNotification.Size.X / 2 - 5, this.DrawingPosition.Y - HiddenNotification.Size.Y);
+            else
+                HiddenNotification.Position = new Vector2(this.Position.X + this.CollisionSize.X / 2 - HiddenNotification.Size.X / 2 - 3, this.DrawingPosition.Y - HiddenNotification.Size.Y);
             HiddenNotification.Update(gameTime);
         }
 
@@ -121,12 +124,12 @@ namespace Engine
 
         public void MoveRight()
         {
-            Velocity = new Vector2(2f, Velocity.Y);
+            Velocity = new Vector2(1.9f, Velocity.Y);
         }
 
         public void MoveLeft()
         {
-            Velocity = new Vector2(-2f, Velocity.Y);
+            Velocity = new Vector2(-1.9f, Velocity.Y);
         }
 
         public void Kill(Enemy e)

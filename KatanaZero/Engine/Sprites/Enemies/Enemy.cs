@@ -60,7 +60,7 @@ namespace Engine.Sprites
                     PatrollingSprite.Position = new Vector2(this.Position.X + this.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
                     break;
                 case MoveableBodyStates.WalkLeft:
-                    adjustment = new Vector2(5, -13);
+                    adjustment = new Vector2(5, -15);
                     PatrollingSprite.SpriteEffects = SpriteEffects.FlipHorizontally;
                     PatrollingSprite.Position = new Vector2(this.Position.X - PatrollingSprite.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
                     break;
@@ -68,13 +68,13 @@ namespace Engine.Sprites
                     //Idle right
                     if (this.SpriteEffects == SpriteEffects.None)
                     {
-                        adjustment = new Vector2(-33, -11);
+                        adjustment = new Vector2(-35, -11);
                         PatrollingSprite.SpriteEffects = SpriteEffects.None;
                         PatrollingSprite.Position = new Vector2(this.Position.X + this.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
                     }
                     else
                     {
-                        adjustment = new Vector2(0, -11);
+                        adjustment = new Vector2(-2, -12);
                         PatrollingSprite.SpriteEffects = SpriteEffects.FlipHorizontally;
                         PatrollingSprite.Position = new Vector2(this.Position.X - PatrollingSprite.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
                     }

@@ -24,32 +24,6 @@ namespace Engine.Physics
                     CheckHorizontal(gameTime, c, s);
                     CheckVertical(gameTime, c, s);
                     CheckDiagonal(gameTime, c, s);
-                    //if (IsTouchingRight(c, s))
-                    //{
-                    //    float distanceX = c.Rectangle.Left - s.Right;
-                    //    c.Velocity = new Vector2(-distanceX, c.Velocity.Y);
-                    //}
-                    //else if (IsTouchingLeft(c, s))
-                    //{
-                    //    float distanceX = s.Left - c.Rectangle.Right;
-                    //    c.Velocity = new Vector2(distanceX, c.Velocity.Y);
-                    //}
-                    //if (IsTouchingBottom(c, s))
-                    //{
-                    //    float distanceY = c.Rectangle.Top - s.Bottom;
-
-                    //    //Is in the block -> adjust position
-                    //    c.Velocity = new Vector2(c.Velocity.X, 0f);
-                    //    c.Position = new Vector2(c.Position.X, c.Position.Y - distanceY);
-                    //}
-                    //if (IsTouchingTop(c, s))
-                    //{
-                    //    float distanceY = s.Top - c.Rectangle.Bottom;
-
-                    //    //Is in the block -> adjust position
-                    //    c.Velocity = new Vector2(c.Velocity.X, 0f);
-                    //    c.Position = new Vector2(c.Position.X, c.Position.Y + distanceY);
-                    //}
                 }
             }
         }
@@ -120,7 +94,6 @@ namespace Engine.Physics
                     if (distanceX >= 0 && distanceX < c.Velocity.X)
                     {
                         c.Velocity = new Vector2(distanceX, c.Velocity.Y);
-                        //c.NotifyHorizontalCollision(gameTime, s);
                     }
                 }
                 else if (c.Velocity.X < 0)
@@ -129,7 +102,6 @@ namespace Engine.Physics
                     if (distanceX >= 0 && distanceX < -c.Velocity.X)
                     {
                         c.Velocity = new Vector2(-distanceX, c.Velocity.Y);
-                        //c.NotifyHorizontalCollision(gameTime, s);
                     }
                 }
             }
@@ -144,7 +116,6 @@ namespace Engine.Physics
                     float distanceY = GetDistanceBeneath(c.CollisionRectangle, s);
                     if (distanceY >= 0 && distanceY < c.Velocity.Y)
                     {
-                        //CheckDamageFromFall(c);
                         c.Velocity = new Vector2(c.Velocity.X, distanceY);
                     }
                 }
@@ -200,38 +171,6 @@ namespace Engine.Physics
         {
             staticBodies = rectangles;
         }
-
-        //private bool IsTouchingLeft(ICollidable c, Rectangle r)
-        //{
-        //    return c.Rectangle.Right + c.Velocity.X > r.Left &&
-        //      c.Rectangle.Left < r.Left &&
-        //      c.Rectangle.Bottom > r.Top &&
-        //      c.Rectangle.Top < r.Bottom;
-        //}
-
-        //private bool IsTouchingRight(ICollidable c, Rectangle r)
-        //{
-        //    return c.Rectangle.Left + c.Velocity.X < r.Right &&
-        //      c.Rectangle.Right > r.Right &&
-        //      c.Rectangle.Bottom > r.Top &&
-        //      c.Rectangle.Top < r.Bottom;
-        //}
-
-        //private bool IsTouchingTop(ICollidable c, Rectangle r)
-        //{
-        //    return c.Rectangle.Bottom + c.Velocity.Y > r.Top &&
-        //      c.Rectangle.Top < r.Top &&
-        //      c.Rectangle.Right > r.Left &&
-        //      c.Rectangle.Left < r.Right;
-        //}
-
-        //private bool IsTouchingBottom(ICollidable c, Rectangle r)
-        //{
-        //    return (c.Rectangle.Top + c.Velocity.Y < r.Bottom &&
-        //      c.Rectangle.Bottom > r.Bottom &&
-        //      c.Rectangle.Right > r.Left &&
-        //      c.Rectangle.Left < r.Right);
-        //}
 
         public bool InAir(ICollidable c)
         {
