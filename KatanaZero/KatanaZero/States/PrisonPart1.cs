@@ -9,9 +9,11 @@ using Android.Content;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Engine.Sprites;
 using Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Tiled;
 
@@ -19,16 +21,25 @@ namespace KatanaZero.States
 {
     public class PrisonPart1 : GameState
     {
+        protected override int FloorLevel { get { return 320; } }
         public PrisonPart1(Game1 gameReference, bool showLevelTitle) : base(gameReference, showLevelTitle)
         {
+            AmbientColor = Color.Gray;
             game.PlaySong(content.Load<Song>("Songs/Prison"));
+
+            SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle6"), 180f);
+            SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle3"), 400f);
+            SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle4"), 430f);
+
+            SpawnPatrollingGangster(new Vector2(500, 200));
+            SpawnPatrollingGangster(new Vector2(1200, 200));
         }
 
         public override string LevelName { get { return "PRISON"; } }
 
         public override void SetPlayerSpawnPoint()
         {
-            player.Position = new Vector2(10, 200);
+            player.Position = new Vector2(10, 220);
         }
 
         protected override void AddHighscore()
@@ -44,6 +55,14 @@ namespace KatanaZero.States
         internal override Vector2 SetMapSize()
         {
             return new Vector2(1480, 464);
+        }
+
+        private void SpawnObstacle(Texture2D texture, float posX)
+        {
+            var obstacle = new Sprite(texture);
+            obstacle.Color = Color.Black;
+            obstacle.Position = new Vector2(posX, FloorLevel - obstacle.Size.Y);
+            gameComponents.Add(obstacle);
         }
     }
 }

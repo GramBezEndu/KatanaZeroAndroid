@@ -79,7 +79,7 @@ namespace KatanaZero.States
         private void SpawnPoliceCar()
         {
             var car = new Sprite(commonTextures["PoliceCar"], new Vector2(3f, 3f));
-            car.Position = new Vector2(game.LogicalSize.X/2, floorLevel - car.Size.Y);
+            car.Position = new Vector2(game.LogicalSize.X/2, FloorLevel - car.Size.Y);
             gameComponents.Add(car);
         }
 

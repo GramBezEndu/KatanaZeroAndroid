@@ -45,6 +45,7 @@ namespace Engine.States
         private readonly float timerScale = 2.5f;
         private Sprite timer;
         private bool gameOver;
+        public Color AmbientColor = Color.White;
 
         public EventHandler OnCompleted { get; set; }
         private bool completed;
@@ -52,7 +53,7 @@ namespace Engine.States
         /// <summary>
         /// Determines where the floor level is (in pixels)
         /// </summary>
-        protected int floorLevel;
+        protected virtual int FloorLevel { get; }
 
         public abstract string LevelName { get; }
 
@@ -399,7 +400,7 @@ namespace Engine.States
         protected override void DrawToScreen()
         {
             mapBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
-            mapBatch.Draw(mapLayerRenderTarget, new Rectangle(0, 0, (int)game.WindowSize.X, (int)game.WindowSize.Y), Color.White);
+            mapBatch.Draw(mapLayerRenderTarget, new Rectangle(0, 0, (int)game.WindowSize.X, (int)game.WindowSize.Y), AmbientColor);
             mapBatch.End();
             base.DrawToScreen();
         }

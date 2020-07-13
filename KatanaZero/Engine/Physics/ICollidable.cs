@@ -12,6 +12,7 @@ namespace Engine.Physics
         WalkLeft,
         Attack,
         Dance,
+        Hidden,
     }
 
     public interface ICollidable : IDrawableComponent

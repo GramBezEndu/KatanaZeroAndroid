@@ -69,6 +69,12 @@ namespace Engine
                             PlayAnimation("Dance");
                             HiddenNotification.PlayAnimation("Idle");
                             break;
+                        case MoveableBodyStates.Hidden:
+                            Color = Color.Black;
+                            PlayAnimation("Idle");
+                            HiddenNotification.Hidden = false;
+                            HiddenNotification.PlayAnimation("Idle");
+                            break;
                     }
                 }
             }
