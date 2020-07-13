@@ -49,7 +49,7 @@ namespace KatanaZero.States
                 Color = Color.Gray * 0.3f,
                 Filled = true,
             };
-            playButton.OnClick += (o, e) => game.ChangeState(new ClubNeon(game, true));
+            playButton.OnClick += (o, e) => StartLevel(currentLevelSelected);
 
             var backButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "BACK")
             {
@@ -88,6 +88,14 @@ namespace KatanaZero.States
             AddUiComponent(rightLevelButton);
             AddUiComponent(menu);
             AddUiComponent(currentLevelName);
+        }
+
+        private void StartLevel(int currentLevelSelected)
+        {
+            if (currentLevelSelected == 0)
+                game.ChangeState(new ClubNeon(game, true));
+            else if (currentLevelSelected == 1)
+                game.ChangeState(new PrisonPart1(game, true));
         }
 
         private void DecreaseSelectedLevel(object sender, EventArgs e)
