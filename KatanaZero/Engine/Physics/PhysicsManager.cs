@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Engine.Sprites;
 using Microsoft.Xna.Framework;
 
 namespace Engine.Physics
@@ -9,14 +10,14 @@ namespace Engine.Physics
     {
         private readonly CollisionManager collisionManager;
         private readonly List<ICollidable> moveableBodies;
-        private readonly List<Rectangle> staticBodies;
+        private readonly List<Rectangle> mapCollision;
         const float GRAVITY = 1f;
 
         public PhysicsManager()
         {
             collisionManager = new CollisionManager();
             moveableBodies = new List<ICollidable>();
-            staticBodies = new List<Rectangle>();
+            mapCollision = new List<Rectangle>();
         }
 
         public void AddMoveableBody(ICollidable c)
@@ -26,7 +27,7 @@ namespace Engine.Physics
 
         public void AddStaticBody(Rectangle r)
         {
-            staticBodies.Add(r);
+            mapCollision.Add(r);
         }
 
         public void DeleteBody(ICollidable c)
@@ -39,17 +40,22 @@ namespace Engine.Physics
 
         public void DeleteStaticBlock(Rectangle r)
         {
-            if (staticBodies.Contains(r))
-                staticBodies.Remove(r);
+            if (mapCollision.Contains(r))
+                mapCollision.Remove(r);
             else
                 throw new ArgumentException("Block not found");
         }
 
-        public void SetStaticBodies(List<Rectangle> rectangles)
+        public void SetMapCollision(List<Rectangle> rectangles)
         {
-            staticBodies.Clear();
-            rectangles.ForEach((item) => staticBodies.Add(item));
-            collisionManager.SetStaticBodies(staticBodies);
+            mapCollision.Clear();
+            rectangles.ForEach((item) => mapCollision.Add(item));
+            collisionManager.SetMapCollision(mapCollision);
+        }
+
+        public void SetHidingSpots(List<Sprite> hidingObstacles)
+        {
+            collisionManager.SetHidingSpots(hidingObstacles);
         }
 
         public void Update(GameTime gameTime)
@@ -101,6 +107,8 @@ namespace Engine.Physics
             {
                 if (collisionManager.InDancingGroup(player))
                     c.MoveableBodyState = MoveableBodyStates.Dance;
+                else if (collisionManager.InHidingSpot(player))
+                    c.MoveableBodyState = MoveableBodyStates.Hidden;
                 else
                     c.MoveableBodyState = MoveableBodyStates.Idle;
             }

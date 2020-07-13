@@ -27,15 +27,33 @@ namespace KatanaZero.States
             AmbientColor = Color.Gray;
             game.PlaySong(content.Load<Song>("Songs/Prison"));
 
-            SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle6"), 180f);
-            SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle3"), 400f);
-            SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle4"), 430f);
-
-            SpawnPatrollingGangster(new Vector2(500, 200));
-            SpawnPatrollingGangster(new Vector2(1200, 200));
+            SpawnPatrollingGangster(new Vector2(510, 200), 3f);
+            SpawnPatrollingGangster(new Vector2(500, 200), 2.5f, false);
+            //SpawnPatrollingGangster(new Vector2(800, 200), 2f);
+            SpawnPatrollingGangster(new Vector2(800, 200), 2.5f);
+            SpawnPatrollingGangster(new Vector2(1120, 200), 2f);
+            SpawnPatrollingGangster(new Vector2(1200, 200), 3f, false);
         }
 
         public override string LevelName { get { return "PRISON"; } }
+
+        protected override List<Sprite> CreateHidingSpots()
+        {
+            return new List<Sprite>()
+            {
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle6"), 180f),
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle3"), 400f),
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle4"), 430f),
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle5"), 600f),
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle5"), 650f),
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle5"), 700f),
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle3"), 950f),
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle1"), 985f),
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle1"), 1100f),
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle2"), 1160f),
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle7"), 1300f),
+            };
+        }
 
         public override void SetPlayerSpawnPoint()
         {
@@ -57,12 +75,12 @@ namespace KatanaZero.States
             return new Vector2(1480, 464);
         }
 
-        private void SpawnObstacle(Texture2D texture, float posX)
+        private Sprite SpawnObstacle(Texture2D texture, float posX)
         {
             var obstacle = new Sprite(texture);
             obstacle.Color = Color.Black;
             obstacle.Position = new Vector2(posX, FloorLevel - obstacle.Size.Y);
-            gameComponents.Add(obstacle);
+            return obstacle;
         }
     }
 }

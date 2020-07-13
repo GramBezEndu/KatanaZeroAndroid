@@ -11,7 +11,8 @@ namespace Engine.Physics
     public class CollisionManager : IComponent
     {
         List<ICollidable> collidableBodies;
-        List<Rectangle> staticBodies;
+        List<Rectangle> mapCollision;
+        List<Sprite> hidingSpots;
 
         public void Update(GameTime gameTime)
         {
@@ -19,7 +20,7 @@ namespace Engine.Physics
                 c.PrepareMove(gameTime);
             foreach (var c in collidableBodies)
             {
-                foreach (var s in staticBodies)
+                foreach (var s in mapCollision)
                 {
                     CheckHorizontal(gameTime, c, s);
                     CheckVertical(gameTime, c, s);
@@ -167,14 +168,19 @@ namespace Engine.Physics
             collidableBodies = collidables;
         }
 
-        public void SetStaticBodies(List<Rectangle> rectangles)
+        public void SetMapCollision(List<Rectangle> rectangles)
         {
-            staticBodies = rectangles;
+            mapCollision = rectangles;
+        }
+
+        public void SetHidingSpots(List<Sprite> hidingObstacles)
+        {
+            hidingSpots = hidingObstacles;
         }
 
         public bool InAir(ICollidable c)
         {
-            foreach (var s in staticBodies)
+            foreach (var s in mapCollision)
             {
                 if (ShareXCoordinate(c.CollisionRectangle, s))
                 {
@@ -197,6 +203,16 @@ namespace Engine.Physics
             return false;
         }
 
+        public bool InHidingSpot(Player p)
+        {
+            foreach (var hidingSpot in hidingSpots)
+            {
+                if (p.CollisionRectangle.Intersects(hidingSpot.Rectangle))
+                    return true;
+            }
+            return false;
+        }
+
         public bool Spotted(Player p)
         {
             foreach(var body in collidableBodies)
@@ -205,7 +221,7 @@ namespace Engine.Physics
                     continue;
                 else if (enemy.PatrollingSprite.Rectangle.Intersects(p.CollisionRectangle))
                 {
-                    if(p.MoveableBodyState != MoveableBodyStates.Dance)
+                    if(p.MoveableBodyState != MoveableBodyStates.Dance && p.MoveableBodyState != MoveableBodyStates.Hidden)
                     {
                         enemy.PatrollingSprite.Color = Color.Red * 0.7f;
                         return true;

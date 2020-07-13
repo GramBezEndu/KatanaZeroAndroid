@@ -100,6 +100,11 @@ namespace Engine.States
             mapSize = SetMapSize();
             CreateMapRenderer();
             physicsManager = new PhysicsManager();
+
+            var hidingSpots = CreateHidingSpots();
+            SetHidingSpots(hidingSpots);
+            gameComponents.AddRange(hidingSpots);
+
             CreatePlayer();
             CreateCamera(gameReference);
             AddGameOverComponents();
@@ -111,6 +116,16 @@ namespace Engine.States
             OnCompleted += (o, e) => AddLevelCompleteComponents();
             OnCompleted += (o, e) => ShowStageClearComponents();
             OnCompleted += (o, e) => AddHighscore();
+        }
+
+        public void SetHidingSpots(List<Sprite> hidingSpots)
+        {
+            physicsManager.SetHidingSpots(hidingSpots);
+        }
+
+        protected virtual List<Sprite> CreateHidingSpots()
+        {
+            return new List<Sprite>();
         }
 
         internal abstract Vector2 SetMapSize();
@@ -334,7 +349,7 @@ namespace Engine.States
         {
             if (!GameOver)
                 PlayerClick();
-            physicsManager.SetStaticBodies(GetCollisionRectangles());
+            physicsManager.SetMapCollision(GetCollisionRectangles());
             physicsManager.Update(gameTime);
             if(PlayerSpotted())
             {
