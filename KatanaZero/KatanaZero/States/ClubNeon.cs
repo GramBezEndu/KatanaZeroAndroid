@@ -17,6 +17,8 @@ namespace KatanaZero.States
         Rectangle doorToSecondFloor;
         Rectangle doorLevelEnd;
 
+        public override string LevelName { get { return "CLUB NEON"; } }
+
         public ClubNeon(Game1 gameReference, bool showLevelTitle) : base(gameReference, showLevelTitle)
         {
             game.PlaySong(songs["Club"]);
@@ -229,6 +231,11 @@ namespace KatanaZero.States
         internal override Vector2 SetMapSize()
         {
             return new Vector2(1295, 464);
+        }
+
+        public override void SetPlayerSpawnPoint()
+        {
+            player.Position = new Vector2(10, 375);
         }
     }
 }

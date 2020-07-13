@@ -12,6 +12,7 @@ using Android.Widget;
 using Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Tiled;
 
 namespace KatanaZero.States
@@ -20,6 +21,14 @@ namespace KatanaZero.States
     {
         public PrisonPart1(Game1 gameReference, bool showLevelTitle) : base(gameReference, showLevelTitle)
         {
+            game.PlaySong(content.Load<Song>("Songs/Prison"));
+        }
+
+        public override string LevelName { get { return "PRISON"; } }
+
+        public override void SetPlayerSpawnPoint()
+        {
+            player.Position = new Vector2(10, 200);
         }
 
         protected override void AddHighscore()
@@ -29,22 +38,12 @@ namespace KatanaZero.States
 
         protected override void LoadMap()
         {
-            try
-            {
-                map = content.Load<TiledMap>("Maps/PrisonPart1/PrisonPart1");
-
-            }
-            catch(ContentLoadException e)
-            {
-                Debug.WriteLine(e.HelpLink);
-                Debug.WriteLine(e.Data);
-                Debug.WriteLine(e.Message);
-            }
+            map = content.Load<TiledMap>("Maps/PrisonPart1/PrisonPart1");
         }
 
         internal override Vector2 SetMapSize()
         {
-            return new Vector2(1295, 464);
+            return new Vector2(1480, 464);
         }
     }
 }

@@ -54,6 +54,8 @@ namespace Engine.States
         /// </summary>
         protected int floorLevel;
 
+        public abstract string LevelName { get; }
+
         protected bool GameOver
         {
             get => gameOver;
@@ -140,7 +142,7 @@ namespace Engine.States
             levelTitleComponents.Add(startFadeTimer);
             levelTitleComponents.Add(fadeTimer);
 
-            var levelTitle = new Text(fonts["Big"], Regex.Replace(this.GetType().Name, "([a-z])([A-Z])", "$1 $2"));
+            var levelTitle = new Text(fonts["Big"], LevelName);
             levelTitle.Position = new Vector2(game.LogicalSize.X / 2 - levelTitle.Size.X / 2,
                 game.LogicalSize.Y / 2 - levelTitle.Size.Y / 2);
 
@@ -269,7 +271,7 @@ namespace Engine.States
         private void CreatePlayer()
         {
             player = new Player(content.Load<Texture2D>("Character/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, new Vector2(1f, 1f));
-            player.Position = new Vector2(10, 375);
+            SetPlayerSpawnPoint();
             player.KatanaSlash = new AnimatedObject(content.Load<Texture2D>("Character/Katana/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/Katana/Map"), new Vector2(1f, 1f))
             {
                 Hidden = true,
@@ -283,6 +285,8 @@ namespace Engine.States
             player.HiddenNotification.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1 }, frameDuration: 0.2f));
             physicsManager.AddMoveableBody(player);
         }
+
+        public abstract void SetPlayerSpawnPoint();
 
         private void AddLevelCompleteComponents()
         {

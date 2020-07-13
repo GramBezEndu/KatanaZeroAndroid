@@ -33,7 +33,7 @@ namespace KatanaZero.States
         public LevelSelect(Game1 gameReference) : base(gameReference)
         {
             levelInfos.Add(new LevelInfo("CLUB NEON", content.Load<Texture2D>("Textures/LevelSelect/ClubNeon")));
-            levelInfos.Add(new LevelInfo("TEST", content.Load<Texture2D>("Textures/PoliceCar")));
+            levelInfos.Add(new LevelInfo("PRISON", content.Load<Texture2D>("Textures/LevelSelect/Prison")));
 
             AddUiComponent(new Sprite(content.Load<Texture2D>("Textures/LevelSelect/LevelSelectBackground")));
             currentLevelImg = new Sprite(levelInfos[currentLevelSelected].Texture)
