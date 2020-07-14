@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="left-up" compressionlevel="0" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="10">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="left-up" compressionlevel="0" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="10">
  <tileset firstgid="1" name="spr_prison_wall_0" tilewidth="16" tileheight="16" tilecount="540" columns="27">
-  <image source="assets/spr_prison_wall_0.png" width="432" height="330"/>
+  <image source="spr_prison_wall_0.png" width="432" height="330"/>
  </tileset>
  <tileset firstgid="541" name="spr_prison_wall_loop_0" tilewidth="16" tileheight="16" tilecount="132" columns="11">
-  <image source="assets/spr_prison_wall_loop_0.png" width="176" height="200"/>
+  <image source="spr_prison_wall_loop_0.png" width="176" height="200"/>
  </tileset>
  <tileset firstgid="673" name="spr_prison_outside_ground_0" tilewidth="16" tileheight="16" tilecount="640" columns="80">
-  <image source="assets/spr_prison_outside_ground_0.png" width="1280" height="128"/>
+  <image source="spr_prison_outside_ground_0.png" width="1280" height="128"/>
  </tileset>
  <tileset firstgid="1313" name="spr_prison_wall_2" tilewidth="16" tileheight="16" tilecount="540" columns="27">
-  <image source="assets/spr_prison_wall_2.png" width="432" height="330"/>
+  <image source="spr_prison_wall_2.png" width="432" height="330"/>
  </tileset>
  <layer id="3" name="Background" width="100" height="100">
   <data encoding="csv">
@@ -116,6 +116,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="8" name="HidingSpots"/>
  <layer id="1" name="Layer1" width="100" height="100">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

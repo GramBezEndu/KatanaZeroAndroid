@@ -9,6 +9,7 @@ using Android.Content;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Engine;
 using Engine.Sprites;
 using Engine.States;
 using Microsoft.Xna.Framework;
@@ -24,7 +25,7 @@ namespace KatanaZero.States
         protected override int FloorLevel { get { return 320; } }
         public PrisonPart1(Game1 gameReference, bool showLevelTitle) : base(gameReference, showLevelTitle)
         {
-            AmbientColor = Color.Gray;
+            AmbientColor = new Color(150, 150, 150);
             game.PlaySong(content.Load<Song>("Songs/Prison"));
 
             SpawnPatrollingGangster(new Vector2(510, 200), 3f);
@@ -33,6 +34,31 @@ namespace KatanaZero.States
             SpawnPatrollingGangster(new Vector2(800, 200), 2.5f);
             SpawnPatrollingGangster(new Vector2(1120, 200), 2f);
             SpawnPatrollingGangster(new Vector2(1200, 200), 3f, false);
+
+            AddGoToArrowRight(new Vector2(1460, 310));
+            gameComponents.Add(new Script()
+            {
+                OnUpdate = AutoRun,
+            });
+        }
+
+        private void AutoRun(object sender, EventArgs e)
+        {
+            if(player.Position.X > 1400f)
+            {
+                player.ResetIntent();
+                player.MoveRight();
+            }
+            if(player.Position.X > 1500f)
+            {
+                var nextStage = new PrisonPart2(game, false);
+                //Transfer stage timer and level time
+                nextStage.LevelTimeInSeconds = this.LevelTimeInSeconds;
+                nextStage.StageTimer = this.StageTimer;
+
+                game.ChangeState(nextStage);
+                (sender as Script).Enabled = false;
+            }
         }
 
         public override string LevelName { get { return "PRISON"; } }

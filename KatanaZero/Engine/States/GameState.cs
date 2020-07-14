@@ -22,6 +22,7 @@ using Engine.Controls;
 using System.Linq;
 using Microsoft.Xna.Framework.Input.Touch;
 using Engine.States;
+using Engine.SpecialEffects;
 
 namespace Engine.States
 {
@@ -40,8 +41,8 @@ namespace Engine.States
         protected List<IComponent> timeIsUpComponents = new List<IComponent>();
         protected List<IComponent> playerSpottedComponents = new List<IComponent>();
         protected List<IComponent> levelTitleComponents = new List<IComponent>();
-        protected double levelTimeInSeconds = 120;
-        protected GameTimer stageTimer;
+        public double LevelTimeInSeconds = 120;
+        public GameTimer StageTimer;
         private readonly float timerScale = 2.5f;
         private Sprite timer;
         private bool gameOver;
@@ -242,7 +243,7 @@ namespace Engine.States
 
         private void CreateLevelTimer()
         {
-            stageTimer = new GameTimer(levelTimeInSeconds)
+            StageTimer = new GameTimer(LevelTimeInSeconds)
             {
                 OnTimedEvent = (o, e) =>
                 {
@@ -312,7 +313,7 @@ namespace Engine.States
             };
             levelCompleteText.Position = new Vector2(game.LogicalSize.X / 2 - levelCompleteText.Size.X / 2, game.LogicalSize.Y / 2 - levelCompleteText.Size.Y / 2);
 
-            var timeText = new Text(fonts["Standard"], String.Format("TIME {0}s.", Math.Round(stageTimer.Interval - stageTimer.CurrentInterval, 2).ToString()))
+            var timeText = new Text(fonts["Standard"], String.Format("TIME {0}s.", Math.Round(StageTimer.Interval - StageTimer.CurrentInterval, 2).ToString()))
             {
                 Hidden = true
             };
@@ -361,7 +362,7 @@ namespace Engine.States
             foreach (var c in gameComponents)
                 c.Update(gameTime);
             if(!GameOver && !Completed)
-                stageTimer?.Update(gameTime);
+                StageTimer?.Update(gameTime);
             UpdateTimerSize();
             if (GameOver)
             {
@@ -409,7 +410,7 @@ namespace Engine.States
 
         private void UpdateTimerSize()
         {
-            timer.Scale = new Vector2((float)(timerScale * (stageTimer.CurrentInterval / levelTimeInSeconds)), timer.Scale.Y);
+            timer.Scale = new Vector2((float)(timerScale * (StageTimer.CurrentInterval / LevelTimeInSeconds)), timer.Scale.Y);
         }
 
         protected override void DrawToScreen()
@@ -424,6 +425,8 @@ namespace Engine.States
         {
             mapBatch.Begin(transformMatrix: camera.ViewMatrix);
             graphicsDevice.SetRenderTarget(mapLayerRenderTarget);
+            //Important -> removes weird lines
+            graphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
             graphicsDevice.Clear(Color.Black);
             mapRenderer.Draw(camera.ViewMatrix);
             foreach(var c in gameComponents)
@@ -462,6 +465,31 @@ namespace Engine.States
                 rectangles.Add(new Rectangle((int)collisionObject.Position.X, (int)collisionObject.Position.Y, (int)collisionObject.Size.Width, (int)collisionObject.Size.Height));
             }
             return rectangles;
+        }
+
+        protected void AddGoToArrowDown(Vector2 position)
+        {
+            var arrowTexture = content.Load<Texture2D>("Textures/GoArrow");
+            var arrow = new Sprite(arrowTexture)
+            {
+                Rotation = 1.5708f,
+                Origin = new Vector2(arrowTexture.Width / 2, arrowTexture.Height / 2),
+            };
+            arrow.Position = new Vector2(position.X, position.Y - arrow.Size.Y);
+            arrow.AddSpecialEffect(new JumpingEffect());
+            gameComponents.Add(arrow);
+        }
+
+        protected void AddGoToArrowRight(Vector2 position)
+        {
+            var arrowTexture = content.Load<Texture2D>("Textures/GoArrow");
+            var arrow = new Sprite(arrowTexture)
+            {
+                Origin = new Vector2(arrowTexture.Width / 2, arrowTexture.Height / 2),
+            };
+            arrow.Position = new Vector2(position.X, position.Y - arrow.Size.Y);
+            arrow.AddSpecialEffect(new JumpingEffect());
+            gameComponents.Add(arrow);
         }
     }
 }

@@ -64,7 +64,7 @@
     <Reference Include="MonoGame.Extended.Tiled, Version=3.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Extended.Tiled.3.7.0\lib\netstandard2.0\MonoGame.Extended.Tiled.dll</HintPath>
     </Reference>
-	<Reference Include="MonoGame.Framework">
+    <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Android\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework.Content.Pipeline, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
@@ -96,6 +96,7 @@
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="States\ClubNeon.cs" />
     <Compile Include="States\PrisonPart1.cs" />
+    <Compile Include="States\PrisonPart2.cs" />
     <Compile Include="States\Rankings.cs" />
   </ItemGroup>
   <ItemGroup>

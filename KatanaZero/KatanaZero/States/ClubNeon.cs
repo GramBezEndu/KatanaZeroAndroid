@@ -160,16 +160,7 @@ namespace KatanaZero.States
         private void AddDoorToSecondFloor()
         {
             doorToSecondFloor = new Rectangle(1215, 400, 35, 50);
-            var arrowTexture = content.Load<Texture2D>("Textures/GoArrow");
-            var arrow = new Sprite(arrowTexture)
-            {
-                Rotation = 1.5708f,
-                Origin = new Vector2(arrowTexture.Width / 2, arrowTexture.Height / 2),
-                SpriteEffects = SpriteEffects.FlipVertically,
-            };
-            arrow.Position = new Vector2(doorToSecondFloor.Center.X, doorToSecondFloor.Y - arrow.Size.Y);
-            arrow.AddSpecialEffect(new JumpingEffect());
-            gameComponents.Add(arrow);
+            AddGoToArrowDown(new Vector2(doorToSecondFloor.Center.X, doorToSecondFloor.Y));
             gameComponents.Add(new Script()
             {
                 OnUpdate = TeleportToSecondFloor,
@@ -207,16 +198,7 @@ namespace KatanaZero.States
         private void AddEndLevelDoor()
         {
             doorLevelEnd = new Rectangle(222, 208, 37, 49);
-            var arrowTexture = content.Load<Texture2D>("Textures/GoArrow");
-            var arrow = new Sprite(arrowTexture)
-            {
-                Rotation = 1.5708f,
-                Origin = new Vector2(arrowTexture.Width / 2, arrowTexture.Height / 2),
-                SpriteEffects = SpriteEffects.FlipVertically,
-            };
-            arrow.Position = new Vector2(doorLevelEnd.Center.X, doorLevelEnd.Y - arrow.Size.Y);
-            arrow.AddSpecialEffect(new JumpingEffect());
-            gameComponents.Add(arrow);
+            AddGoToArrowDown(new Vector2(doorLevelEnd.Center.X, doorLevelEnd.Y));
             gameComponents.Add(new Script()
             {
                 OnUpdate = CheckLevelEnd,
@@ -225,7 +207,7 @@ namespace KatanaZero.States
 
         protected override void AddHighscore()
         {
-            HighScoresStorage.Instance.AddTime(new ClubNeonScore(stageTimer.Interval - stageTimer.CurrentInterval));
+            HighScoresStorage.Instance.AddTime(new ClubNeonScore(StageTimer.Interval - StageTimer.CurrentInterval));
         }
 
         internal override Vector2 SetMapSize()
