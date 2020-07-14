@@ -45,7 +45,13 @@ namespace KatanaZero.States
 
         internal override Vector2 SetMapSize()
         {
-            return new Vector2(1480, 464);
+            return new Vector2(1132, 446);
+        }
+
+        internal override void SpawnEntitiesAfterPlayer()
+        {
+            SpawnPatrollingGangster(new Vector2(510, 170), 3f);
+            SpawnPatrollingGangster(new Vector2(600, 170), 2.5f, false);
         }
     }
 }

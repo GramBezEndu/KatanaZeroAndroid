@@ -22,27 +22,8 @@ namespace KatanaZero.States
         public ClubNeon(Game1 gameReference, bool showLevelTitle) : base(gameReference, showLevelTitle)
         {
             game.PlaySong(songs["Club"]);
-            gameComponents.Add(new ClubLights());
-            SpawnCrowdGroupOne();
-            SpawnCrowdGroupTwo();
-            SpawnCrowdGroupThree();
-            SpawnCrowdGroupFour();
-            SpawnCrowdGroupFive();
-            SpawnCrowdGroupSix();
-
-            SpawnPatrollingGangster(new Vector2(475, 350));
-            SpawnPatrollingGangster(new Vector2(650, 350), 4.5f, false);
-            SpawnPatrollingGangster(new Vector2(920, 350), 6.5f);
-
-            AddDoorToSecondFloor();
-            SpawnCrowdGroupSeven();
-            SpawnCrowdGroupEight();
-            SpawnCrowdGroupNine();
-            SpawnCrowdGroupTen();
-            AddEndLevelDoor();
-
-            SpawnPatrollingGangster(new Vector2(860, 218));
-            SpawnPatrollingGangster(new Vector2(650, 218), 4.5f, false);
+            AddSecondFloorScript();
+            AddEndLevelScript();
         }
 
         private void TeleportToSecondFloor(object sender, EventArgs e)
@@ -54,7 +35,7 @@ namespace KatanaZero.States
                     player.Position = new Vector2(1215, 220);
                     player.Velocity = new Vector2(0, player.Velocity.Y);
                     player.ResetIntent();
-                    camera.MultiplierOriginX = 0.75f;
+                    Camera.MultiplierOriginX = 0.75f;
                     player.SpriteEffects = SpriteEffects.FlipHorizontally;
                 }
             }
@@ -157,7 +138,7 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(1063, 350), SpriteEffects.FlipHorizontally);
         }
 
-        private void AddDoorToSecondFloor()
+        private void AddSecondFloorScript()
         {
             doorToSecondFloor = new Rectangle(1215, 400, 35, 50);
             AddGoToArrowDown(new Vector2(doorToSecondFloor.Center.X, doorToSecondFloor.Y));
@@ -195,7 +176,7 @@ namespace KatanaZero.States
             SpawnGirl1(new Vector2(340, 215));
         }
 
-        private void AddEndLevelDoor()
+        private void AddEndLevelScript()
         {
             doorLevelEnd = new Rectangle(222, 208, 37, 49);
             AddGoToArrowDown(new Vector2(doorLevelEnd.Center.X, doorLevelEnd.Y));
@@ -223,6 +204,32 @@ namespace KatanaZero.States
         internal override void RestartLevel()
         {
             game.ChangeState(new ClubNeon(game, false));
+        }
+
+        internal override void SpawnEntitiesBeforePlayer()
+        {
+            SpawnCrowdGroupOne();
+            SpawnCrowdGroupTwo();
+            SpawnCrowdGroupThree();
+            SpawnCrowdGroupFour();
+            SpawnCrowdGroupFive();
+            SpawnCrowdGroupSix();
+
+            SpawnCrowdGroupSeven();
+            SpawnCrowdGroupEight();
+            SpawnCrowdGroupNine();
+            SpawnCrowdGroupTen();
+            gameComponents.Add(new ClubLights());
+        }
+
+        internal override void SpawnEntitiesAfterPlayer()
+        {
+            SpawnPatrollingGangster(new Vector2(475, 350));
+            SpawnPatrollingGangster(new Vector2(650, 350), 4.5f, false);
+            SpawnPatrollingGangster(new Vector2(920, 350), 6.5f);
+
+            SpawnPatrollingGangster(new Vector2(860, 218));
+            SpawnPatrollingGangster(new Vector2(650, 218), 4.5f, false);
         }
     }
 }

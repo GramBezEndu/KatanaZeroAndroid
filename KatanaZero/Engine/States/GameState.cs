@@ -33,7 +33,7 @@ namespace Engine.States
         protected TiledMapRenderer mapRenderer;
         protected SpriteBatch mapBatch;
         protected RenderTarget2D mapLayerRenderTarget;
-        protected Camera camera;
+        public Camera Camera { get; protected set; }
         protected Player player;
         protected PhysicsManager physicsManager;
         protected List<IComponent> gameComponents = new List<IComponent>();
@@ -104,8 +104,9 @@ namespace Engine.States
 
             var hidingSpots = CreateHidingSpots();
             SetHidingSpots(hidingSpots);
-
+            SpawnEntitiesBeforePlayer();
             CreatePlayer();
+            SpawnEntitiesAfterPlayer();
             CreateCamera(gameReference);
             AddGameOverComponents();
             AddTimeIsUpComponents();
@@ -117,6 +118,9 @@ namespace Engine.States
             OnCompleted += (o, e) => ShowStageClearComponents();
             OnCompleted += (o, e) => AddHighscore();
         }
+
+        internal virtual void SpawnEntitiesBeforePlayer() { }
+        internal virtual void SpawnEntitiesAfterPlayer() { }
 
         public void SetHidingSpots(List<Rectangle> hidingSpots)
         {
@@ -268,8 +272,8 @@ namespace Engine.States
 
         private void CreateCamera(Game1 gameReference)
         {
-            camera = new Camera(gameReference, mapSize, player);
-            gameComponents.Add(camera);
+            Camera = new Camera(gameReference, mapSize, player);
+            gameComponents.Add(Camera);
         }
 
         protected void AddMoveableBody(ICollidable body)
@@ -299,6 +303,7 @@ namespace Engine.States
                 Color = Color.OrangeRed
             };
             player.HiddenNotification.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1 }, frameDuration: 0.2f));
+            gameComponents.Add(player);
             physicsManager.AddMoveableBody(player);
         }
 
@@ -356,11 +361,13 @@ namespace Engine.States
                 GameOver = true;
                 ShowPlayerSpottedGameOverComponents();
             }
-            camera.Update(gameTime);
+            Camera.Update(gameTime);
             mapRenderer.Update(gameTime);
             if(!GameOver && !Completed)
                 StageTimer?.Update(gameTime);
-            foreach (var c in gameComponents)
+            //TODO: Refactor
+            //ICollidable are being updated in physics manager (avoids updating twice)
+            foreach (var c in gameComponents.Where(x => !(x is ICollidable)))
                 c.Update(gameTime);
             UpdateTimerSize();
             if (GameOver)
@@ -382,7 +389,7 @@ namespace Engine.States
             {
                 foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed))
                 {
-                    player.AddIntent(new GoToIntent(inputManager, camera, player, inputManager.ScreenToWorld(touch.Position, camera)));
+                    player.AddIntent(new GoToIntent(inputManager, Camera, player, inputManager.ScreenToWorld(touch.Position, Camera)));
                 }
             }
         }
@@ -423,18 +430,17 @@ namespace Engine.States
 
         protected override void DrawToRenderTarget(GameTime gameTime)
         {
-            mapBatch.Begin(transformMatrix: camera.ViewMatrix);
+            mapBatch.Begin(transformMatrix: Camera.ViewMatrix);
             graphicsDevice.SetRenderTarget(mapLayerRenderTarget);
             //Important -> removes weird lines
             graphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
             graphicsDevice.Clear(Color.Black);
-            mapRenderer.Draw(camera.ViewMatrix);
+            mapRenderer.Draw(Camera.ViewMatrix);
             foreach(var c in gameComponents)
             {
                 if (c is IDrawableComponent drawable)
                     drawable.Draw(gameTime, mapBatch);
             }
-            player.Draw(gameTime, mapBatch);
             mapBatch.End();
             graphicsDevice.SetRenderTarget(null);
             base.DrawToRenderTarget(gameTime);

@@ -13,8 +13,8 @@ namespace Engine.Sprites.Enemies
     {
         public Gangster(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p) : base(spritesheet, map, scale, p)
         {
-            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
-            AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 8, 9, 10, 11, 12, 13, 14, 15 }, frameDuration: 0.1f));
+            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.05f));
+            AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 8, 9, 10, 11, 12, 13, 14, 15 }, frameDuration: 0.05f));
             PlayAnimation("Idle");
         }
 

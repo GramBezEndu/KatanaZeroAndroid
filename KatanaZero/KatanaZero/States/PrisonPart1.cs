@@ -28,13 +28,6 @@ namespace KatanaZero.States
             AmbientColor = new Color(150, 150, 150);
             game.PlaySong(content.Load<Song>("Songs/Prison"));
 
-            SpawnPatrollingGangster(new Vector2(510, 200), 3f);
-            SpawnPatrollingGangster(new Vector2(500, 200), 2.5f, false);
-            //SpawnPatrollingGangster(new Vector2(800, 200), 2f);
-            SpawnPatrollingGangster(new Vector2(800, 200), 2.5f);
-            SpawnPatrollingGangster(new Vector2(1120, 200), 2f);
-            SpawnPatrollingGangster(new Vector2(1200, 200), 3f, false);
-
             AddGoToArrowRight(new Vector2(1460, 310));
             gameComponents.Add(new Script()
             {
@@ -57,6 +50,8 @@ namespace KatanaZero.States
                     //Setup stage timer manually
                     nextStage.LevelTimeInSeconds = this.LevelTimeInSeconds;
                     nextStage.StageTimer.CurrentInterval = this.StageTimer.CurrentInterval;
+                    //Change camera origin
+                    nextStage.Camera.MultiplierOriginX = 0.5f;
 
                     game.ChangeState(nextStage);
                     (sender as Script).Enabled = false;
@@ -118,6 +113,15 @@ namespace KatanaZero.States
         internal override void RestartLevel()
         {
             game.ChangeState(new PrisonPart1(game, false));
+        }
+
+        internal override void SpawnEntitiesAfterPlayer()
+        {
+            SpawnPatrollingGangster(new Vector2(510, 200), 3f);
+            SpawnPatrollingGangster(new Vector2(500, 200), 2.5f, false);
+            SpawnPatrollingGangster(new Vector2(800, 200), 2.5f);
+            SpawnPatrollingGangster(new Vector2(1120, 200), 2f);
+            SpawnPatrollingGangster(new Vector2(1200, 200), 3f, false);
         }
     }
 }
