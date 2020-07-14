@@ -12,7 +12,7 @@ namespace Engine.Physics
     {
         List<ICollidable> collidableBodies;
         List<Rectangle> mapCollision;
-        List<Sprite> hidingSpots;
+        List<Rectangle> hidingSpots;
 
         public void Update(GameTime gameTime)
         {
@@ -173,7 +173,7 @@ namespace Engine.Physics
             mapCollision = rectangles;
         }
 
-        public void SetHidingSpots(List<Sprite> hidingObstacles)
+        public void SetHidingSpots(List<Rectangle> hidingObstacles)
         {
             hidingSpots = hidingObstacles;
         }
@@ -207,7 +207,7 @@ namespace Engine.Physics
         {
             foreach (var hidingSpot in hidingSpots)
             {
-                if (p.CollisionRectangle.Intersects(hidingSpot.Rectangle))
+                if (hidingSpot.Contains(p.CollisionRectangle.Center))
                     return true;
             }
             return false;

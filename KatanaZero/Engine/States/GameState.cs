@@ -41,7 +41,7 @@ namespace Engine.States
         protected List<IComponent> timeIsUpComponents = new List<IComponent>();
         protected List<IComponent> playerSpottedComponents = new List<IComponent>();
         protected List<IComponent> levelTitleComponents = new List<IComponent>();
-        public double LevelTimeInSeconds = 120;
+        public double LevelTimeInSeconds = 39;
         public GameTimer StageTimer;
         private readonly float timerScale = 2.5f;
         private Sprite timer;
@@ -104,7 +104,6 @@ namespace Engine.States
 
             var hidingSpots = CreateHidingSpots();
             SetHidingSpots(hidingSpots);
-            gameComponents.AddRange(hidingSpots);
 
             CreatePlayer();
             CreateCamera(gameReference);
@@ -119,14 +118,14 @@ namespace Engine.States
             OnCompleted += (o, e) => AddHighscore();
         }
 
-        public void SetHidingSpots(List<Sprite> hidingSpots)
+        public void SetHidingSpots(List<Rectangle> hidingSpots)
         {
             physicsManager.SetHidingSpots(hidingSpots);
         }
 
-        protected virtual List<Sprite> CreateHidingSpots()
+        protected virtual List<Rectangle> CreateHidingSpots()
         {
-            return new List<Sprite>();
+            return ReadHidingSpotsFromMap();
         }
 
         internal abstract Vector2 SetMapSize();
@@ -359,22 +358,23 @@ namespace Engine.States
             }
             camera.Update(gameTime);
             mapRenderer.Update(gameTime);
-            foreach (var c in gameComponents)
-                c.Update(gameTime);
             if(!GameOver && !Completed)
                 StageTimer?.Update(gameTime);
+            foreach (var c in gameComponents)
+                c.Update(gameTime);
             UpdateTimerSize();
             if (GameOver)
             {
                 player.Color = Color.Red;
                 if (inputManager.AnyTapDetected() || inputManager.ShakeDetected())
                 {
-                    Type type = this.GetType();
-                    game.ChangeState((GameState)Activator.CreateInstance(type, game, false));
+                    RestartLevel();
                 }
             }
             base.Update(gameTime);
         }
+
+        internal abstract void RestartLevel();
 
         protected void PlayerClick()
         {
@@ -458,6 +458,18 @@ namespace Engine.States
         private List<Rectangle> GetCollisionRectangles()
         {
             TiledMapObjectLayer collisionLayer = map.GetLayer<TiledMapObjectLayer>("Collision");
+            TiledMapObject[] collisionObjects = collisionLayer.Objects;
+            List<Rectangle> rectangles = new List<Rectangle>();
+            foreach (var collisionObject in collisionObjects)
+            {
+                rectangles.Add(new Rectangle((int)collisionObject.Position.X, (int)collisionObject.Position.Y, (int)collisionObject.Size.Width, (int)collisionObject.Size.Height));
+            }
+            return rectangles;
+        }
+
+        protected List<Rectangle> ReadHidingSpotsFromMap()
+        {
+            TiledMapObjectLayer collisionLayer = map.GetLayer<TiledMapObjectLayer>("HidingSpots");
             TiledMapObject[] collisionObjects = collisionLayer.Objects;
             List<Rectangle> rectangles = new List<Rectangle>();
             foreach (var collisionObject in collisionObjects)

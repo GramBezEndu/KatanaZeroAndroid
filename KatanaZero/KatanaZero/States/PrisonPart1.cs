@@ -44,46 +44,51 @@ namespace KatanaZero.States
 
         private void AutoRun(object sender, EventArgs e)
         {
-            if(player.Position.X > 1400f)
+            if (!GameOver)
             {
-                player.ResetIntent();
-                player.MoveRight();
-            }
-            if(player.Position.X > 1500f)
-            {
-                var nextStage = new PrisonPart2(game, false);
-                //Transfer stage timer and level time
-                nextStage.LevelTimeInSeconds = this.LevelTimeInSeconds;
-                nextStage.StageTimer = this.StageTimer;
+                if (player.Position.X > 1400f)
+                {
+                    player.ResetIntent();
+                    player.MoveRight();
+                }
+                if (player.Position.X > 1500f)
+                {
+                    var nextStage = new PrisonPart2(game, false);
+                    //Setup stage timer manually
+                    nextStage.LevelTimeInSeconds = this.LevelTimeInSeconds;
+                    nextStage.StageTimer.CurrentInterval = this.StageTimer.CurrentInterval;
 
-                game.ChangeState(nextStage);
-                (sender as Script).Enabled = false;
+                    game.ChangeState(nextStage);
+                    (sender as Script).Enabled = false;
+                }
             }
         }
 
         public override string LevelName { get { return "PRISON"; } }
 
-        protected override List<Sprite> CreateHidingSpots()
+        protected override List<Rectangle> CreateHidingSpots()
         {
-            return new List<Sprite>()
+            List<Rectangle> hidingSpots = new List<Rectangle>()
             {
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle6"), 180f),
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle3"), 400f),
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle4"), 430f),
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle5"), 600f),
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle5"), 650f),
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle5"), 700f),
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle3"), 950f),
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle1"), 985f),
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle1"), 1100f),
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle2"), 1160f),
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle7"), 1300f),
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle6"), 180f).Rectangle,
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle3"), 400f).Rectangle,
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle4"), 430f).Rectangle,
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle5"), 600f).Rectangle,
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle5"), 650f).Rectangle,
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle5"), 700f).Rectangle,
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle3"), 950f).Rectangle,
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle1"), 985f).Rectangle,
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle1"), 1100f).Rectangle,
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle2"), 1160f).Rectangle,
+                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle7"), 1300f).Rectangle,
             };
+            hidingSpots.AddRange(base.ReadHidingSpotsFromMap());
+            return hidingSpots;
         }
 
         public override void SetPlayerSpawnPoint()
         {
-            player.Position = new Vector2(10, 220);
+            player.Position = new Vector2(10, 270);
         }
 
         protected override void AddHighscore()
@@ -106,7 +111,13 @@ namespace KatanaZero.States
             var obstacle = new Sprite(texture);
             obstacle.Color = Color.Black;
             obstacle.Position = new Vector2(posX, FloorLevel - obstacle.Size.Y);
+            gameComponents.Add(obstacle);
             return obstacle;
+        }
+
+        internal override void RestartLevel()
+        {
+            game.ChangeState(new PrisonPart1(game, false));
         }
     }
 }

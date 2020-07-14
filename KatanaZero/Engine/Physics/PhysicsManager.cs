@@ -53,7 +53,7 @@ namespace Engine.Physics
             collisionManager.SetMapCollision(mapCollision);
         }
 
-        public void SetHidingSpots(List<Sprite> hidingObstacles)
+        public void SetHidingSpots(List<Rectangle> hidingObstacles)
         {
             collisionManager.SetHidingSpots(hidingObstacles);
         }

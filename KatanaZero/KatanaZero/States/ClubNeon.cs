@@ -219,5 +219,10 @@ namespace KatanaZero.States
         {
             player.Position = new Vector2(10, 375);
         }
+
+        internal override void RestartLevel()
+        {
+            game.ChangeState(new ClubNeon(game, false));
+        }
     }
 }

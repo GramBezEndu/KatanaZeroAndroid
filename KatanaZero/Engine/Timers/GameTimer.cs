@@ -10,8 +10,8 @@ namespace PlatformerEngine.Timers
     public class GameTimer : IComponent
     {
         public bool Enabled { get; set; } = true;
-        public double Interval { get; private set; }
-        public double CurrentInterval { get; private set; }
+        public double Interval { get; set; }
+        public double CurrentInterval { get; set; }
 
         public EventHandler OnTimedEvent;
 

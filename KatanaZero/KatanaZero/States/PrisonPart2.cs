@@ -38,6 +38,11 @@ namespace KatanaZero.States
             map = content.Load<TiledMap>("Maps/PrisonPart2/PrisonPart2");
         }
 
+        internal override void RestartLevel()
+        {
+            game.ChangeState(new PrisonPart1(game, false));
+        }
+
         internal override Vector2 SetMapSize()
         {
             return new Vector2(1480, 464);
