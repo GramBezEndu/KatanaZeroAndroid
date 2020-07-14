@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_smoke_appear_1</Key><Value>0 0 28 28</Value></Item>
+<Item><Key>spr_smoke_appear_2</Key><Value>29 0 28 28</Value></Item>
+<Item><Key>spr_smoke_dissolve_0</Key><Value>0 29 28 28</Value></Item>
+<Item><Key>spr_smoke_dissolve_1</Key><Value>29 29 28 28</Value></Item>
+<Item><Key>spr_smoke_dissolve_2</Key><Value>58 0 28 28</Value></Item>
+<Item><Key>spr_smoke_dissolve_3</Key><Value>58 29 28 28</Value></Item>
+<Item><Key>spr_smoke_dissolve_4</Key><Value>87 0 28 28</Value></Item>
+<Item><Key>spr_smoke_dissolve_5</Key><Value>87 29 28 28</Value></Item>
+<Item><Key>spr_smoke_dissolve_6</Key><Value>0 58 28 28</Value></Item>
+<Item><Key>spr_smoke_loop_0</Key><Value>0 87 28 28</Value></Item>
+<Item><Key>spr_smoke_loop_1</Key><Value>29 58 28 28</Value></Item>
+<Item><Key>spr_smoke_loop_2</Key><Value>58 58 28 28</Value></Item>
+<Item><Key>spr_smoke_loop_3</Key><Value>29 87 28 28</Value></Item>
+<Item><Key>spr_smoke_loop_4</Key><Value>58 87 28 28</Value></Item>
+<Item><Key>spr_smoke_loop_5</Key><Value>87 58 28 28</Value></Item>
+</Asset>
+</XnaContent>

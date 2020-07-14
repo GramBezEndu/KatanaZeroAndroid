@@ -491,6 +491,23 @@
 /processorParam:TextureFormat=Color
 /build:Obstacles/Obstacle7.png
 
+#begin Smoke/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Smoke/Map.xml
+
+#begin Smoke/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Smoke/Spritesheet.png
+
 #begin Songs/Club.mp3
 /importer:Mp3Importer
 /processor:SongProcessor

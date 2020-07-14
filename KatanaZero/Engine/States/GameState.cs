@@ -41,7 +41,7 @@ namespace Engine.States
         protected List<IComponent> timeIsUpComponents = new List<IComponent>();
         protected List<IComponent> playerSpottedComponents = new List<IComponent>();
         protected List<IComponent> levelTitleComponents = new List<IComponent>();
-        public double LevelTimeInSeconds = 120;
+        public virtual double LevelTimeInSeconds { get { return 120; } }
         public GameTimer StageTimer;
         private readonly float timerScale = 2.5f;
         private Sprite timer;

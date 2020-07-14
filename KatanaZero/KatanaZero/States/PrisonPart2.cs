@@ -17,6 +17,8 @@ namespace KatanaZero.States
 {
     public class PrisonPart2 : GameState
     {
+        //Should be the same time across all prison parts
+        public override double LevelTimeInSeconds { get { return 180; } }
         public PrisonPart2(Game1 gameReference, bool showLevelTitle) : base(gameReference, showLevelTitle)
         {
         }
@@ -53,9 +55,10 @@ namespace KatanaZero.States
             SpawnPatrollingGangster(new Vector2(510, 120), 3f);
             SpawnPatrollingGangster(new Vector2(600, 120), 2.5f, false);
 
-            SpawnPatrollingGangster(new Vector2(180, 340), 1.5f, false);
-            SpawnPatrollingGangster(new Vector2(480, 340), 2f);
-            SpawnPatrollingGangster(new Vector2(580, 340), 2.5f);
+            SpawnPatrollingGangster(new Vector2(200, 340), 2f, false);
+            SpawnPatrollingGangster(new Vector2(480, 340), 2.5f);
+            SpawnPatrollingGangster(new Vector2(600, 340), 2.5f, false);
+            AddGoToArrowDown(new Vector2(46, 336));
         }
     }
 }

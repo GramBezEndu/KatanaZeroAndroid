@@ -23,6 +23,8 @@ namespace KatanaZero.States
     public class PrisonPart1 : GameState
     {
         protected override int FloorLevel { get { return 320; } }
+        //Should be the same time across all prison parts
+        public override double LevelTimeInSeconds { get { return 180; } }
         public PrisonPart1(Game1 gameReference, bool showLevelTitle) : base(gameReference, showLevelTitle)
         {
             AmbientColor = new Color(150, 150, 150);
@@ -48,7 +50,6 @@ namespace KatanaZero.States
                 {
                     var nextStage = new PrisonPart2(game, false);
                     //Setup stage timer manually
-                    nextStage.LevelTimeInSeconds = this.LevelTimeInSeconds;
                     nextStage.StageTimer.CurrentInterval = this.StageTimer.CurrentInterval;
                     //Change camera origin
                     nextStage.Camera.MultiplierOriginX = 0.5f;
