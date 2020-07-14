@@ -25,7 +25,7 @@ namespace KatanaZero.States
 
         public override void SetPlayerSpawnPoint()
         {
-            player.Position = new Vector2(40, 170);
+            player.Position = new Vector2(30, 140);
         }
 
         protected override void AddHighscore()
@@ -45,13 +45,17 @@ namespace KatanaZero.States
 
         internal override Vector2 SetMapSize()
         {
-            return new Vector2(1132, 446);
+            return new Vector2(1132, 410);
         }
 
         internal override void SpawnEntitiesAfterPlayer()
         {
-            SpawnPatrollingGangster(new Vector2(510, 170), 3f);
-            SpawnPatrollingGangster(new Vector2(600, 170), 2.5f, false);
+            SpawnPatrollingGangster(new Vector2(510, 120), 3f);
+            SpawnPatrollingGangster(new Vector2(600, 120), 2.5f, false);
+
+            SpawnPatrollingGangster(new Vector2(180, 340), 1.5f, false);
+            SpawnPatrollingGangster(new Vector2(480, 340), 2f);
+            SpawnPatrollingGangster(new Vector2(580, 340), 2.5f);
         }
     }
 }
