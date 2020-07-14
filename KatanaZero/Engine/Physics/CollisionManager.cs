@@ -215,6 +215,8 @@ namespace Engine.Physics
 
         public bool Spotted(Player p)
         {
+            if (p.Hidden)
+                return false;
             foreach(var body in collidableBodies)
             {
                 if (p == body || !(body is Enemy enemy))

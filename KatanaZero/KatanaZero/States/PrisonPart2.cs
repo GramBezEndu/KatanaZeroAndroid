@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Engine;
 using Engine.States;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.Tiled;
@@ -21,6 +22,22 @@ namespace KatanaZero.States
         public override double LevelTimeInSeconds { get { return 180; } }
         public PrisonPart2(Game1 gameReference, bool showLevelTitle) : base(gameReference, showLevelTitle)
         {
+            gameComponents.Add(new Script()
+            {
+                OnUpdate = EndLevelScript,
+            });
+        }
+
+        private void EndLevelScript(object sender, EventArgs e)
+        {
+            if (!GameOver && !Completed)
+            {
+                if (player.Position.X < 55f && player.Position.Y > 320f)
+                {
+                    player.Hidden = true;
+                    Completed = true;
+                }
+            }
         }
 
         public override string LevelName { get { return "PRISON"; } }
@@ -57,7 +74,7 @@ namespace KatanaZero.States
 
             SpawnPatrollingGangster(new Vector2(200, 340), 2f, false);
             SpawnPatrollingGangster(new Vector2(480, 340), 2.5f);
-            SpawnPatrollingGangster(new Vector2(600, 340), 2.5f, false);
+            SpawnPatrollingGangster(new Vector2(620, 340), 2.5f, false);
             AddGoToArrowDown(new Vector2(46, 336));
         }
     }
