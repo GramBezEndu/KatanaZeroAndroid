@@ -84,6 +84,8 @@ namespace Engine.States
             Sounds.Add("WeaponSlash", content.Load<SoundEffect>("Sounds/WeaponSlash"));
             Sounds.Add("OptionSelect", content.Load<SoundEffect>("Sounds/OptionSelect"));
             Sounds.Add("LevelFail", content.Load<SoundEffect>("Sounds/LevelFail"));
+            Sounds.Add("BottleThrow", content.Load<SoundEffect>("Sounds/BottleThrow"));
+            Sounds.Add("GlassBreak", content.Load<SoundEffect>("Sounds/GlassBreak"));
         }
 
         private void CreateRenderTarget()

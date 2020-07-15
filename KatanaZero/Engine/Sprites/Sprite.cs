@@ -51,7 +51,7 @@ namespace Engine.Sprites
             Texture = t;
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if(!Hidden)
                 spriteBatch.Draw(Texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects, 0f);

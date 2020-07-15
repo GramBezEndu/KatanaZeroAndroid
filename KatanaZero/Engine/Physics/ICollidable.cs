@@ -10,6 +10,7 @@ namespace Engine.Physics
         Idle,
         WalkRight,
         WalkLeft,
+        InAir,
         Attack,
         Dance,
         Hidden,
@@ -17,6 +18,7 @@ namespace Engine.Physics
 
     public interface ICollidable : IDrawableComponent
     {
+        EventHandler OnMapCollision { get; set; }
         MoveableBodyStates MoveableBodyState { get; set; }
         Vector2 Velocity { get; set; }
         Vector2 CollisionSize { get; }

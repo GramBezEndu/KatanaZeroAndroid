@@ -390,8 +390,23 @@ namespace Engine.States
                 foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed))
                 {
                     player.AddIntent(new GoToIntent(inputManager, Camera, player, inputManager.ScreenToWorld(touch.Position, Camera)));
+                    ThrowBottle();
                 }
             }
+        }
+
+        private void ThrowBottle()
+        {
+            var texture = content.Load<Texture2D>("Textures/Bottle");
+            bool throwingLeft = player.SpriteEffects == SpriteEffects.None ? false : true;
+            var bottle = new Bottle(texture, new Vector2(0.5f, 0.5f), throwingLeft)
+            {
+                Position = throwingLeft ? new Vector2(player.Rectangle.Left, player.Position.Y + 10) : new Vector2(player.Rectangle.Right, player.Position.Y + 10),
+                Origin = new Vector2(texture.Width / 2, texture.Height / 2),
+                Rotation = 0.349066f,
+            };
+            physicsManager.AddMoveableBody(bottle);
+            gameComponents.Add(bottle);
         }
 
         protected abstract void AddHighscore();

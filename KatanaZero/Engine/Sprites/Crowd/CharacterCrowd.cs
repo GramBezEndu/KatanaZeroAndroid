@@ -22,6 +22,8 @@ namespace Engine.Sprites.Crowd
 
         public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
 
+        public EventHandler OnMapCollision { get; set; }
+
         public void PrepareMove(GameTime gameTime)
         {
 

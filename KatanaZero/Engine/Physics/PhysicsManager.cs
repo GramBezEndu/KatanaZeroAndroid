@@ -95,7 +95,11 @@ namespace Engine.Physics
 
         private void UpdateBodyState(ICollidable c)
         {
-            if (c.Velocity.X > 0)
+            if (collisionManager.InAir(c))
+            {
+                c.MoveableBodyState = MoveableBodyStates.InAir;
+            }
+            else if (c.Velocity.X > 0)
             {
                 c.MoveableBodyState = MoveableBodyStates.WalkRight;
             }

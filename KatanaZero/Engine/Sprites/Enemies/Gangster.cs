@@ -30,6 +30,7 @@ namespace Engine.Sprites.Enemies
                     _moveableBodyState = value;
                     switch (value)
                     {
+                        case MoveableBodyStates.InAir:
                         case MoveableBodyStates.Idle:
                             PlayAnimation("Idle");
                             break;

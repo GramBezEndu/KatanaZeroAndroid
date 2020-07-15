@@ -34,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SpecialEffects\JumpingEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SpecialEffects\SpecialEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AnimatedObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Bottle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\CharacterCrowd.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl2.cs" />

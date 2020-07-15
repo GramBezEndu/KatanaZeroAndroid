@@ -23,6 +23,8 @@ namespace Engine.Sprites
         public abstract Vector2 CollisionSize { get; }
         public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
 
+        public EventHandler OnMapCollision { get; set; }
+
         public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p) : base(spritesheet, map, scale)
         {
             player = p;
@@ -64,6 +66,7 @@ namespace Engine.Sprites
                     PatrollingSprite.SpriteEffects = SpriteEffects.FlipHorizontally;
                     PatrollingSprite.Position = new Vector2(this.Position.X - PatrollingSprite.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
                     break;
+                case MoveableBodyStates.InAir:
                 case MoveableBodyStates.Idle:
                     //Idle right
                     if (this.SpriteEffects == SpriteEffects.None)

@@ -34,6 +34,7 @@ namespace Engine
                     _moveableBodyState = value;
                     switch (value)
                     {
+                        case MoveableBodyStates.InAir:
                         case MoveableBodyStates.Idle:
                             HiddenNotification.Hidden = true;
                             Color = Color.White;
@@ -84,6 +85,8 @@ namespace Engine
         public Vector2 CollisionSize { get { return new Vector2(24, 35); } }
 
         public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
+
+        public EventHandler OnMapCollision { get; set; }
 
         public Player(Texture2D characterSpritesheetTexture, Dictionary<string, Rectangle> characterMap, InputManager input, Vector2 scale) : base(characterSpritesheetTexture, characterMap, scale)
         {

@@ -50,22 +50,26 @@ namespace Engine.Physics
                 if (distanceX == 0 && distanceY == 0)
                 {
                     c.Velocity = new Vector2(0, c.Velocity.Y);
+                    c.OnMapCollision?.Invoke(this, new EventArgs());
                     return;
                 }
                 if (distanceY == 0)
                 {
                     c.Velocity = new Vector2(distanceX, distanceX / velocityProportion);
+                    c.OnMapCollision?.Invoke(this, new EventArgs());
                     return;
                 }
                 float distanceProportion = distanceX / distanceY;
                 if (Math.Abs(velocityProportion) < Math.Abs(distanceProportion))
                 {
                     c.Velocity = new Vector2(distanceX, distanceX / velocityProportion);
+                    c.OnMapCollision?.Invoke(this, new EventArgs());
                     return;
                 }
                 else
                 {
                     c.Velocity = new Vector2(distanceY * velocityProportion, distanceY);
+                    c.OnMapCollision?.Invoke(this, new EventArgs());
                     return;
                 }
             }
@@ -95,6 +99,7 @@ namespace Engine.Physics
                     if (distanceX >= 0 && distanceX < c.Velocity.X)
                     {
                         c.Velocity = new Vector2(distanceX, c.Velocity.Y);
+                        c.OnMapCollision?.Invoke(this, new EventArgs());
                     }
                 }
                 else if (c.Velocity.X < 0)
@@ -103,6 +108,7 @@ namespace Engine.Physics
                     if (distanceX >= 0 && distanceX < -c.Velocity.X)
                     {
                         c.Velocity = new Vector2(-distanceX, c.Velocity.Y);
+                        c.OnMapCollision?.Invoke(this, new EventArgs());
                     }
                 }
             }
@@ -118,6 +124,7 @@ namespace Engine.Physics
                     if (distanceY >= 0 && distanceY < c.Velocity.Y)
                     {
                         c.Velocity = new Vector2(c.Velocity.X, distanceY);
+                        c.OnMapCollision?.Invoke(this, new EventArgs());
                     }
                 }
                 else if (c.Velocity.Y < 0)
@@ -126,6 +133,7 @@ namespace Engine.Physics
                     if (distanceY >= 0 && distanceY < -c.Velocity.Y)
                     {
                         c.Velocity = new Vector2(c.Velocity.X, -distanceY);
+                        c.OnMapCollision?.Invoke(this, new EventArgs());
                     }
                 }
             }
