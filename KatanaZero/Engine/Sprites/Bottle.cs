@@ -63,9 +63,9 @@ namespace Engine.Sprites
         public void PrepareMove(GameTime gameTime)
         {
             if (throwingLeft)
-                Velocity = new Vector2(-velocityX, 0.4f);
+                Velocity = new Vector2(-velocityX, 0.55f);
             else
-                Velocity = new Vector2(velocityX, 0.4f);
+                Velocity = new Vector2(velocityX, 0.55f);
         }
     }
 }
