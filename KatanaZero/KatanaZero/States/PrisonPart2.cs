@@ -67,6 +67,11 @@ namespace KatanaZero.States
             return new Vector2(1132, 410 + GameState.UI_BOTTOM_SIZE_Y);
         }
 
+        internal override void SpawnEntitiesBeforePlayer()
+        {
+            SpawnBottlePickUp(new Vector2(910, 360));
+        }
+
         internal override void SpawnEntitiesAfterPlayer()
         {
             SpawnPatrollingGangster(new Vector2(510, 120), 3f);

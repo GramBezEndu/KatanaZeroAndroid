@@ -127,5 +127,10 @@ namespace Engine.Sprites
             PatrollingSprite?.Draw(gameTime, spriteBatch);
             QuestionMark?.Draw(gameTime, spriteBatch);
         }
+
+        public void NotifyHorizontalCollision(GameTime gameTime, object collider)
+        {
+            
+        }
     }
 }

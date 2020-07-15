@@ -48,6 +48,8 @@ namespace Engine.States
         private bool gameOver;
         public Color AmbientColor = Color.White;
 
+        protected List<IDrawableComponent> pickUpComponents = new List<IDrawableComponent>();
+
         private RectangleButton throwButton;
         private IButton weaponSlotButton;
         private Sprite bottleSprite;
@@ -102,6 +104,7 @@ namespace Engine.States
 
         public GameState(Game1 gameReference, bool showLevelTitle) : base(gameReference)
         {
+            CreatePickUpComponents();
             CreateBottleThrowUI();
             mapBatch = new SpriteBatch(graphicsDevice);
             mapLayerRenderTarget = new RenderTarget2D(graphicsDevice, (int)game.LogicalSize.X, (int)game.LogicalSize.Y);
@@ -125,6 +128,27 @@ namespace Engine.States
             OnCompleted += (o, e) => AddLevelCompleteComponents();
             OnCompleted += (o, e) => ShowStageClearComponents();
             OnCompleted += (o, e) => AddHighscore();
+        }
+
+        private void CreatePickUpComponents()
+        {
+            var pickedUpText = new Text(fonts["XirodMedium"], "PICKED UP BOTTLE")
+            {
+                Hidden = true,
+            };
+            pickedUpText.Position = new Vector2(game.LogicalSize.X / 2 - pickedUpText.Size.X / 2, game.LogicalSize.Y * 0.3f);
+            Vector2 enlarged = new Vector2(20, 20);
+            var rect = new DrawableRectangle(new Rectangle(0, 0, (int)(pickedUpText.Size.X + enlarged.X), (int)(pickedUpText.Size.Y + enlarged.Y)))
+            {
+                Hidden = true,
+                Filled = true,
+                Color = Color.Black,
+            };
+            rect.Position = new Vector2(pickedUpText.Position.X - enlarged.X / 2, pickedUpText.Position.Y - enlarged.Y / 2);
+            pickUpComponents.Add(rect);
+            pickUpComponents.Add(pickedUpText);
+
+            uiComponents.AddRange(pickUpComponents);
         }
 
         private void CreateBottleThrowUI()
@@ -595,17 +619,32 @@ namespace Engine.States
 
         protected void SpawnBottlePickUp(Vector2 position)
         {
-            var bottle = new BottlePickUp(content.Load<Texture2D>("Textures/Bottle"), new Vector2(0.5f, 0.5f))
+            var bottle = new BottlePickUp(this, content.Load<Texture2D>("Textures/Bottle"), new Vector2(0.5f, 0.5f))
             {
                 Position = position,
             };
-            gameComponents.Add(bottle);
-            physicsManager.AddMoveableBody(bottle);
 
             var pickUpArrow = new PickUpArrow(content.Load<Texture2D>("PickUpArrow/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("PickUpArrow/Map"), Vector2.One);
             pickUpArrow.Position = new Vector2(bottle.CollisionRectangle.Center.X - pickUpArrow.Size.X / 2 + 2f, bottle.Position.Y - pickUpArrow.Size.Y - 3);
             pickUpArrow.AddSpecialEffect(new JumpingEffect());
-            gameComponents.Add(pickUpArrow);
+            bottle.PickUpArrow = pickUpArrow;
+
+            gameComponents.Add(bottle);
+            physicsManager.AddMoveableBody(bottle);
+        }
+
+        public void PickUpBottle()
+        {
+            foreach (var c in pickUpComponents)
+                c.Hidden = false;
+            var hideTimer = new GameTimer(3f);
+            hideTimer.OnTimedEvent = (o, e) =>
+            {
+                foreach (var c in pickUpComponents)
+                    c.Hidden = true;
+                hideTimer.Enabled = false;
+            };
+            gameComponents.Add(hideTimer);
         }
     }
 }

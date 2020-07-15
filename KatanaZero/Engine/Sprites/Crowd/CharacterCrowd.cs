@@ -24,6 +24,11 @@ namespace Engine.Sprites.Crowd
 
         public EventHandler OnMapCollision { get; set; }
 
+        public void NotifyHorizontalCollision(GameTime gameTime, object collider)
+        {
+            
+        }
+
         public void PrepareMove(GameTime gameTime)
         {
 

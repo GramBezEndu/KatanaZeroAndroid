@@ -123,7 +123,6 @@ namespace KatanaZero.States
             SpawnPatrollingGangster(new Vector2(800, 200), 2.5f);
             SpawnPatrollingGangster(new Vector2(1120, 200), 2f);
             SpawnPatrollingGangster(new Vector2(1200, 200), 3f, false);
-            SpawnBottlePickUp(new Vector2(300, 300));
         }
     }
 }

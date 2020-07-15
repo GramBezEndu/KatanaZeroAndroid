@@ -29,6 +29,7 @@ namespace Engine.Physics
                     CheckDiagonal(gameTime, c, s);
                 }
             }
+            CollisionBetweenCollidables(gameTime);
         }
 
         private void CheckDiagonal(GameTime gameTime, ICollidable c, Rectangle s)
@@ -199,6 +200,23 @@ namespace Engine.Physics
                 }
             }
             return true;
+        }
+
+        private void CollisionBetweenCollidables(GameTime gameTime)
+        {
+            foreach (var c1 in collidableBodies)
+            {
+                foreach (var c2 in collidableBodies)
+                {
+                    if (c1 == c2)
+                        break;
+                    if (c1.Rectangle.Intersects(c2.Rectangle))
+                    {
+                        c1.NotifyHorizontalCollision(gameTime, c2);
+                        c2.NotifyHorizontalCollision(gameTime, c1);
+                    }
+                }
+            }
         }
 
         public bool InDancingGroup(Player p)

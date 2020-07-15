@@ -88,7 +88,7 @@ namespace Engine
 
         public EventHandler OnMapCollision { get; set; }
 
-        public bool HasBottle { get; set; } = true;
+        public bool HasBottle { get; set; }
 
         public Player(Texture2D characterSpritesheetTexture, Dictionary<string, Rectangle> characterMap, InputManager input, Vector2 scale) : base(characterSpritesheetTexture, characterMap, scale)
         {
@@ -161,6 +161,11 @@ namespace Engine
         public void PrepareMove(GameTime gameTime)
         {
             ManagePlayerIntent(gameTime);
+        }
+
+        public void NotifyHorizontalCollision(GameTime gameTime, object collider)
+        {
+            
         }
     }
 }

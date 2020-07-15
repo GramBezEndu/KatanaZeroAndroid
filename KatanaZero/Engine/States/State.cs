@@ -54,6 +54,7 @@ namespace Engine.States
             fonts["Standard"] = content.Load<SpriteFont>("Font");
             fonts["Small"] = content.Load<SpriteFont>("FontSmall");
             fonts["Big"] = content.Load<SpriteFont>("FontBig");
+            fonts["XirodMedium"] = content.Load<SpriteFont>("XirodMedium");
         }
 
         private void LoadCommonTextures()
@@ -86,6 +87,7 @@ namespace Engine.States
             Sounds.Add("LevelFail", content.Load<SoundEffect>("Sounds/LevelFail"));
             Sounds.Add("BottleThrow", content.Load<SoundEffect>("Sounds/BottleThrow"));
             Sounds.Add("GlassBreak", content.Load<SoundEffect>("Sounds/GlassBreak"));
+            Sounds.Add("PickUp", content.Load<SoundEffect>("Sounds/KeycardPickUp"));
         }
 
         private void CreateRenderTarget()

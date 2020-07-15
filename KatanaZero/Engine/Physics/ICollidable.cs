@@ -24,5 +24,6 @@ namespace Engine.Physics
         Vector2 CollisionSize { get; }
         Rectangle CollisionRectangle { get; }
         void PrepareMove(GameTime gameTime);
+        void NotifyHorizontalCollision(GameTime gameTime, object collider);
     }
 }

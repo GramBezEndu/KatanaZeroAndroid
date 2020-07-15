@@ -67,5 +67,10 @@ namespace Engine.Sprites
             else
                 Velocity = new Vector2(velocityX, 0.55f);
         }
+
+        public void NotifyHorizontalCollision(GameTime gameTime, object collider)
+        {
+
+        }
     }
 }
