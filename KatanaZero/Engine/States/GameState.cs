@@ -48,6 +48,13 @@ namespace Engine.States
         private bool gameOver;
         public Color AmbientColor = Color.White;
 
+        private IButton throwButton;
+        private IButton weaponSlotButton;
+        private Sprite bottleSprite;
+        public const float UI_BOTTOM_SIZE_Y = 50f;
+
+        protected List<IComponent> uiBottom = new List<IComponent>();
+
         public EventHandler OnCompleted { get; set; }
         private bool completed;
 
@@ -95,6 +102,7 @@ namespace Engine.States
 
         public GameState(Game1 gameReference, bool showLevelTitle) : base(gameReference)
         {
+            CreateBottleThrowUI();
             mapBatch = new SpriteBatch(graphicsDevice);
             mapLayerRenderTarget = new RenderTarget2D(graphicsDevice, (int)game.LogicalSize.X, (int)game.LogicalSize.Y);
             LoadMap();
@@ -112,11 +120,39 @@ namespace Engine.States
             AddTimeIsUpComponents();
             AddHud();
             CreateLevelTimer();
-            if(showLevelTitle)
+            if (showLevelTitle)
                 CreateLevelTitleComponents();
             OnCompleted += (o, e) => AddLevelCompleteComponents();
             OnCompleted += (o, e) => ShowStageClearComponents();
             OnCompleted += (o, e) => AddHighscore();
+        }
+
+        private void CreateBottleThrowUI()
+        {
+            throwButton = new RectangleButton(inputManager, new Rectangle(0, 0, 240, 72), fonts["Standard"], "THROW")
+            {
+                OnClick = (o, e) => ThrowBottle(),
+            };
+            throwButton.Position = new Vector2(game.LogicalSize.X - throwButton.Size.X, game.LogicalSize.Y - throwButton.Size.Y);
+
+            weaponSlotButton = new TextureButton(inputManager, content.Load<Texture2D>("Textures/HudWeapon"), new Vector2(3f, 3f))
+            {
+                OnClick = (o, e) => ThrowBottle(),
+            };
+            weaponSlotButton.Position = new Vector2(throwButton.Rectangle.Left - weaponSlotButton.Size.X - 8, throwButton.Rectangle.Center.Y - weaponSlotButton.Size.Y / 2);
+
+            bottleSprite = new Sprite(content.Load<Texture2D>("Textures/Bottle"), new Vector2(1.3f, 1.3f));
+            bottleSprite.Position = new Vector2(weaponSlotButton.Rectangle.Center.X - bottleSprite.Size.X / 2, weaponSlotButton.Rectangle.Center.Y - bottleSprite.Size.Y / 2);
+
+            var hudBackground = new Sprite(content.Load<Texture2D>("Textures/HudBottom"), new Vector2(3f, 3.8f));
+            hudBackground.Position = new Vector2(weaponSlotButton.Position.X - 15f, game.LogicalSize.Y - hudBackground.Size.Y);
+
+            uiBottom.Add(hudBackground);
+            uiBottom.Add(throwButton);
+            uiBottom.Add(bottleSprite);
+            uiBottom.Add(weaponSlotButton);
+
+            uiComponents.AddRange(uiBottom);
         }
 
         internal virtual void SpawnEntitiesBeforePlayer() { }
@@ -354,16 +390,17 @@ namespace Engine.States
         {
             if (!GameOver)
                 PlayerClick();
+            ManageBottleVisibility();
             physicsManager.SetMapCollision(GetCollisionRectangles());
             physicsManager.Update(gameTime);
-            if(PlayerSpotted())
+            if (PlayerSpotted())
             {
                 GameOver = true;
                 ShowPlayerSpottedGameOverComponents();
             }
             Camera.Update(gameTime);
             mapRenderer.Update(gameTime);
-            if(!GameOver && !Completed)
+            if (!GameOver && !Completed)
                 StageTimer?.Update(gameTime);
             //TODO: Refactor
             //ICollidable are being updated in physics manager (avoids updating twice)
@@ -381,6 +418,18 @@ namespace Engine.States
             base.Update(gameTime);
         }
 
+        private void ManageBottleVisibility()
+        {
+            if (player.HasBottle)
+            {
+                bottleSprite.Hidden = false;
+            }
+            else
+            {
+                bottleSprite.Hidden = true;
+            }
+        }
+
         internal abstract void RestartLevel();
 
         protected void PlayerClick()
@@ -389,24 +438,36 @@ namespace Engine.States
             {
                 foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed))
                 {
-                    player.AddIntent(new GoToIntent(inputManager, Camera, player, inputManager.ScreenToWorld(touch.Position, Camera)));
-                    ThrowBottle();
+                    //We clicked to throw the bottle
+                    if (inputManager.RectangleWasJustClicked(weaponSlotButton.Rectangle) || inputManager.RectangleWasJustClicked(throwButton.Rectangle))
+                    {
+                        continue;
+                    }
+                    //We clicked to move
+                    else
+                    {
+                        player.AddIntent(new GoToIntent(inputManager, Camera, player, inputManager.ScreenToWorld(touch.Position, Camera)));
+                    }
                 }
             }
         }
 
         private void ThrowBottle()
         {
-            var texture = content.Load<Texture2D>("Textures/Bottle");
-            bool throwingLeft = player.SpriteEffects == SpriteEffects.None ? false : true;
-            var bottle = new Bottle(texture, new Vector2(0.5f, 0.5f), throwingLeft)
+            if (player.HasBottle)
             {
-                Position = throwingLeft ? new Vector2(player.Rectangle.Left, player.Position.Y + 10) : new Vector2(player.Rectangle.Right, player.Position.Y + 10),
-                Origin = new Vector2(texture.Width / 2, texture.Height / 2),
-                Rotation = 0.349066f,
-            };
-            physicsManager.AddMoveableBody(bottle);
-            gameComponents.Add(bottle);
+                var texture = content.Load<Texture2D>("Textures/Bottle");
+                bool throwingLeft = player.SpriteEffects == SpriteEffects.None ? false : true;
+                var bottle = new Bottle(texture, new Vector2(0.5f, 0.5f), throwingLeft)
+                {
+                    Position = throwingLeft ? new Vector2(player.Rectangle.Left, player.Position.Y + 10) : new Vector2(player.Rectangle.Right, player.Position.Y + 10),
+                    Origin = new Vector2(texture.Width / 2, texture.Height / 2),
+                    Rotation = 0.349066f,
+                };
+                physicsManager.AddMoveableBody(bottle);
+                gameComponents.Add(bottle);
+                player.HasBottle = false;
+            }
         }
 
         protected abstract void AddHighscore();
@@ -471,6 +532,10 @@ namespace Engine.States
             gangster.PatrollingSprite = new Sprite(content.Load<Texture2D>("Enemies/Triangle"), new Vector2(0.5f, 0.8f))
             {
                 Color = Color.DarkGreen * 0.5f,
+            };
+            gangster.QuestionMark = new Sprite(content.Load<Texture2D>("Enemies/Questionmark"))
+            {
+                Hidden = true,
             };
             gameComponents.Add(gangster);
             physicsManager.AddMoveableBody(gangster);

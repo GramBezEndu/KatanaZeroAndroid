@@ -88,6 +88,8 @@ namespace Engine
 
         public EventHandler OnMapCollision { get; set; }
 
+        public bool HasBottle { get; set; } = true;
+
         public Player(Texture2D characterSpritesheetTexture, Dictionary<string, Rectangle> characterMap, InputManager input, Vector2 scale) : base(characterSpritesheetTexture, characterMap, scale)
         {
             inputManager = input;

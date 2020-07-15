@@ -167,6 +167,18 @@
 /processorParam:TextureFormat=Color
 /build:Enemies/Officer/Spritesheet.png
 
+#begin Enemies/Questionmark.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Questionmark.png
+
 #begin Enemies/Triangle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -736,6 +748,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Hud.png
 
+#begin Textures/HudBottom.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/HudBottom.png
+
 #begin Textures/HudTimer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -747,6 +771,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/HudTimer.png
+
+#begin Textures/HudWeapon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/HudWeapon.png
 
 #begin Textures/JobFolderBack.png
 /importer:TextureImporter

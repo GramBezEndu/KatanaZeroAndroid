@@ -1,9 +1,11 @@
-﻿using Engine.Sprites;
+﻿using Engine.MoveStrategies;
+using Engine.Sprites;
 using Engine.Sprites.Crowd;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace Engine.Physics
@@ -239,6 +241,20 @@ namespace Engine.Physics
                 }
             }
             return false;
+        }
+
+        public void BottleBreak(Vector2 distractionPosition)
+        {
+            //Search for enemies in range (600, 60) and change their strategy
+            var searchRectangle = new Rectangle((int)(distractionPosition.X - 300), (int)(distractionPosition.Y - 30), 600, 60);
+            var enemies = collidableBodies.Where(x => x is Enemy && x.CollisionRectangle.Intersects(searchRectangle)).Cast<Enemy>().ToArray();
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                Enemy enemy = enemies[i];
+                var previousStrategy = enemy.CurrentStrategy;
+                //Adjust X position so enemies won't stop in the same place
+                enemy.CurrentStrategy = new Distracted(enemy, previousStrategy, new Vector2(distractionPosition.X + i * 30, distractionPosition.Y));
+            }
         }
     }
 }

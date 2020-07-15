@@ -99,7 +99,7 @@ namespace KatanaZero.States
 
         internal override Vector2 SetMapSize()
         {
-            return new Vector2(1480, 464);
+            return new Vector2(1480, 464 + GameState.UI_BOTTOM_SIZE_Y);
         }
 
         private Sprite SpawnObstacle(Texture2D texture, float posX)

@@ -33,6 +33,7 @@ namespace Engine.Sprites
             {
                 GameState.Sounds["GlassBreak"].Play();
                 Hidden = true;
+                (sender as CollisionManager).BottleBreak(Position);
             }
         }
 
@@ -47,15 +48,6 @@ namespace Engine.Sprites
             {
                 base.Update(gameTime);
                 increaseVelocityTimer.Update(gameTime);
-            }
-        }
-
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            if (!Hidden)
-            {
-                base.Draw(gameTime, spriteBatch);
-                spriteBatch.DrawRectangle(this.CollisionRectangle, Color.Red);
             }
         }
 

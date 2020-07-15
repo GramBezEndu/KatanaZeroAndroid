@@ -41,16 +41,22 @@ namespace Engine.Controls.Buttons
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            base.Draw(gameTime, spriteBatch);
-            message?.Draw(gameTime, spriteBatch);
+            if (!Hidden)
+            {
+                base.Draw(gameTime, spriteBatch);
+                message?.Draw(gameTime, spriteBatch);
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-            if (inputManager.RectangleWasJustClicked(this.Rectangle))
-                OnClick?.Invoke(this, new EventArgs());
-            message?.Update(gameTime);
+            if (!Hidden)
+            {
+                base.Update(gameTime);
+                if (inputManager.RectangleWasJustClicked(this.Rectangle))
+                    OnClick?.Invoke(this, new EventArgs());
+                message?.Update(gameTime);
+            }
         }
 
         public EventHandler OnClick { get; set; }
