@@ -503,6 +503,23 @@
 /processorParam:TextureFormat=Color
 /build:Obstacles/Obstacle7.png
 
+#begin PickUpArrow/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:PickUpArrow/Map.xml
+
+#begin PickUpArrow/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PickUpArrow/Spritesheet.png
+
 #begin Smoke/Map.xml
 /importer:XmlImporter
 /processor:PassThroughProcessor

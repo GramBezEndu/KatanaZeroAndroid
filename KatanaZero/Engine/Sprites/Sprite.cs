@@ -14,7 +14,7 @@ namespace Engine.Sprites
     /// </summary>
     public class Sprite : ISprite
     {
-        private List<SpecialEffect> specialEffects = new List<SpecialEffect>();
+        public List<SpecialEffect> SpecialEffects { get; set; } = new List<SpecialEffect>();
         public Vector2 Scale { get; set; } = Vector2.One;
         public bool Hidden { get; set; }
         public Vector2 Position { get; set; }
@@ -61,7 +61,7 @@ namespace Engine.Sprites
         {
             if (!Hidden)
             {
-                foreach(var effect in specialEffects)
+                foreach(var effect in SpecialEffects)
                 {
                     effect.Update(gameTime);
                 }
@@ -70,7 +70,7 @@ namespace Engine.Sprites
 
         public void AddSpecialEffect(SpecialEffect effect)
         {
-            specialEffects.Add(effect);
+            SpecialEffects.Add(effect);
             effect.AddTarget(this);
         }
     }

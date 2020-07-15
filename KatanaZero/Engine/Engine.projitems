@@ -36,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SpecialEffects\SpecialEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AnimatedObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Bottle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\BottlePickUp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\CharacterCrowd.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl2.cs" />
@@ -46,6 +47,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Enemy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\IInteractable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PickUpArrow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />

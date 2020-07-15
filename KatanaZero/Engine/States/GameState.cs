@@ -48,7 +48,7 @@ namespace Engine.States
         private bool gameOver;
         public Color AmbientColor = Color.White;
 
-        private IButton throwButton;
+        private RectangleButton throwButton;
         private IButton weaponSlotButton;
         private Sprite bottleSprite;
         public const float UI_BOTTOM_SIZE_Y = 50f;
@@ -132,7 +132,10 @@ namespace Engine.States
             throwButton = new RectangleButton(inputManager, new Rectangle(0, 0, 240, 72), fonts["Standard"], "THROW")
             {
                 OnClick = (o, e) => ThrowBottle(),
+                Filled = true,
+                Color = Color.Black * 0.1f,
             };
+            throwButton.Message.Color = /*Color.HotPink*/new Color(255, 97, 236);
             throwButton.Position = new Vector2(game.LogicalSize.X - throwButton.Size.X, game.LogicalSize.Y - throwButton.Size.Y);
 
             weaponSlotButton = new TextureButton(inputManager, content.Load<Texture2D>("Textures/HudWeapon"), new Vector2(3f, 3f))
@@ -454,7 +457,7 @@ namespace Engine.States
 
         private void ThrowBottle()
         {
-            if (player.HasBottle)
+            if (player.HasBottle && !Completed && !GameOver)
             {
                 var texture = content.Load<Texture2D>("Textures/Bottle");
                 bool throwingLeft = player.SpriteEffects == SpriteEffects.None ? false : true;
@@ -588,6 +591,21 @@ namespace Engine.States
             arrow.Position = new Vector2(position.X, position.Y - arrow.Size.Y);
             arrow.AddSpecialEffect(new JumpingEffect());
             gameComponents.Add(arrow);
+        }
+
+        protected void SpawnBottlePickUp(Vector2 position)
+        {
+            var bottle = new BottlePickUp(content.Load<Texture2D>("Textures/Bottle"), new Vector2(0.5f, 0.5f))
+            {
+                Position = position,
+            };
+            gameComponents.Add(bottle);
+            physicsManager.AddMoveableBody(bottle);
+
+            var pickUpArrow = new PickUpArrow(content.Load<Texture2D>("PickUpArrow/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("PickUpArrow/Map"), Vector2.One);
+            pickUpArrow.Position = new Vector2(bottle.CollisionRectangle.Center.X - pickUpArrow.Size.X / 2 + 2f, bottle.Position.Y - pickUpArrow.Size.Y - 3);
+            pickUpArrow.AddSpecialEffect(new JumpingEffect());
+            gameComponents.Add(pickUpArrow);
         }
     }
 }

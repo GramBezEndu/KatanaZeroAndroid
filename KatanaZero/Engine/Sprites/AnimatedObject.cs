@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Engine.Physics;
+using Engine.SpecialEffects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Animations;
@@ -13,6 +14,7 @@ namespace Engine.Sprites
 {
     public class AnimatedObject : ISprite
     {
+        public List<SpecialEffect> SpecialEffects { get; set; } = new List<SpecialEffect>();
         public Vector2 Scale { get; private set; } = Vector2.One;
         public SpriteEffects SpriteEffects { get; set; } = SpriteEffects.None;
         public bool Hidden { get; set; }
@@ -60,7 +62,13 @@ namespace Engine.Sprites
         public virtual void Update(GameTime gameTime)
         {
             if(!Hidden)
+            {
                 animatedSprite.Update(gameTime);
+                foreach (var effect in SpecialEffects)
+                {
+                    effect.Update(gameTime);
+                }
+            }
         }
 
         public AnimatedObject(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale)
@@ -84,6 +92,12 @@ namespace Engine.Sprites
         public void AddAnimation(string name, SpriteSheetAnimationData data)
         {
             animationFactory.Add(name, data);
+        }
+
+        public void AddSpecialEffect(SpecialEffect effect)
+        {
+            SpecialEffects.Add(effect);
+            effect.AddTarget(this);
         }
     }
 }
