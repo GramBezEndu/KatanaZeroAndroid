@@ -13,19 +13,19 @@ namespace Engine.PlayerIntents
         public GoToIntent(InputManager im, Camera c, Player p, Vector2 destination) : base(im, c, p)
         {
             this.destination = destination;
-            if (player.Position.X < destination.X)
+            if (player.CollisionRectangle.Center.X < destination.X)
                 commingFromLeft = true;
         }
         public override void IntentFinished()
         {
             if (commingFromLeft)
             {
-                if (player.Position.X >= destination.X)
+                if (player.CollisionRectangle.Center.X >= destination.X)
                     Finished = true;
             }
             else
             {
-                if (player.Position.X <= destination.X)
+                if (player.CollisionRectangle.Center.X <= destination.X)
                     Finished = true;
             }
             if (Finished)

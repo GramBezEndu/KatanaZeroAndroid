@@ -41,6 +41,7 @@ namespace Engine.States
         protected List<IComponent> timeIsUpComponents = new List<IComponent>();
         protected List<IComponent> playerSpottedComponents = new List<IComponent>();
         protected List<IComponent> levelTitleComponents = new List<IComponent>();
+        protected List<IComponent> uiBottom = new List<IComponent>();
         public virtual double LevelTimeInSeconds { get { return 120; } }
         public GameTimer StageTimer;
         private readonly float timerScale = 2.5f;
@@ -54,8 +55,6 @@ namespace Engine.States
         private IButton weaponSlotButton;
         private Sprite bottleSprite;
         public const float UI_BOTTOM_SIZE_Y = 50f;
-
-        protected List<IComponent> uiBottom = new List<IComponent>();
 
         public EventHandler OnCompleted { get; set; }
         private bool completed;
