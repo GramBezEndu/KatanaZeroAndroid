@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Engine.SpecialEffects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -49,6 +50,7 @@ namespace Engine
         public int LineThickness { get; set; } = 1;
 
         public bool Filled { get; set; } = false;
+        public List<SpecialEffect> SpecialEffects { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public DrawableRectangle(Rectangle rec)
         {
@@ -69,6 +71,11 @@ namespace Engine
         public virtual void Update(GameTime gameTime)
         {
 
+        }
+
+        public void AddSpecialEffect(SpecialEffect effect)
+        {
+            throw new NotImplementedException();
         }
     }
 }

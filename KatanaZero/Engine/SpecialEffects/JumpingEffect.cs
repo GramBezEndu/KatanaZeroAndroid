@@ -21,14 +21,17 @@ namespace Engine.SpecialEffects
 
         private void SwitchDirection(object sender, EventArgs e)
         {
-            goingDown = !goingDown;
-            //If we changed to going down
-            if (goingDown)
+            if (Enabled)
             {
-                //Reset position to original position (will avoid position changes in long term)
-                for(int i = 0; i < targets.Count; i++)
+                goingDown = !goingDown;
+                //If we changed to going down
+                if (goingDown)
                 {
-                    targets[i].Position = startingPositions[i];
+                    //Reset position to original position (will avoid position changes in long term)
+                    for (int i = 0; i < targets.Count; i++)
+                    {
+                        targets[i].Position = startingPositions[i];
+                    }
                 }
             }
         }
@@ -41,20 +44,23 @@ namespace Engine.SpecialEffects
 
         public override void Update(GameTime gameTime)
         {
-            effectTimer.Update(gameTime);
-            float movementPerFrame = 0.2f;
-            if (goingDown)
+            if (Enabled)
             {
-                foreach(var target in targets)
+                effectTimer.Update(gameTime);
+                float movementPerFrame = 0.2f;
+                if (goingDown)
                 {
-                    target.Position = new Vector2(target.Position.X, target.Position.Y + movementPerFrame);
+                    foreach (var target in targets)
+                    {
+                        target.Position = new Vector2(target.Position.X, target.Position.Y + movementPerFrame);
+                    }
                 }
-            }
-            else
-            {
-                foreach (var target in targets)
+                else
                 {
-                    target.Position = new Vector2(target.Position.X, target.Position.Y - movementPerFrame);
+                    foreach (var target in targets)
+                    {
+                        target.Position = new Vector2(target.Position.X, target.Position.Y - movementPerFrame);
+                    }
                 }
             }
         }

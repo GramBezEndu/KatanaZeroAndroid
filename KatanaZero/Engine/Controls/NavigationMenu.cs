@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Engine.Controls.Buttons;
 using Engine.Input;
+using Engine.SpecialEffects;
 
 namespace Engine.Controls
 {
@@ -32,6 +33,8 @@ namespace Engine.Controls
             }
         }
 
+        public List<SpecialEffect> SpecialEffects { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         /// <summary>
         /// Creates a new instance of navigation through buttons
         /// </summary>
@@ -43,6 +46,11 @@ namespace Engine.Controls
                 throw new ArgumentException("Invalid list of buttons");
             buttons = listButtons;
         }
+
+        public NavigationMenu()
+        {
+        }
+
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (!Hidden)
@@ -64,6 +72,11 @@ namespace Engine.Controls
         {
             foreach (var button in buttons)
                 button.Update(gameTime);
+        }
+
+        public void AddSpecialEffect(SpecialEffect effect)
+        {
+            throw new NotImplementedException();
         }
     }
 }

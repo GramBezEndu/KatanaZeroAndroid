@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Engine;
+using Engine.SpecialEffects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -37,6 +38,8 @@ namespace KatanaZero.SpecialEffects
                 }
             }
         }
+
+        public List<SpecialEffect> SpecialEffects { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         List<DrawableRectangle> rainComponents = new List<DrawableRectangle>();
         Random random = new Random();
@@ -76,6 +79,11 @@ namespace KatanaZero.SpecialEffects
                     r.Update(gameTime);
                 }
             }
+        }
+
+        public void AddSpecialEffect(SpecialEffect effect)
+        {
+            throw new NotImplementedException();
         }
     }
 }

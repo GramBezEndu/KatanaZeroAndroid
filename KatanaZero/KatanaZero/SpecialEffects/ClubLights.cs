@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Engine;
+using Engine.SpecialEffects;
 using KatanaZero.LightStrategies;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,6 +30,7 @@ namespace KatanaZero.States
         public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public List<DrawableRectangle> Lights { get; private set; } = new List<DrawableRectangle>();
+        public List<SpecialEffect> SpecialEffects { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         LightStrategy currentStrategy;
 
@@ -118,6 +120,11 @@ namespace KatanaZero.States
                 foreach (var l in Lights)
                     l.Update(gameTime);
             }
+        }
+
+        public void AddSpecialEffect(SpecialEffect effect)
+        {
+            throw new NotImplementedException();
         }
     }
 }

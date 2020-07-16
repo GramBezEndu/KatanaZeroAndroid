@@ -12,6 +12,7 @@ using Android.Widget;
 using Engine;
 using Engine.Controls;
 using Engine.Controls.Buttons;
+using Engine.SpecialEffects;
 using Engine.Sprites;
 using Engine.States;
 using Engine.Storage;
@@ -54,6 +55,7 @@ namespace KatanaZero.States
             currentLevelName = new Text(fonts["Standard"], LevelsInfo.LevelInfo[currentLevelSelected].Name);
             int margin = 30;
             currentLevelName.Position = new Vector2(menu.Rectangle.Center.X - currentLevelName.Size.X / 2, menu.Rectangle.Top - currentLevelName.Size.Y - margin);
+            currentLevelName.AddSpecialEffect(new RainbowEffect());
 
             rightLevelButton = new RectangleButton(inputManager, new Rectangle(0, 0, 80, 80), fonts["Standard"], ">");
             rightLevelButton.OnClick += IncreaseSelectedLevel;
@@ -126,6 +128,7 @@ namespace KatanaZero.States
         private void OnSelectedChange()
         {
             currentLevelName.Message = LevelsInfo.LevelInfo[currentLevelSelected].Name;
+            ManageRainbowEffect();
             levelTextSmall.Message = Regex.Replace(currentLevelName.Message, @"\s+", "\n");
             //Center text
             currentLevelName.Position = new Vector2(menu.Rectangle.Center.X - currentLevelName.Size.X / 2, currentLevelName.Position.Y);
@@ -135,6 +138,20 @@ namespace KatanaZero.States
                 noDataFound.Hidden = false;
             else
                 noDataFound.Hidden = true;
+        }
+
+        private void ManageRainbowEffect()
+        {
+            //TODO: refactor (we're relying on index 0)
+            if (currentLevelSelected == 0)
+            {
+                currentLevelName.SpecialEffects[0].Enabled = true;
+            }
+            else
+            {
+                currentLevelName.SpecialEffects[0].Enabled = false;
+                currentLevelName.Color = Color.White;
+            }
         }
 
         private void CreateJobFolder()
@@ -167,24 +184,6 @@ namespace KatanaZero.States
             var position = new Vector2(bestTimesText.Position.X, bestTimesText.Rectangle.Bottom);
             CreateNoDataFound(colorNoData, position);
             AddUiComponent(noDataFound);
-
-            //if (HighScoresStorage.Instance.ClubNeonScores.Count == 0)
-            //{
-            //    position = new Vector2(position.X, position.Y + noDataFound.Size.Y);
-            //}
-            //else
-            //{
-            //    for (int i = 0; i < HighScoresStorage.Instance.ClubNeonScores.Count; i++)
-            //    {
-            //        var text = new Text(fonts["Small"], String.Format("{0}. {1} s", i + 1, Math.Round(HighScoresStorage.Instance.ClubNeonScores[i].Time, 2).ToString()))
-            //        {
-            //            Position = position,
-            //            Color = textColor
-            //        };
-            //        AddUiComponent(text);
-            //        position = new Vector2(position.X, position.Y + text.Size.Y);
-            //    }
-            //}
         }
 
         public override void Update(GameTime gameTime)

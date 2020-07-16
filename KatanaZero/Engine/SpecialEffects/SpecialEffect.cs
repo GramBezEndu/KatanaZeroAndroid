@@ -8,6 +8,7 @@ namespace Engine.SpecialEffects
     public abstract class SpecialEffect : IComponent
     {
         protected List<IDrawableComponent> targets = new List<IDrawableComponent>();
+        public bool Enabled { get; set; } = true;
         public SpecialEffect()
         {
 

@@ -34,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\TeleportIntent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Script.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SpecialEffects\JumpingEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SpecialEffects\RainbowEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SpecialEffects\SpecialEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AnimatedObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Bottle.cs" />

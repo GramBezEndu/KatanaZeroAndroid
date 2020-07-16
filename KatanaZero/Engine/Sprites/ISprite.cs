@@ -13,7 +13,5 @@ namespace Engine.Sprites
     {
         Vector2 Scale { get; }
         SpriteEffects SpriteEffects { get; set; }
-        List<SpecialEffect> SpecialEffects { get; set; }
-        void AddSpecialEffect(SpecialEffect effect);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Engine.SpecialEffects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -46,6 +47,8 @@ namespace Engine
             }
         }
 
+        public List<SpecialEffect> SpecialEffects { get; set; } = new List<SpecialEffect>();
+
         public Text(SpriteFont f, String msg, Vector2 scale)
         {
             font = f;
@@ -67,7 +70,14 @@ namespace Engine
 
         public virtual void Update(GameTime gameTime)
         {
+            foreach (var effect in SpecialEffects)
+                effect.Update(gameTime);
+        }
 
+        public void AddSpecialEffect(SpecialEffect effect)
+        {
+            SpecialEffects.Add(effect);
+            effect.AddTarget(this);
         }
     }
 }

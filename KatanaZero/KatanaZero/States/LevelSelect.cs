@@ -12,6 +12,7 @@ using Android.Widget;
 using Engine;
 using Engine.Controls;
 using Engine.Controls.Buttons;
+using Engine.SpecialEffects;
 using Engine.Sprites;
 using Engine.States;
 using KatanaZero.SpecialEffects;
@@ -63,6 +64,7 @@ namespace KatanaZero.States
             currentLevelName = new Text(fonts["Standard"], LevelsInfo.LevelInfo[currentLevelSelected].Name);
             int margin = 30;
             currentLevelName.Position = new Vector2(menu.Rectangle.Center.X - currentLevelName.Size.X / 2, menu.Rectangle.Top - currentLevelName.Size.Y - margin);
+            currentLevelName.AddSpecialEffect(new RainbowEffect());
 
             var backgroundMenu = new DrawableRectangle(new Rectangle(0, 0, (int)((menu.Size.X) * 1.1f), (int)((menu.Size.Y + currentLevelName.Size.Y + margin) * 1.2f)))
             {
@@ -110,9 +112,24 @@ namespace KatanaZero.States
         private void OnSelectedChange()
         {
             currentLevelName.Message = LevelsInfo.LevelInfo[currentLevelSelected].Name;
+            ManageRainbowEffect();
             //Center text
             currentLevelName.Position = new Vector2(menu.Rectangle.Center.X - currentLevelName.Size.X / 2, currentLevelName.Position.Y);
             currentLevelImg.Texture = LevelsInfo.LevelInfo[currentLevelSelected].Texture;
+        }
+
+        private void ManageRainbowEffect()
+        {
+            //TODO: refactor (we're relying on index 0)
+            if (currentLevelSelected == 0)
+            {
+                currentLevelName.SpecialEffects[0].Enabled = true;
+            }
+            else
+            {
+                currentLevelName.SpecialEffects[0].Enabled = false;
+                currentLevelName.Color = Color.White;
+            }
         }
     }
 }

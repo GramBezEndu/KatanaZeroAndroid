@@ -23,7 +23,10 @@ namespace Engine.Sprites
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
         {
-            //
+            if (collider is Player player)
+            {
+                
+            }
         }
 
         public void PrepareMove(GameTime gameTime)
