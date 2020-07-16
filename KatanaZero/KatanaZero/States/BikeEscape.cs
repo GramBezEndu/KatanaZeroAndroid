@@ -27,6 +27,7 @@ namespace KatanaZero.States
         {
             game.PlaySong(songs["BikeEscape"]);
             Camera.CameraMode = Engine.Camera.CameraModes.ConstantVelocity;
+            player.OnBike = true;
 
             bossScript = new Script()
             {

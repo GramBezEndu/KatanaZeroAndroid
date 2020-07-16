@@ -38,19 +38,28 @@ namespace Engine
                         case MoveableBodyStates.Idle:
                             HiddenNotification.Hidden = true;
                             Color = Color.White;
-                            PlayAnimation("Idle");
+                            if (OnBike)
+                                PlayAnimation("BikeIdle");
+                            else
+                                PlayAnimation("Idle");
                             break;
                         case MoveableBodyStates.WalkRight:
                             HiddenNotification.Hidden = true;
                             Color = Color.White;
                             SpriteEffects = SpriteEffects.None;
-                            PlayAnimation("Run");
+                            if (OnBike)
+                                PlayAnimation("BikeIdle");
+                            else
+                                PlayAnimation("Run");
                             break;
                         case MoveableBodyStates.WalkLeft:
                             HiddenNotification.Hidden = true;
                             Color = Color.White;
                             SpriteEffects = SpriteEffects.FlipHorizontally;
-                            PlayAnimation("Run");
+                            if (OnBike)
+                                PlayAnimation("BikeIdle");
+                            else
+                                PlayAnimation("Run");
                             break;
                         case MoveableBodyStates.Attack:
                             HiddenNotification.Hidden = true;
@@ -89,14 +98,18 @@ namespace Engine
         public EventHandler OnMapCollision { get; set; }
 
         public bool HasBottle { get; set; }
+        public bool OnBike { get; set; }
 
         public Player(Texture2D characterSpritesheetTexture, Dictionary<string, Rectangle> characterMap, InputManager input, Vector2 scale) : base(characterSpritesheetTexture, characterMap, scale)
         {
             inputManager = input;
             AddAnimation("Attack", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.05f));
             AddAnimation("Run", new SpriteSheetAnimationData(new int[] { 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 }, frameDuration: 0.1f));
-            AddAnimation("Dance", new SpriteSheetAnimationData(new int[] { 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35 }, frameDuration: 0.1f, isPingPong: true));
-            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47 }, frameDuration: 0.1f));
+            AddAnimation("Dance", new SpriteSheetAnimationData(new int[] { 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 }, frameDuration: 0.1f, isPingPong: true));
+            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39  }, frameDuration: 0.1f));
+            AddAnimation("BikeIdle", new SpriteSheetAnimationData(new int[] { 40, 41, 42, 43 }, frameDuration: 0.1f));
+            AddAnimation("BikeDown", new SpriteSheetAnimationData(new int[] { 44, 45, 46, 47 }, frameDuration: 0.1f));
+            AddAnimation("BikeUp", new SpriteSheetAnimationData(new int[] { 48 }, frameDuration: 0.1f));
             PlayAnimation("Idle");
         }
 
@@ -161,7 +174,8 @@ namespace Engine
         public void PrepareMove(GameTime gameTime)
         {
             ManagePlayerIntent(gameTime);
-            Velocity = new Vector2(10f, 0f);
+            if (OnBike)
+                Velocity = new Vector2(10f, 0f);
         }
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
