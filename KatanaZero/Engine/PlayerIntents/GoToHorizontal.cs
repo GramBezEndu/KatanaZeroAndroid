@@ -6,31 +6,27 @@ using Microsoft.Xna.Framework;
 
 namespace Engine.PlayerIntents
 {
-    public class GoToIntent : Intent
+    public class GoToHorizontal : Intent
     {
         bool commingFromLeft;
-        Vector2 destination;
-        public GoToIntent(InputManager im, Camera c, Player p, Vector2 destination) : base(im, c, p)
+        float destinationX;
+        public GoToHorizontal(InputManager im, Camera c, Player p, float destinationX) : base(im, c, p)
         {
-            this.destination = destination;
-            if (player.CollisionRectangle.Center.X < destination.X)
+            this.destinationX = destinationX;
+            if (player.CollisionRectangle.Center.X < destinationX)
                 commingFromLeft = true;
         }
         public override void IntentFinished()
         {
             if (commingFromLeft)
             {
-                if (player.CollisionRectangle.Center.X >= destination.X)
+                if (player.CollisionRectangle.Center.X >= destinationX)
                     Finished = true;
             }
             else
             {
-                if (player.CollisionRectangle.Center.X <= destination.X)
+                if (player.CollisionRectangle.Center.X <= destinationX)
                     Finished = true;
-            }
-            if (Finished)
-            {
-                OnFinished?.Invoke(this, new EventArgs());
             }
         }
 
@@ -41,11 +37,11 @@ namespace Engine.PlayerIntents
             {
                 if (commingFromLeft)
                 {
-                    player.MoveRight();
+                    player.StepRight();
                 }
                 else
                 {
-                    player.MoveLeft();
+                    player.StepLeft();
                 }
             }
         }

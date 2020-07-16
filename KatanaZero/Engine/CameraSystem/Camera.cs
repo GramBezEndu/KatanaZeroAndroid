@@ -108,6 +108,15 @@ namespace Engine
             }
         }
 
+        public Vector2 TopLeftPos
+        {
+            get
+            {
+                var invertedMatrix = Matrix.Invert(ViewMatrix);
+                return new Vector2(invertedMatrix.Translation.X, invertedMatrix.Translation.Y);
+            }
+        }
+
         private void ConstVelocity()
         {
             Position = new Vector2(Position.X + constantVelocity.X, Position.Y + constantVelocity.Y);
@@ -131,7 +140,22 @@ namespace Engine
         private void CalculateViewMatrix()
         {
             ViewMatrix = Matrix.CreateTranslation(-Position.X, -Position.Y, 0) * Matrix.CreateTranslation(Origin.X * (1 / Zoom), Origin.Y * (1 / Zoom), 0);
+            ViewMatrix = Matrix.CreateTranslation(-Position.X, -Position.Y, 0);
             ViewMatrix *= Matrix.CreateScale(new Vector3(Zoom, Zoom, 1));
+        }
+
+        public Vector2 ScreenToWorld(Vector2 position)
+        {
+            return Vector2.Transform(new Vector2((int)(position.X / (game.WindowSize.X / game.LogicalSize.X)), (int)(position.Y / (game.WindowSize.Y / game.LogicalSize.Y))),
+                Matrix.Invert(ViewMatrix));
+        }
+
+        public Vector2 WorldToScreen(Vector2 position)
+        {
+            var pos = new Vector2((position.X - TopLeftPos.X) * (game.WindowSize.X / game.LogicalSize.X),
+                (position.Y - TopLeftPos.Y) * (game.WindowSize.Y / game.LogicalSize.Y));
+            //Scale with zoom ratio
+            return new Vector2(pos.X * Zoom, pos.Y * Zoom);
         }
     }
 }

@@ -13,8 +13,8 @@ namespace Engine.PlayerIntents
     {
         protected Player player;
         public bool Finished { get; protected set; }
-        InputManager inputManager;
-        Camera camera;
+        protected InputManager inputManager;
+        protected Camera camera;
 
         public Intent(InputManager im, Camera c, Player p)
         {
@@ -31,6 +31,6 @@ namespace Engine.PlayerIntents
         public abstract void IntentFinished();
 
         public abstract void Update(GameTime gameTime);
-        public EventHandler OnFinished { get; set; }
+        //public EventHandler OnFinished { get; set; }
     }
 }

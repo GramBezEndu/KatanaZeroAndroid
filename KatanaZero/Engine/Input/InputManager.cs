@@ -49,26 +49,20 @@ namespace Engine.Input
         /// <param name="rec"></param>
         /// <param name="camera"></param>
         /// <returns></returns>
-        public bool WorldRectnagleWasJustClicked(Rectangle rec, Camera camera)
-        {
-            foreach (TouchLocation touchLocation in CurrentTouchCollection)
-            {
-                Vector2 touchPosition = Vector2.Transform(new Vector2((int)(touchLocation.Position.X / (game.WindowSize.X / game.LogicalSize.X)), (int)(touchLocation.Position.Y / (game.WindowSize.Y / game.LogicalSize.Y))),
-                    Matrix.Invert(camera.ViewMatrix));
-                var touchRectangle = new Rectangle((int)touchPosition.X, (int)touchPosition.Y, 1, 1);
-                if (touchRectangle.Intersects(rec) && touchLocation.State == TouchLocationState.Pressed)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public Vector2 ScreenToWorld(Vector2 position, Camera camera)
-        {
-            return Vector2.Transform(new Vector2((int)(position.X / (game.WindowSize.X / game.LogicalSize.X)), (int)(position.Y / (game.WindowSize.Y / game.LogicalSize.Y))),
-                    Matrix.Invert(camera.ViewMatrix));
-        }
+        //public bool WorldRectnagleWasJustClicked(Rectangle rec, Camera camera)
+        //{
+        //    foreach (TouchLocation touchLocation in CurrentTouchCollection)
+        //    {
+        //        Vector2 touchPosition = Vector2.Transform(new Vector2((int)(touchLocation.Position.X / (game.WindowSize.X / game.LogicalSize.X)), (int)(touchLocation.Position.Y / (game.WindowSize.Y / game.LogicalSize.Y))),
+        //            Matrix.Invert(camera.ViewMatrix));
+        //        var touchRectangle = new Rectangle((int)touchPosition.X, (int)touchPosition.Y, 1, 1);
+        //        if (touchRectangle.Intersects(rec) && touchLocation.State == TouchLocationState.Pressed)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
 
         public bool AnyTapDetected()
         {

@@ -11,10 +11,12 @@ using Android.Views;
 using Android.Widget;
 using Engine;
 using Engine.Physics;
+using Engine.PlayerIntents;
 using Engine.Sprites;
 using Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input.Touch;
 using MonoGame.Extended.Tiled;
 
 namespace KatanaZero.States
@@ -36,16 +38,15 @@ namespace KatanaZero.States
             gameComponents.Add(bossScript);
         }
 
+        protected override void AddPlayerGoToIntent(TouchLocation touch)
+        {
+            player.AddIntent(new GoToOnScreenIntent(inputManager, Camera, player, touch.Position));
+        }
+
         protected override void CreatePhysicsManager()
         {
             physicsManager = new PhysicsManager(new SideScrollCollisionManager());
             physicsManager.GRAVITY = 0f;
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-            System.Diagnostics.Debug.WriteLine("C: {0} P: {1}", Camera.Position, player.Position);
         }
 
         private void BossInitiate()

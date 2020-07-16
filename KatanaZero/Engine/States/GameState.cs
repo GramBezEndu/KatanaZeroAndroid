@@ -476,10 +476,15 @@ namespace Engine.States
                     //We clicked to move
                     else
                     {
-                        player.AddIntent(new GoToIntent(inputManager, Camera, player, inputManager.ScreenToWorld(touch.Position, Camera)));
+                        AddPlayerGoToIntent(touch);
                     }
                 }
             }
+        }
+
+        protected virtual void AddPlayerGoToIntent(TouchLocation touch)
+        {
+            player.AddIntent(new GoToHorizontal(inputManager, Camera, player, Camera.ScreenToWorld(touch.Position).X));
         }
 
         private void ThrowBottle()

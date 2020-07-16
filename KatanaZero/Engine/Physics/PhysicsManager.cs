@@ -79,18 +79,19 @@ namespace Engine.Physics
         private void MoveBody(ICollidable c)
         {
             c.Position += c.Velocity;
-            if (c.Velocity.X > 0)
-            {
-                c.Velocity = new Vector2(c.Velocity.X - 1f, c.Velocity.Y);
-                if (c.Velocity.X < 0)
-                    c.Velocity = new Vector2(0, c.Velocity.Y);
-            }
-            else if (c.Velocity.X < 0)
-            {
-                c.Velocity = new Vector2(c.Velocity.X + 1f, c.Velocity.Y);
-                if (c.Velocity.X > 0)
-                    c.Velocity = new Vector2(0, c.Velocity.Y);
-            }
+            c.Velocity = new Vector2(0f, c.Velocity.Y);
+            //if (c.Velocity.X > 0)
+            //{
+                //c.Velocity = new Vector2(c.Velocity.X - 1f, c.Velocity.Y);
+                //if (c.Velocity.X < 0)
+                //    c.Velocity = new Vector2(0, c.Velocity.Y);
+            //}
+            //else if (c.Velocity.X < 0)
+            //{
+            //    c.Velocity = new Vector2(c.Velocity.X + 1f, c.Velocity.Y);
+            //    if (c.Velocity.X > 0)
+            //        c.Velocity = new Vector2(0, c.Velocity.Y);
+            //}
         }
 
         private void ApplyDownForce(ICollidable c, float downForce)

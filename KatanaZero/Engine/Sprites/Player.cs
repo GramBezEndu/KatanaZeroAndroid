@@ -146,14 +146,14 @@ namespace Engine
             }
         }
 
-        public void MoveRight()
+        public void StepRight()
         {
-            Velocity = new Vector2(1.9f, Velocity.Y);
+            Velocity = new Vector2(Velocity.X + 1.9f, Velocity.Y);
         }
 
-        public void MoveLeft()
+        public void StepLeft()
         {
-            Velocity = new Vector2(-1.9f, Velocity.Y);
+            Velocity = new Vector2(Velocity.X + (-1.9f), Velocity.Y);
         }
 
         public void Kill(Enemy e)
@@ -173,9 +173,9 @@ namespace Engine
 
         public void PrepareMove(GameTime gameTime)
         {
-            ManagePlayerIntent(gameTime);
             if (OnBike)
                 Velocity = new Vector2(10f, 0f);
+            ManagePlayerIntent(gameTime);
         }
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
