@@ -92,6 +92,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialEffects\Rain.cs" />
     <Compile Include="SpecialEffects\ClubLights.cs" />
+    <Compile Include="States\BikeEscape.cs" />
     <Compile Include="States\LevelSelect.cs" />
     <Compile Include="States\LevelsInfo.cs" />
     <Compile Include="States\MainMenu.cs" />

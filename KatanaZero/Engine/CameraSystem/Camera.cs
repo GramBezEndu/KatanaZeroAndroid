@@ -12,9 +12,20 @@ namespace Engine
         public enum CameraModes
         {
             FollowPlayer,
-            Static
+            Static,
+            ConstantVelocity
         }
         public CameraModes CameraMode = CameraModes.FollowPlayer;
+        private bool deadZonesEnabled
+        {
+            get
+            {
+                if (CameraMode == CameraModes.Static)
+                    return false;
+                else
+                    return true;
+            }
+        }
         readonly Game1 game;
         readonly Player player;
         public Matrix ViewMatrix { get; private set; } = Matrix.CreateTranslation(0, 0, 0);
@@ -26,9 +37,12 @@ namespace Engine
                 //Dead zones
                 float positionX = value.X;
                 float positionY = value.Y;
-                positionX = CheckOutOfBounceLeft(positionX);
-                positionX = CheckOutOfBounceRight(positionX);
-                positionY = CheckOutOfBounceBottom(positionY);
+                if (deadZonesEnabled)
+                {
+                    positionX = CheckOutOfBounceLeft(positionX);
+                    positionX = CheckOutOfBounceRight(positionX);
+                    positionY = CheckOutOfBounceBottom(positionY);
+                }
 
                 _position = new Vector2(positionX, positionY);
             }
@@ -68,7 +82,7 @@ namespace Engine
         public float Zoom { get; private set; } = 2.5f;
         public float MultiplierOriginX { get; set; } = 0.25f;
         public Vector2 Origin { get; private set; } = Vector2.Zero;
-        private Vector2 freeroamVelocity = new Vector2(10f, 10f);
+        private Vector2 constantVelocity = new Vector2(5.5f, 0f);
         private Vector2 mapSize;
         private Vector2 _position = Vector2.Zero;
 
@@ -88,7 +102,16 @@ namespace Engine
                 case CameraModes.Static:
                     StaticCamera();
                     break;
+                case CameraModes.ConstantVelocity:
+                    ConstVelocity();
+                    break;
             }
+        }
+
+        private void ConstVelocity()
+        {
+            Position = new Vector2(Position.X + constantVelocity.X, Position.Y + constantVelocity.Y);
+            CalculateViewMatrix();
         }
 
         private void FollowPlayer()

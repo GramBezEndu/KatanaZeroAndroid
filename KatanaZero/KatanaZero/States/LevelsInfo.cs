@@ -23,7 +23,7 @@ namespace KatanaZero.States
             {
                 new LevelInfo(0, "CLUB NEON", content.Load<Texture2D>("Textures/LevelSelect/ClubNeon"), () => game.ChangeState(new ClubNeon(game, 0, true))),
                 new LevelInfo(1, "PRISON", content.Load<Texture2D>("Textures/LevelSelect/Prison"), () => game.ChangeState(new PrisonPart1(game, 1, true))),
-                new LevelInfo(2, "SOON?", content.Load<Texture2D>("Textures/LevelSelect/Escape"), () => game.ChangeState(new LevelSelect(game))),
+                new LevelInfo(2, "SOON?", content.Load<Texture2D>("Textures/LevelSelect/Escape"), () => game.ChangeState(new BikeEscape(game, 2, true))),
             };
         }
     }

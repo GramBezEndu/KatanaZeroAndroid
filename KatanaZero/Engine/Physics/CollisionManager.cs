@@ -12,11 +12,11 @@ namespace Engine.Physics
 {
     public class CollisionManager : IComponent
     {
-        List<ICollidable> collidableBodies;
-        List<Rectangle> mapCollision;
+        protected List<ICollidable> collidableBodies;
+        protected List<Rectangle> mapCollision;
         List<Rectangle> hidingSpots;
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             foreach (var c in collidableBodies)
                 c.PrepareMove(gameTime);
@@ -32,7 +32,7 @@ namespace Engine.Physics
             CollisionBetweenCollidables(gameTime);
         }
 
-        private void CheckDiagonal(GameTime gameTime, ICollidable c, Rectangle s)
+        protected virtual void CheckDiagonal(GameTime gameTime, ICollidable c, Rectangle s)
         {
             if (c.Velocity.X == 0)
                 return;
@@ -117,7 +117,7 @@ namespace Engine.Physics
             }
         }
 
-        private void CheckVertical(GameTime gameTime, ICollidable c, Rectangle s)
+        protected virtual void CheckVertical(GameTime gameTime, ICollidable c, Rectangle s)
         {
             if (ShareXCoordinate(c.CollisionRectangle, s))
             {
@@ -142,7 +142,7 @@ namespace Engine.Physics
             }
         }
 
-        private bool ShareXCoordinate(Rectangle c, Rectangle r)
+        protected bool ShareXCoordinate(Rectangle c, Rectangle r)
         {
             return c.Left < r.Right && c.Right > r.Left;
         }
