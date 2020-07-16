@@ -31,6 +31,14 @@ namespace KatanaZero
             }
         }
 
+        public Vector2 Scale
+        {
+            get
+            {
+                return WindowSize / LogicalSize;
+            }
+        }
+
         public void ChangeState(State state)
         {
             nextState = state;

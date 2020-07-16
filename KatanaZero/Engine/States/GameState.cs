@@ -465,7 +465,7 @@ namespace Engine.States
         {
             if (inputManager.AnyTapDetected())
             {
-                foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed))
+                foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed/* || x.State == TouchLocationState.Moved*/))
                 {
                     //We clicked to throw the bottle
                     if (inputManager.RectangleWasJustClicked(weaponSlotButton.Rectangle) && !weaponSlotButton.Hidden ||
@@ -479,8 +479,8 @@ namespace Engine.States
                         AddPlayerGoToIntent(touch);
                     }
                 }
-            }
         }
+    }
 
         protected virtual void AddPlayerGoToIntent(TouchLocation touch)
         {

@@ -140,7 +140,6 @@ namespace Engine
         private void CalculateViewMatrix()
         {
             ViewMatrix = Matrix.CreateTranslation(-Position.X, -Position.Y, 0) * Matrix.CreateTranslation(Origin.X * (1 / Zoom), Origin.Y * (1 / Zoom), 0);
-            ViewMatrix = Matrix.CreateTranslation(-Position.X, -Position.Y, 0);
             ViewMatrix *= Matrix.CreateScale(new Vector3(Zoom, Zoom, 1));
         }
 
