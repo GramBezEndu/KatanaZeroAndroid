@@ -27,7 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Physics\CollisionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Physics\ICollidable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Physics\PhysicsManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TopDownCollisionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Physics\SideScrollCollisionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoToIntent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\Intent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\IPlayerIntent.cs" />
@@ -51,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\PickUpArrow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\StreetCar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\State.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\HighScoresStorage.cs" />

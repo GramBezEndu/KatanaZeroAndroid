@@ -92,7 +92,7 @@ namespace Engine.Physics
             return -GetDistanceToTheLeft(c, r);
         }
 
-        private void CheckHorizontal(GameTime gameTime, ICollidable c, Rectangle s)
+        protected virtual void CheckHorizontal(GameTime gameTime, ICollidable c, Rectangle s)
         {
             if (ShareYCoordinate(c.CollisionRectangle, s))
             {
@@ -210,7 +210,7 @@ namespace Engine.Physics
                 {
                     if (c1 == c2)
                         break;
-                    if (c1.Rectangle.Intersects(c2.Rectangle))
+                    if (c1.CollisionRectangle.Intersects(c2.CollisionRectangle))
                     {
                         c1.NotifyHorizontalCollision(gameTime, c2);
                         c2.NotifyHorizontalCollision(gameTime, c1);

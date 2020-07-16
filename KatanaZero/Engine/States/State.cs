@@ -79,6 +79,7 @@ namespace Engine.States
             songs.Add("Stage1", content.Load<Song>("Songs/Stage1"));
             songs.Add("Club", content.Load<Song>("Songs/Club"));
             songs.Add("BikeEscape", content.Load<Song>("Songs/BikeEscape"));
+            songs.Add("BikeEscapeBoss", content.Load<Song>("Songs/BikeEscapeBoss"));
         }
 
         private void LoadSoundEffects()

@@ -161,6 +161,7 @@ namespace Engine
         public void PrepareMove(GameTime gameTime)
         {
             ManagePlayerIntent(gameTime);
+            Velocity = new Vector2(10f, 0f);
         }
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)

@@ -11,13 +11,18 @@ namespace Engine.Physics
         private readonly CollisionManager collisionManager;
         private readonly List<ICollidable> moveableBodies;
         private readonly List<Rectangle> mapCollision;
-        const float GRAVITY = 1f;
+        public float GRAVITY = 1f;
 
         public PhysicsManager()
         {
             collisionManager = new CollisionManager();
             moveableBodies = new List<ICollidable>();
             mapCollision = new List<Rectangle>();
+        }
+
+        public PhysicsManager(CollisionManager cm) : this()
+        {
+            collisionManager = cm;
         }
 
         public void AddMoveableBody(ICollidable c)

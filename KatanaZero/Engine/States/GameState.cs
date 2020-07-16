@@ -109,7 +109,7 @@ namespace Engine.States
             LoadMap();
             mapSize = SetMapSize();
             CreateMapRenderer();
-            physicsManager = new PhysicsManager();
+            CreatePhysicsManager();
 
             var hidingSpots = CreateHidingSpots();
             SetHidingSpots(hidingSpots);
@@ -126,6 +126,11 @@ namespace Engine.States
             OnCompleted += (o, e) => AddLevelCompleteComponents();
             OnCompleted += (o, e) => ShowStageClearComponents();
             OnCompleted += (o, e) => AddHighscore();
+        }
+
+        protected virtual void CreatePhysicsManager()
+        {
+            physicsManager = new PhysicsManager();
         }
 
         private void CreatePickUpComponents()
@@ -334,7 +339,6 @@ namespace Engine.States
         private void CreateCamera(Game1 gameReference)
         {
             Camera = new Camera(gameReference, mapSize, player);
-            gameComponents.Add(Camera);
         }
 
         protected void AddMoveableBody(ICollidable body)
@@ -464,7 +468,8 @@ namespace Engine.States
                 foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed))
                 {
                     //We clicked to throw the bottle
-                    if (inputManager.RectangleWasJustClicked(weaponSlotButton.Rectangle) || inputManager.RectangleWasJustClicked(throwButton.Rectangle))
+                    if (inputManager.RectangleWasJustClicked(weaponSlotButton.Rectangle) && !weaponSlotButton.Hidden ||
+                        inputManager.RectangleWasJustClicked(throwButton.Rectangle) && !throwButton.Hidden)
                     {
                         continue;
                     }
