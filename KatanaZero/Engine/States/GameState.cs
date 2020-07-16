@@ -55,6 +55,7 @@ namespace Engine.States
 
         private RectangleButton throwButton;
         private IButton weaponSlotButton;
+        private int lastBottleThrowTapId = -1;
         private Sprite bottleSprite;
         public const float UI_BOTTOM_SIZE_Y = 50f;
 
@@ -93,6 +94,7 @@ namespace Engine.States
                 if(completed != value)
                 {
                     completed = value;
+                    player.Hidden = true;
                     if(completed == true)
                         OnCompleted?.Invoke(this, new EventArgs());
                 }
@@ -161,6 +163,7 @@ namespace Engine.States
                 OnClick = (o, e) => ThrowBottle(),
                 Filled = true,
                 Color = Color.Black * 0.1f,
+                Hidden = true,
             };
             throwButton.Message.Color = /*Color.HotPink*/new Color(255, 97, 236);
             throwButton.Position = new Vector2(game.LogicalSize.X - throwButton.Size.X, game.LogicalSize.Y - throwButton.Size.Y);
@@ -168,13 +171,20 @@ namespace Engine.States
             weaponSlotButton = new TextureButton(inputManager, content.Load<Texture2D>("Textures/HudWeapon"), new Vector2(3f, 3f))
             {
                 OnClick = (o, e) => ThrowBottle(),
+                Hidden = true,
             };
             weaponSlotButton.Position = new Vector2(throwButton.Rectangle.Left - weaponSlotButton.Size.X - 8, throwButton.Rectangle.Center.Y - weaponSlotButton.Size.Y / 2);
 
-            bottleSprite = new Sprite(content.Load<Texture2D>("Textures/Bottle"), new Vector2(1.3f, 1.3f));
+            bottleSprite = new Sprite(content.Load<Texture2D>("Textures/Bottle"), new Vector2(1.3f, 1.3f))
+            {
+                Hidden = true,
+            };
             bottleSprite.Position = new Vector2(weaponSlotButton.Rectangle.Center.X - bottleSprite.Size.X / 2, weaponSlotButton.Rectangle.Center.Y - bottleSprite.Size.Y / 2);
 
-            var hudBackground = new Sprite(content.Load<Texture2D>("Textures/HudBottom"), new Vector2(3f, 3.8f));
+            var hudBackground = new Sprite(content.Load<Texture2D>("Textures/HudBottom"), new Vector2(3f, 3.8f))
+            {
+                Hidden = true,
+            };
             hudBackground.Position = new Vector2(weaponSlotButton.Position.X - 15f, game.LogicalSize.Y - hudBackground.Size.Y);
 
             uiBottom.Add(hudBackground);
@@ -421,7 +431,7 @@ namespace Engine.States
             physicsManager.Update(gameTime);
             if (!GameOver && !Completed)
                 PlayerClick();
-            ManageBottleVisibility();
+            ManageBottomHudVisibility();
             if (PlayerSpotted())
             {
                 GameOver = true;
@@ -447,15 +457,27 @@ namespace Engine.States
             base.Update(gameTime);
         }
 
-        private void ManageBottleVisibility()
+        private void ManageBottomHudVisibility()
         {
             if (player.HasBottle)
             {
-                bottleSprite.Hidden = false;
+                foreach (var c in uiBottom)
+                {
+                    if (c is IDrawableComponent drawable)
+                    {
+                        drawable.Hidden = false;
+                    }
+                }
             }
             else
             {
-                bottleSprite.Hidden = true;
+                foreach (var c in uiBottom)
+                {
+                    if (c is IDrawableComponent drawable)
+                    {
+                        drawable.Hidden = true;
+                    }
+                }
             }
         }
 
@@ -463,28 +485,35 @@ namespace Engine.States
 
         protected void PlayerClick()
         {
-            if (inputManager.AnyTapDetected())
+            bool foundMovement = false;
+            foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed || x.State == TouchLocationState.Moved))
             {
-                foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed/* || x.State == TouchLocationState.Moved*/))
+                //We clicked to throw the bottle
+                if ((inputManager.RectangleWasJustClicked(weaponSlotButton.Rectangle) && !weaponSlotButton.Hidden) ||
+                    (inputManager.RectangleWasJustClicked(throwButton.Rectangle) && !throwButton.Hidden))
                 {
-                    //We clicked to throw the bottle
-                    if (inputManager.RectangleWasJustClicked(weaponSlotButton.Rectangle) && !weaponSlotButton.Hidden ||
-                        inputManager.RectangleWasJustClicked(throwButton.Rectangle) && !throwButton.Hidden)
-                    {
-                        continue;
-                    }
-                    //We clicked to move
-                    else
-                    {
-                        AddPlayerGoToIntent(touch);
-                    }
+                    lastBottleThrowTapId = touch.Id;
+                    continue;
                 }
+                //We clicked to move (if it's the same ID as last bottle throw then player did not intend to move)
+                else if (touch.Id != lastBottleThrowTapId)
+                {
+                    AddPlayerGoToIntent(touch);
+                    foundMovement = true;
+                }
+            }
+            if (!foundMovement)
+                player.ResetIntent();
         }
-    }
 
         protected virtual void AddPlayerGoToIntent(TouchLocation touch)
         {
-            player.AddIntent(new GoToHorizontal(inputManager, Camera, player, Camera.ScreenToWorld(touch.Position).X));
+            //player.AddIntent(new GoToHorizontal(inputManager, Camera, player, Camera.ScreenToWorld(touch.Position).X));
+            var screenRectLeft = new Rectangle(0, 0, (int)(game.WindowSize.X / 2), (int)game.WindowSize.Y);
+            if (screenRectLeft.Contains(touch.Position))
+                player.AddIntent(new GoLeft(inputManager, Camera, player));
+            else
+                player.AddIntent(new GoRight(inputManager, Camera, player));
         }
 
         private void ThrowBottle()

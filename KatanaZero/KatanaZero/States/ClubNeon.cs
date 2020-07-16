@@ -188,7 +188,7 @@ namespace KatanaZero.States
 
         internal override Vector2 SetMapSize()
         {
-            return new Vector2(1295, 464 + GameState.UI_BOTTOM_SIZE_Y);
+            return new Vector2(1295, 464);
         }
 
         public override void SetPlayerSpawnPoint()

@@ -28,6 +28,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Physics\ICollidable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Physics\PhysicsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Physics\SideScrollCollisionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoLeft.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoRight.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoToHorizontalOnScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoToOnScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoToVerticalOnScreen.cs" />

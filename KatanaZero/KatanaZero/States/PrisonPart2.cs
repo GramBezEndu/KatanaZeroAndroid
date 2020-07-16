@@ -34,7 +34,6 @@ namespace KatanaZero.States
             {
                 if (player.Position.X < 55f && player.Position.Y > 320f)
                 {
-                    player.Hidden = true;
                     Completed = true;
                 }
             }
