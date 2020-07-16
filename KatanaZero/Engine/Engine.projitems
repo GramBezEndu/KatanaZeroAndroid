@@ -54,6 +54,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Enemy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\IInteractable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Nitro.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\PickUpArrow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />

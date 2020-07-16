@@ -82,7 +82,16 @@ namespace Engine
         public float Zoom { get; private set; } = 2.5f;
         public float MultiplierOriginX { get; set; } = 0.25f;
         public Vector2 Origin { get; private set; } = Vector2.Zero;
-        private Vector2 constantVelocity = new Vector2(10f, 0f);
+        private Vector2 constantVelocity
+        {
+            get
+            {
+                if (player.NitroActive)
+                    return new Vector2(10f, 0f) + Player.NITRO_BONUS;
+                else
+                    return new Vector2(10f, 0f);
+            }
+        }
         private Vector2 mapSize;
         private Vector2 _position = Vector2.Zero;
 

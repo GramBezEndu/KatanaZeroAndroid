@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework;
 using Engine.Controls.Buttons;
 using Engine.Controls;
 using KatanaZero.SpecialEffects;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace KatanaZero.States
 {

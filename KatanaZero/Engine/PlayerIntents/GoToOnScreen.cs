@@ -25,7 +25,8 @@ namespace Engine.PlayerIntents
 
         public override void Update(GameTime gameTime)
         {
-            if(!Finished)
+            IntentFinished();
+            if (!Finished)
             {
                 horizontalIntent.Update(gameTime);
                 verticalIntent.Update(gameTime);

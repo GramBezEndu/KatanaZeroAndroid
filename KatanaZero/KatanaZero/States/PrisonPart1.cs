@@ -44,7 +44,7 @@ namespace KatanaZero.States
                 if (player.Position.X > 1400f)
                 {
                     player.ResetIntent();
-                    player.StepRight();
+                    player.MoveRight();
                 }
                 if (player.Position.X > 1500f)
                 {

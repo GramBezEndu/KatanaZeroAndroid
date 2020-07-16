@@ -39,11 +39,11 @@ namespace Engine.PlayerIntents
             {
                 if (commingFromLeft)
                 {
-                    player.StepRight();
+                    player.MoveRight();
                 }
                 else
                 {
-                    player.StepLeft();
+                    player.MoveLeft();
                 }
             }
         }

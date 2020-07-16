@@ -39,11 +39,11 @@ namespace Engine.PlayerIntents
             {
                 if (commingFromTop)
                 {
-                    player.Velocity = new Vector2(player.Velocity.X, player.Velocity.Y + 2f);
+                    player.MoveDown();
                 }
                 else
                 {
-                    player.Velocity = new Vector2(player.Velocity.X, player.Velocity.Y + (-2f));
+                    player.MoveUp();
                 }
             }
         }

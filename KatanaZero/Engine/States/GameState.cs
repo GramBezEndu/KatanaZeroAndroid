@@ -53,9 +53,9 @@ namespace Engine.States
 
         protected List<IDrawableComponent> pickUpComponents = new List<IDrawableComponent>();
 
-        private RectangleButton throwButton;
-        private IButton weaponSlotButton;
-        private int lastBottleThrowTapId = -1;
+        protected RectangleButton throwButton;
+        protected IButton weaponSlotButton;
+        protected int lastBottleThrowTapId = -1;
         private Sprite bottleSprite;
         public const float UI_BOTTOM_SIZE_Y = 50f;
 
@@ -81,6 +81,7 @@ namespace Engine.States
                     {
                         MediaPlayer.Stop();
                         GameState.Sounds["LevelFail"].Play();
+                        player.ResetIntent();
                     }
                 }
             }
@@ -94,6 +95,7 @@ namespace Engine.States
                 if(completed != value)
                 {
                     completed = value;
+                    player.ResetIntent();
                     player.Hidden = true;
                     if(completed == true)
                         OnCompleted?.Invoke(this, new EventArgs());
@@ -483,7 +485,7 @@ namespace Engine.States
 
         internal abstract void RestartLevel();
 
-        protected void PlayerClick()
+        protected virtual void PlayerClick()
         {
             bool foundMovement = false;
             foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed || x.State == TouchLocationState.Moved))
@@ -508,7 +510,6 @@ namespace Engine.States
 
         protected virtual void AddPlayerGoToIntent(TouchLocation touch)
         {
-            //player.AddIntent(new GoToHorizontal(inputManager, Camera, player, Camera.ScreenToWorld(touch.Position).X));
             var screenRectLeft = new Rectangle(0, 0, (int)(game.WindowSize.X / 2), (int)game.WindowSize.Y);
             if (screenRectLeft.Contains(touch.Position))
                 player.AddIntent(new GoLeft(inputManager, Camera, player));

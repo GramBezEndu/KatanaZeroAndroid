@@ -14,12 +14,12 @@ namespace Engine.PlayerIntents
 
         public override void IntentFinished()
         {
-            //
+            
         }
 
         public override void Update(GameTime gameTime)
         {
-            player.StepRight();
+            player.MoveRight();
         }
     }
 }

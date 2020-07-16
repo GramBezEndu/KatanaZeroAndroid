@@ -19,7 +19,7 @@ namespace Engine.PlayerIntents
 
         public override void Update(GameTime gameTime)
         {
-            player.StepLeft();
+            player.MoveLeft();
         }
     }
 }

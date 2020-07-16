@@ -38,6 +38,25 @@ namespace KatanaZero.States
             gameComponents.Add(bossScript);
         }
 
+        protected override void PlayerClick()
+        {
+            foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed))
+            {
+                //We clicked to throw the bottle
+                if ((inputManager.RectangleWasJustClicked(weaponSlotButton.Rectangle) && !weaponSlotButton.Hidden) ||
+                    (inputManager.RectangleWasJustClicked(throwButton.Rectangle) && !throwButton.Hidden))
+                {
+                    lastBottleThrowTapId = touch.Id;
+                    continue;
+                }
+                //We clicked to move (if it's the same ID as last bottle throw then player did not intend to move)
+                else if (touch.Id != lastBottleThrowTapId)
+                {
+                    AddPlayerGoToIntent(touch);
+                }
+            }
+        }
+
         protected override void AddPlayerGoToIntent(TouchLocation touch)
         {
             float roadBeginningWorldY = /*180f*/165f;
@@ -95,6 +114,7 @@ namespace KatanaZero.States
             SpawnCar(5200f, 3);
             SpawnCar(7200f, 1);
             SpawnCar(7300f, 3);
+            SpawnNitro(8000f, 2);
             SpawnCar(12000f, 2);
             SpawnCar(12000f, 3);
             SpawnCar(14300f, 1);
@@ -134,6 +154,29 @@ namespace KatanaZero.States
             };
             gameComponents.Add(car);
             physicsManager.AddMoveableBody(car);
+        }
+
+        private void SpawnNitro(float posX, int lane)
+        {
+            float posY = 160f;
+            switch (lane)
+            {
+                case 1:
+                    posY = 160f;
+                    break;
+                case 2:
+                    posY = 200f;
+                    break;
+                case 3:
+                    posY = 240f;
+                    break;
+            };
+            var nitro = new Nitro(content.Load<Texture2D>("Textures/Nitro"), new Vector2(0.5f, 0.5f))
+            {
+                Position = new Vector2(posX, posY),
+            };
+            gameComponents.Add(nitro);
+            physicsManager.AddMoveableBody(nitro);
         }
     }
 }

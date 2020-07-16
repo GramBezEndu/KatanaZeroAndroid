@@ -22,7 +22,7 @@ namespace Engine.MoveStrategies
             {
                 distractionOnLeftSide = true;
             }
-            strategyTimer = new GameTimer(15f)
+            strategyTimer = new GameTimer(10f)
             {
                 OnTimedEvent = RestorePreviousStrategy,
             };
