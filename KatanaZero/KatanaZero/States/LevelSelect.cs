@@ -22,7 +22,6 @@ namespace KatanaZero.States
 {
     public class LevelSelect : State
     {
-        List<LevelInfo> levelInfos = new List<LevelInfo>();
         private int currentLevelSelected = 0;
         private Text currentLevelName;
         Sprite currentLevelImg;
@@ -32,11 +31,8 @@ namespace KatanaZero.States
 
         public LevelSelect(Game1 gameReference) : base(gameReference)
         {
-            levelInfos.Add(new LevelInfo("CLUB NEON", content.Load<Texture2D>("Textures/LevelSelect/ClubNeon")));
-            levelInfos.Add(new LevelInfo("PRISON", content.Load<Texture2D>("Textures/LevelSelect/Prison")));
-
             AddUiComponent(new Sprite(content.Load<Texture2D>("Textures/LevelSelect/LevelSelectBackground")));
-            currentLevelImg = new Sprite(levelInfos[currentLevelSelected].Texture)
+            currentLevelImg = new Sprite(LevelsInfo.LevelInfo[currentLevelSelected].Texture)
             {
                 Position = new Vector2(455, 45),
             };
@@ -64,7 +60,7 @@ namespace KatanaZero.States
             });
             menu.Position = new Vector2(game.LogicalSize.X / 2 - menu.Size.X / 2, game.LogicalSize.Y * (0.835f) - menu.Size.Y / 2);
 
-            currentLevelName = new Text(fonts["Standard"], levelInfos[currentLevelSelected].Name);
+            currentLevelName = new Text(fonts["Standard"], LevelsInfo.LevelInfo[currentLevelSelected].Name);
             int margin = 30;
             currentLevelName.Position = new Vector2(menu.Rectangle.Center.X - currentLevelName.Size.X / 2, menu.Rectangle.Top - currentLevelName.Size.Y - margin);
 
@@ -92,34 +88,31 @@ namespace KatanaZero.States
 
         private void StartLevel(int currentLevelSelected)
         {
-            if (currentLevelSelected == 0)
-                game.ChangeState(new ClubNeon(game, true));
-            else if (currentLevelSelected == 1)
-                game.ChangeState(new PrisonPart1(game, true));
+            LevelsInfo.LevelInfo[currentLevelSelected].StartLevel();
         }
 
         private void DecreaseSelectedLevel(object sender, EventArgs e)
         {
             currentLevelSelected--;
             if (currentLevelSelected < 0)
-                currentLevelSelected = levelInfos.Count - 1;
+                currentLevelSelected = LevelsInfo.LevelInfo.Length - 1;
             OnSelectedChange();
         }
 
         private void IncreaseSelectedLevel(object sender, EventArgs e)
         {
             currentLevelSelected++;
-            if (currentLevelSelected > levelInfos.Count - 1)
+            if (currentLevelSelected > LevelsInfo.LevelInfo.Length - 1)
                 currentLevelSelected = 0;
             OnSelectedChange();
         }
 
         private void OnSelectedChange()
         {
-            currentLevelName.Message = levelInfos[currentLevelSelected].Name;
+            currentLevelName.Message = LevelsInfo.LevelInfo[currentLevelSelected].Name;
             //Center text
             currentLevelName.Position = new Vector2(menu.Rectangle.Center.X - currentLevelName.Size.X / 2, currentLevelName.Position.Y);
-            currentLevelImg.Texture = levelInfos[currentLevelSelected].Texture;
+            currentLevelImg.Texture = LevelsInfo.LevelInfo[currentLevelSelected].Texture;
         }
     }
 }

@@ -4,16 +4,18 @@ using System.Text;
 
 namespace Engine.Storage
 {
-    public class ClubNeonScore
+    public class Score
     {
         public double Time;
+        public int LevelId;
 
-        public ClubNeonScore()
+        public Score()
         {
 
         }
-        public ClubNeonScore(double time)
+        public Score(int levelId, double time)
         {
+            LevelId = levelId;
             Time = time;
         }
     }

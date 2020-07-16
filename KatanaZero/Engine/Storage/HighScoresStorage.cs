@@ -12,8 +12,8 @@ namespace Engine.Storage
     {
         private static string fullPath;
         private static string filename = "highscores.xml";
-        public List<ClubNeonScore> ClubNeonScores;
-        private int maxHighscoreCount = 5;
+        public List<Score> Scores;
+        public const int MAX_HIGHSCORES_COUNT = 5;
         private static HighScoresStorage instance;
         public static HighScoresStorage Instance
         {
@@ -34,9 +34,18 @@ namespace Engine.Storage
                     {
                         using (var reader = new StreamReader(new FileStream(fullPath, FileMode.Open)))
                         {
-                            var serilizer = new XmlSerializer(typeof(List<ClubNeonScore>));
-                            var scores = (List<ClubNeonScore>)serilizer.Deserialize(reader);
-                            instance = new HighScoresStorage(scores);
+                            var serilizer = new XmlSerializer(typeof(List<Score>));
+                            try
+                            {
+                                var scores = (List<Score>)serilizer.Deserialize(reader);
+                                instance = new HighScoresStorage(scores);
+                            }
+                            catch(InvalidOperationException e)
+                            {
+                                System.Diagnostics.Debug.WriteLine(e.Message);
+                                System.Diagnostics.Debug.WriteLine("Inner exception: " + e.InnerException.Message);
+                                instance = new HighScoresStorage();
+                            }
                         }
                     }
                 }
@@ -45,14 +54,14 @@ namespace Engine.Storage
             }
         }
 
-        private HighScoresStorage(List<ClubNeonScore> scores) : this()
+        private HighScoresStorage(List<Score> scores) : this()
         {
-            ClubNeonScores = scores;
+            Scores = scores;
         }
 
         private HighScoresStorage()
         {
-            ClubNeonScores = new List<ClubNeonScore>();
+            Scores = new List<Score>();
         }
 
         private static void CreateFullPath()
@@ -65,12 +74,22 @@ namespace Engine.Storage
             fullPath = Path.Combine(paths);
         }
 
-        public void AddTime(ClubNeonScore s)
+        public void AddTime(Score s)
         {
-            ClubNeonScores.Add(s);
-            //Order and take best N scores
-            ClubNeonScores = ClubNeonScores.OrderBy(x => x.Time).ToList();
-            ClubNeonScores = ClubNeonScores.Take(maxHighscoreCount).ToList();
+            Scores.Add(s);
+            //Order and take best N scores for each level ID
+            //1. Find all distinct ids
+            int[] allIds = Scores.Select(x => x.LevelId).ToArray();
+            int[] allDistnictIds = allIds.Distinct().ToArray();
+            //2. Find N best scores for each level id
+            List<Score> tempScores = new List<Score>();
+            for (int i = 0; i < allDistnictIds.Length; i++)
+            {
+                var bestScoresForThisId = Scores.Where(x => x.LevelId == allDistnictIds[i]).OrderBy(x => x.Time).Take(MAX_HIGHSCORES_COUNT).ToList();
+                tempScores.AddRange(bestScoresForThisId);
+            }
+
+            Scores = tempScores;
             Save();
         }
 
@@ -78,10 +97,16 @@ namespace Engine.Storage
         {
             using (var writer = new StreamWriter(new FileStream(fullPath, FileMode.Create)))
             {
-                var serilizer = new XmlSerializer(typeof(List<ClubNeonScore>));
+                var serilizer = new XmlSerializer(typeof(List<Score>));
 
-                serilizer.Serialize(writer, ClubNeonScores);
+                serilizer.Serialize(writer, Scores);
             }
+        }
+
+        public double[] GetBestScores(int levelId)
+        {
+            var bestScores = Scores.Where(x => x.LevelId == levelId).OrderBy(x => x.Time).Take(MAX_HIGHSCORES_COUNT).ToArray();
+            return bestScores.Select(x => x.Time).ToArray();
         }
     }
 }

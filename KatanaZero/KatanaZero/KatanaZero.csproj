@@ -93,11 +93,12 @@
     <Compile Include="SpecialEffects\Rain.cs" />
     <Compile Include="SpecialEffects\ClubLights.cs" />
     <Compile Include="States\LevelSelect.cs" />
+    <Compile Include="States\LevelsInfo.cs" />
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="States\ClubNeon.cs" />
     <Compile Include="States\PrisonPart1.cs" />
     <Compile Include="States\PrisonPart2.cs" />
-    <Compile Include="States\Rankings.cs" />
+    <Compile Include="States\Highscores.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

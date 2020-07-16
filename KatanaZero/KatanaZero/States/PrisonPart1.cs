@@ -25,7 +25,7 @@ namespace KatanaZero.States
         protected override int FloorLevel { get { return 320; } }
         //Should be the same time across all prison parts
         public override double LevelTimeInSeconds { get { return 180; } }
-        public PrisonPart1(Game1 gameReference, bool showLevelTitle) : base(gameReference, showLevelTitle)
+        public PrisonPart1(Game1 gameReference, int levelId, bool showLevelTitle) : base(gameReference, levelId, showLevelTitle)
         {
             AmbientColor = new Color(150, 150, 150);
             game.PlaySong(content.Load<Song>("Songs/Prison"));
@@ -48,7 +48,7 @@ namespace KatanaZero.States
                 }
                 if (player.Position.X > 1500f)
                 {
-                    var nextStage = new PrisonPart2(game, false);
+                    var nextStage = new PrisonPart2(game, this.levelId, false);
                     //Setup stage timer manually
                     nextStage.StageTimer.CurrentInterval = this.StageTimer.CurrentInterval;
                     //Change camera origin
@@ -89,7 +89,7 @@ namespace KatanaZero.States
 
         protected override void AddHighscore()
         {
-            //throw new NotImplementedException();
+
         }
 
         protected override void LoadMap()
@@ -113,7 +113,7 @@ namespace KatanaZero.States
 
         internal override void RestartLevel()
         {
-            game.ChangeState(new PrisonPart1(game, false));
+            game.ChangeState(new PrisonPart1(game, levelId, false));
         }
 
         internal override void SpawnEntitiesAfterPlayer()

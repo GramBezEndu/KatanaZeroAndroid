@@ -23,6 +23,7 @@ using System.Linq;
 using Microsoft.Xna.Framework.Input.Touch;
 using Engine.States;
 using Engine.SpecialEffects;
+using Engine.Storage;
 
 namespace Engine.States
 {
@@ -48,6 +49,7 @@ namespace Engine.States
         private Sprite timer;
         private bool gameOver;
         public Color AmbientColor = Color.White;
+        protected int levelId;
 
         protected List<IDrawableComponent> pickUpComponents = new List<IDrawableComponent>();
 
@@ -78,10 +80,6 @@ namespace Engine.States
                     {
                         MediaPlayer.Stop();
                         GameState.Sounds["LevelFail"].Play();
-                        ////Hide all intents
-                        //foreach (var c in gameComponents)
-                        //    if (c is Intent intent)
-                        //        intent.Hidden = true;
                     }
                 }
             }
@@ -101,8 +99,9 @@ namespace Engine.States
             }
         }
 
-        public GameState(Game1 gameReference, bool showLevelTitle) : base(gameReference)
+        public GameState(Game1 gameReference, int levelId, bool showLevelTitle) : base(gameReference)
         {
+            this.levelId = levelId;
             CreatePickUpComponents();
             CreateBottleThrowUI();
             mapBatch = new SpriteBatch(graphicsDevice);
@@ -414,11 +413,11 @@ namespace Engine.States
 
         public override void Update(GameTime gameTime)
         {
-            if (!GameOver)
-                PlayerClick();
-            ManageBottleVisibility();
             physicsManager.SetMapCollision(GetCollisionRectangles());
             physicsManager.Update(gameTime);
+            if (!GameOver && !Completed)
+                PlayerClick();
+            ManageBottleVisibility();
             if (PlayerSpotted())
             {
                 GameOver = true;
@@ -496,7 +495,10 @@ namespace Engine.States
             }
         }
 
-        protected abstract void AddHighscore();
+        protected virtual void AddHighscore()
+        {
+            HighScoresStorage.Instance.AddTime(new Score(levelId, StageTimer.Interval - StageTimer.CurrentInterval));
+        }
 
         private void ShowTimeIsUpGameOverComponents()
         {

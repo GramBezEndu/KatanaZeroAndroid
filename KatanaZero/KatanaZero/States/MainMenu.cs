@@ -38,7 +38,7 @@ namespace KatanaZero.States
                 Color = Color.Gray * 0.3f,
                 Filled = true,
             };
-            rankingButton.OnClick += (o, e) => game.ChangeState(new Rankings(game));
+            rankingButton.OnClick += (o, e) => game.ChangeState(new Highscores(game));
             var menu = new VerticalNavigationMenu(inputManager, new List<IButton>
                 {
                     playButton,

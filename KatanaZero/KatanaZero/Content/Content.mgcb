@@ -867,6 +867,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/LevelSelect/ClubNeon.jpg
 
+#begin Textures/LevelSelect/Escape.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/LevelSelect/Escape.png
+
 #begin Textures/LevelSelect/LevelSelectBackground.png
 /importer:TextureImporter
 /processor:TextureProcessor
