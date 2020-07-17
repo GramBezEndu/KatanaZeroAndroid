@@ -59,11 +59,17 @@ namespace KatanaZero.States
 
         protected override void AddPlayerGoToIntent(TouchLocation touch)
         {
-            float roadBeginningWorldY = 165f;
-            var roadArea = new Rectangle((int)(player.CollisionSize.X / 2/* * game.Scale.X*/),
-                (int)(Camera.WorldToScreen(new Vector2(0f, roadBeginningWorldY)).Y/* * game.Scale.Y*/),
-                (int)(game.LogicalSize.X * 0.45f * game.Scale.X),
-                (int)(game.LogicalSize.Y / 2 * game.Scale.Y));
+            float roadBeginningY = 165f;
+            float roadEndY = 335f - player.CollisionSize.Y;
+
+            Vector2 posBeginning = new Vector2(player.CollisionSize.X, Camera.WorldToScreen(new Vector2(0f, roadBeginningY)).Y);
+            Vector2 sizeOnScreen = new Vector2((game.LogicalSize.X - 2 * posBeginning.X) * game.Scale.X, game.WindowSize.Y - posBeginning.Y);
+
+            var roadArea = new Rectangle(
+                (int)posBeginning.X,
+                (int)posBeginning.Y,
+                (int)sizeOnScreen.X,
+                (int)sizeOnScreen.Y);
             if(roadArea.Contains(touch.Position))
                 player.AddIntent(new GoToOnScreenIntent(inputManager, Camera, player, touch.Position));
         }

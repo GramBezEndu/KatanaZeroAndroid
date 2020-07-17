@@ -84,7 +84,7 @@ namespace KatanaZero.States
 
         public override void SetPlayerSpawnPoint()
         {
-            player.Position = new Vector2(10, 270);
+            player.Position = new Vector2(35, 270);
         }
 
         protected override void AddHighscore()

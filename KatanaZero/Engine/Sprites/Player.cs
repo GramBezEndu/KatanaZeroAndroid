@@ -184,9 +184,7 @@ namespace Engine
 
         public void MoveRight()
         {
-            if (OnBike && NitroActive)
-                Velocity = new Vector2(Velocity.X + 3f + NITRO_BONUS.X, Velocity.Y);
-            else if (OnBike)
+            if (OnBike)
                 Velocity = new Vector2(Velocity.X + 3f, Velocity.Y);
             else
                 Velocity = new Vector2(Velocity.X + 1.9f, Velocity.Y);
@@ -194,9 +192,7 @@ namespace Engine
 
         public void MoveLeft()
         {
-            if (OnBike && NitroActive)
-                Velocity = new Vector2(Velocity.X + (-3f) - NITRO_BONUS.X, Velocity.Y);
-            else if (OnBike)
+            if (OnBike)
                 Velocity = new Vector2(Velocity.X + (-3f), Velocity.Y);
             else
                 Velocity = new Vector2(Velocity.X + (-1.9f), Velocity.Y);
@@ -204,17 +200,13 @@ namespace Engine
 
         public void MoveUp()
         {
-            if (OnBike && NitroActive)
-                Velocity = new Vector2(Velocity.X, Velocity.Y - 3f - NITRO_BONUS.Y);
-            else if (OnBike)
+            if (OnBike)
                 Velocity = new Vector2(Velocity.X, Velocity.Y - 3f);
         }
 
         public void MoveDown()
         {
-            if (OnBike && NitroActive)
-                Velocity = new Vector2(Velocity.X, Velocity.Y + 3f + NITRO_BONUS.Y);
-            else if (OnBike)
+            if (OnBike)
                 Velocity = new Vector2(Velocity.X, Velocity.Y + 3f);
         }
 
