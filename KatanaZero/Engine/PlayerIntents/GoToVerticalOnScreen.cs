@@ -14,6 +14,10 @@ namespace Engine.PlayerIntents
         public GoToVerticalOnScreen(InputManager im, Camera c, Player p, float onScreenY) : base(im, c, p)
         {
             this.destinationY = onScreenY;
+            var r = new Rectangle(0, (int)c.ScreenToWorld(new Vector2(0f, onScreenY)).Y, 1, 1);
+            bool shareY = player.CollisionRectangle.Top < r.Bottom && player.CollisionRectangle.Bottom > r.Top;
+            if (shareY)
+                Finished = true;
             if (camera.WorldToScreen(new Vector2(0f, player.CollisionRectangle.Center.Y)).Y < onScreenY)
                 commingFromTop = true;
         }

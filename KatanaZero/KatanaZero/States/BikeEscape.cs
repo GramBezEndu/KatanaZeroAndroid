@@ -40,7 +40,7 @@ namespace KatanaZero.States
 
         protected override void PlayerClick()
         {
-            foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed))
+            foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed || x.State == TouchLocationState.Moved))
             {
                 //We clicked to throw the bottle
                 if ((inputManager.RectangleWasJustClicked(weaponSlotButton.Rectangle) && !weaponSlotButton.Hidden) ||
@@ -71,7 +71,9 @@ namespace KatanaZero.States
                 (int)sizeOnScreen.X,
                 (int)sizeOnScreen.Y);
             if(roadArea.Contains(touch.Position))
+            {
                 player.AddIntent(new GoToOnScreenIntent(inputManager, Camera, player, touch.Position));
+            }
         }
 
         protected override void CreatePhysicsManager()

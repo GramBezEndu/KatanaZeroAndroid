@@ -19,7 +19,19 @@ namespace Engine.PlayerIntents
 
         public override void IntentFinished()
         {
-            if (horizontalIntent.Finished && verticalIntent.Finished)
+            bool first = false;
+            if (horizontalIntent == null)
+                first = true;
+            else
+                first = horizontalIntent.Finished;
+
+            bool second = false;
+            if (verticalIntent == null)
+                second = true;
+            else
+                second = verticalIntent.Finished;
+
+            if (first && second)
                 Finished = true;
         }
 
@@ -28,8 +40,8 @@ namespace Engine.PlayerIntents
             IntentFinished();
             if (!Finished)
             {
-                horizontalIntent.Update(gameTime);
-                verticalIntent.Update(gameTime);
+                horizontalIntent?.Update(gameTime);
+                verticalIntent?.Update(gameTime);
             }
         }
     }

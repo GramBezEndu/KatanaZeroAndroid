@@ -13,7 +13,11 @@ namespace Engine.PlayerIntents
 
         public GoToHorizontalOnScreen(InputManager im, Camera c, Player p, float onScreenX) : base(im, c, p)
         {
-            this.destinationX = onScreenX;
+            destinationX = onScreenX;
+            var r = new Rectangle((int)c.ScreenToWorld(new Vector2(onScreenX, 0f)).X, 0, 1, 1);
+            bool shareX = player.CollisionRectangle.Left <= r.Right && player.CollisionRectangle.Right >= r.Left;
+            if (shareX)
+                Finished = true;
             if (camera.WorldToScreen(new Vector2(player.CollisionRectangle.Center.X, 0f)).X < onScreenX)
                 commingFromLeft = true;
         }
