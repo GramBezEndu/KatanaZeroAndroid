@@ -20,6 +20,7 @@ namespace Engine
     public class Player : AnimatedObject, ICollidable
     {
         public static Vector2 NITRO_BONUS = new Vector2(4f, 0f);
+        public static Vector2 BIKE_VELOCITY = new Vector2(10f, 0f);
         private readonly InputManager inputManager;
         private Intent currentIntent;
         public AnimatedObject KatanaSlash;
@@ -101,7 +102,7 @@ namespace Engine
                 if (OnBike)
                     return new Vector2(55, 40);
                 else
-                    return new Vector2(24, 35);
+                    return new Vector2(22, 35);
             }
         }
 
@@ -165,7 +166,6 @@ namespace Engine
             base.Draw(gameTime, spriteBatch);
             KatanaSlash.Draw(gameTime, spriteBatch);
             HiddenNotification.Draw(gameTime, spriteBatch);
-            spriteBatch.DrawRectangle(this.CollisionRectangle, Color.Red);
         }
 
         private void ManagePlayerIntent(GameTime gameTime)
@@ -237,9 +237,9 @@ namespace Engine
         {
             //Set base velocity (remember to reset Y)
             if (OnBike && NitroActive)
-                Velocity = new Vector2(10f, 0f) + NITRO_BONUS;
+                Velocity = BIKE_VELOCITY + NITRO_BONUS;
             else if (OnBike)
-                Velocity = new Vector2(10f, 0f);
+                Velocity = BIKE_VELOCITY;
             ManagePlayerIntent(gameTime);
         }
 

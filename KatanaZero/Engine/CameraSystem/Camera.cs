@@ -48,6 +48,17 @@ namespace Engine
             }
         }
 
+        private float CheckOutOfBounceTop(float positionY)
+        {
+            if (positionY - Origin.Y * (1 / Zoom) < 0f)
+            {
+                //how much camera is too much to the top
+                float distance = positionY - Origin.Y * (1 / Zoom);
+                return positionY - distance;
+            }
+            return positionY;
+        }
+
         private float CheckOutOfBounceBottom(float positionY)
         {
             if (positionY + (game.LogicalSize.Y * (1 / Zoom) - Origin.Y * (1 / Zoom)) > mapSize.Y)
@@ -87,9 +98,9 @@ namespace Engine
             get
             {
                 if (player.NitroActive)
-                    return new Vector2(10f, 0f) + Player.NITRO_BONUS;
+                    return Player.BIKE_VELOCITY + Player.NITRO_BONUS;
                 else
-                    return new Vector2(10f, 0f);
+                    return Player.BIKE_VELOCITY;
             }
         }
         private Vector2 mapSize;
