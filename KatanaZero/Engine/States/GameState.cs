@@ -328,9 +328,12 @@ namespace Engine.States
             {
                 OnTimedEvent = (o, e) =>
                 {
-                    GameOver = true;
+                    if (!GameOver)
+                    {
+                        GameOver = true;
+                        ShowTimeIsUpGameOverComponents();
+                    }
                     timer.Hidden = true;
-                    ShowTimeIsUpGameOverComponents();
                 }
             };
         }
@@ -434,7 +437,7 @@ namespace Engine.States
             if (!GameOver && !Completed)
                 PlayerClick();
             ManageBottomHudVisibility();
-            if (PlayerSpotted())
+            if (PlayerSpotted() && !GameOver)
             {
                 GameOver = true;
                 ShowPlayerSpottedGameOverComponents();
