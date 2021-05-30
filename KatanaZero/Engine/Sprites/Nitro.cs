@@ -34,6 +34,7 @@ namespace Engine.Sprites
                     if (!player.NitroActive)
                     {
                         player.NitroActive = true;
+                        Engine.States.GameState.Sounds["PickUp"].Play();
                         Hidden = true;
                     }
                 }

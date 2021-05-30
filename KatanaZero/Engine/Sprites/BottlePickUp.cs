@@ -39,7 +39,7 @@ namespace Engine.Sprites
         {
             if (!Hidden)
             {
-                PickUpArrow.Draw(gameTime, spriteBatch);
+                PickUpArrow?.Draw(gameTime, spriteBatch);
                 base.Draw(gameTime, spriteBatch);
             }
         }
@@ -49,7 +49,7 @@ namespace Engine.Sprites
             if (!Hidden)
             {
                 base.Update(gameTime);
-                PickUpArrow.Update(gameTime);
+                PickUpArrow?.Update(gameTime);
             }
         }
 

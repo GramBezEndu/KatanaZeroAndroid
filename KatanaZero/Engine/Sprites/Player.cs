@@ -107,13 +107,22 @@ namespace Engine
             get
             {
                 if (OnBike)
-                    return new Vector2(55, 40);
+                    return new Vector2(55, 20);
                 else
                     return new Vector2(22, 35);
             }
         }
 
-        public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
+        public Rectangle CollisionRectangle
+        {
+            get
+            {
+                if (OnBike)
+                    return new Rectangle((int)Position.X, (int)(Position.Y - 10), (int)CollisionSize.X, (int)CollisionSize.Y);
+                else
+                    return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y);
+            }
+        }
 
         public EventHandler OnMapCollision { get; set; }
 
@@ -173,6 +182,7 @@ namespace Engine
             base.Draw(gameTime, spriteBatch);
             KatanaSlash.Draw(gameTime, spriteBatch);
             HiddenNotification.Draw(gameTime, spriteBatch);
+            spriteBatch.DrawRectangle(CollisionRectangle, Color.AliceBlue, 2);
         }
 
         private void ManagePlayerIntent(GameTime gameTime)
@@ -194,7 +204,7 @@ namespace Engine
             if (_moveableBodyState != MoveableBodyStates.Dead)
             {
                 if (OnBike)
-                    Velocity = new Vector2(Velocity.X + 3f, Velocity.Y);
+                    Velocity = new Vector2(Velocity.X + 4f, Velocity.Y);
                 else
                     Velocity = new Vector2(Velocity.X + 1.9f, Velocity.Y);
             }
@@ -205,7 +215,7 @@ namespace Engine
             if (_moveableBodyState != MoveableBodyStates.Dead)
             {
                 if (OnBike)
-                    Velocity = new Vector2(Velocity.X + (-3f), Velocity.Y);
+                    Velocity = new Vector2(Velocity.X + (-4f), Velocity.Y);
                 else
                     Velocity = new Vector2(Velocity.X + (-1.9f), Velocity.Y);
             }

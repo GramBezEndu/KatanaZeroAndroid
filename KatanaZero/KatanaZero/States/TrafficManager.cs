@@ -1,0 +1,212 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Android.App;
+using Android.Content;
+using Android.OS;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using Engine;
+using Engine.Physics;
+using Engine.Sprites;
+using Engine.States;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Animations.SpriteSheets;
+
+namespace KatanaZero.States
+{
+    public class TrafficManager : IComponent
+    {
+        public List<StreetCar> Cars { get; private set; }
+        public List<AnimatedObject> TrafficWarnings { get; private set; }
+        public List<ICollidable> Items { get; private set; }
+        public List<AnimatedObject> ItemNotifications { get; private set; }
+        private readonly Camera camera;
+        private readonly GameState gameState;
+        private readonly Game1 game;
+        public TrafficManager(Game1 gameRef, GameState gs, Camera cam, ContentManager content)
+        {
+            camera = cam;
+            game = gameRef;
+            gameState = gs;
+            Cars = CreateCars(content);
+            TrafficWarnings = CreateTrafficWarnings(gameRef, cam, content);
+            Items = CreateItems(content);
+            ItemNotifications = CreateHelpfulItemsNotifications(gameRef, cam, content);
+        }
+
+        private List<StreetCar> CreateCars(ContentManager content)
+        {
+            var cars = new List<StreetCar>();
+            cars.Add(SpawnCar(content, 4200f, 1));
+            cars.Add(SpawnCar(content, 5600f, 3));
+            cars.Add(SpawnCar(content, 7500f, 1));
+            cars.Add(SpawnCar(content, 8500f, 3));
+            cars.Add(SpawnCar(content, 13400f, 2));
+            cars.Add(SpawnCar(content, 13400f, 3));
+            cars.Add(SpawnCar(content, 15300f, 1));
+            cars.Add(SpawnCar(content, 16200f, 2));
+            cars.Add(SpawnCar(content, 17100f, 3));
+            cars.Add(SpawnCar(content, 17500f, 1));
+            cars.Add(SpawnCar(content, 19100f, 3));
+            cars.Add(SpawnCar(content, 19700f, 2));
+            cars.Add(SpawnCar(content, 20120f, 2));
+            cars.Add(SpawnCar(content, 20300f, 3));
+            cars.Add(SpawnCar(content, 21200f, 1));
+            cars.Add(SpawnCar(content, 24120f, 1));
+            cars.Add(SpawnCar(content, 24700f, 2));
+            return cars;
+        }
+
+        private List<AnimatedObject> CreateTrafficWarnings(Game1 game, Camera camera, ContentManager content)
+        {
+            var notifications = new List<AnimatedObject>();
+            for (int i = 0; i < Cars.Count; i++)
+            {
+                StreetCar car = Cars[i];
+                var t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeWarning/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeWarning/Map"), new Vector2(2.5f, 2.5f));
+                t1.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
+                t1.PlayAnimation("Idle");
+                notifications.Add(t1);
+            }
+            return notifications;
+        }
+
+        private List<AnimatedObject> CreateHelpfulItemsNotifications(Game1 gameRef, Camera cam, ContentManager content)
+        {
+            var notifications = new List<AnimatedObject>();
+            for (int i = 0; i < Items.Count; i++)
+            {
+                ICollidable item = Items[i];
+                var t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeItem/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeItem/Map"), new Vector2(2.5f, 2.5f));
+                t1.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
+                t1.PlayAnimation("Idle");
+                notifications.Add(t1);
+            }
+            return notifications;
+        }
+
+        public List<ICollidable> CreateItems(ContentManager content)
+        {
+            var items = new List<ICollidable>();
+            items.Add(CreateNitro(content, 8000f, 2));
+            items.Add(CreateBottlePickUp(content, 26000f, 2));
+            return items;
+        }
+
+        private ICollidable CreateBottlePickUp(ContentManager content, float posX, int lane)
+        {
+            float posY = 180f;
+            switch (lane)
+            {
+                case 1:
+                    posY = 180f;
+                    break;
+                case 2:
+                    posY = 220f;
+                    break;
+                case 3:
+                    posY = 260f;
+                    break;
+            };
+            var botttle = new BottlePickUp(gameState, content.Load<Texture2D>("Textures/Bottle"), new Vector2(0.7f, 0.7f))
+            {
+                Position = new Vector2(posX, posY),
+            };
+            return botttle;
+        }
+
+        private StreetCar SpawnCar(ContentManager content, float posX, int lane)
+        {
+            float posY = 162f;
+            switch (lane)
+            {
+                case 1:
+                    posY = 162f;
+                    break;
+                case 2:
+                    posY = 200f;
+                    break;
+                case 3:
+                    posY = 240f;
+                    break;
+            };
+            var car = new StreetCar(content.Load<Texture2D>("Textures/StreetCar"))
+            {
+                Position = new Vector2(posX, posY),
+            };
+            return car;
+        }
+
+        private Nitro CreateNitro(ContentManager content, float posX, int lane)
+        {
+            float posY = 175f;
+            switch (lane)
+            {
+                case 1:
+                    posY = 175f;
+                    break;
+                case 2:
+                    posY = 215f;
+                    break;
+                case 3:
+                    posY = 255f;
+                    break;
+            };
+            var nitro = new Nitro(content.Load<Texture2D>("Textures/Nitro"), new Vector2(0.5f, 0.5f))
+            {
+                Position = new Vector2(posX, posY),
+            };
+            return nitro;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            UpdateTrafficWarnings();
+            UpdateItemNotifications();
+        }
+
+        private void UpdateItemNotifications()
+        {
+            for (int i = 0; i < Items.Count; i++)
+            {
+                var nitro = Items[i];
+                AnimatedObject notification = ItemNotifications[i];
+                if (nitro.Position.X - camera.Position.X < 1400f && nitro.Position.X - camera.Position.X > 450f)
+                {
+                    notification.Hidden = false;
+                    notification.Position = new Vector2(game.LogicalSize.X - notification.Size.X, camera.WorldToScreen(new Vector2(0f, nitro.CollisionRectangle.Center.Y - 15f)).Y);
+                    notification.SpriteEffects = SpriteEffects.FlipHorizontally;
+                }
+                else
+                {
+                    notification.Hidden = true;
+                }
+            }
+        }
+
+        private void UpdateTrafficWarnings()
+        {
+            for (int i = 0; i < TrafficWarnings.Count; i++)
+            {
+                var car = Cars[i];
+                AnimatedObject notification = TrafficWarnings[i];
+                if (car.Position.X - camera.Position.X < 1400f && car.Position.X - camera.Position.X > 450f)
+                {
+                    notification.Hidden = false;
+                    notification.Position = new Vector2(game.LogicalSize.X - notification.Size.X, camera.WorldToScreen(new Vector2(0f, car.CollisionRectangle.Center.Y - 15f)).Y);
+                    notification.SpriteEffects = SpriteEffects.FlipHorizontally;
+                }
+                else
+                {
+                    notification.Hidden = true;
+                }
+            }
+        }
+    }
+}

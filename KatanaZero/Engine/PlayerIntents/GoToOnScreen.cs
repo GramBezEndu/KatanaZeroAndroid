@@ -10,6 +10,7 @@ namespace Engine.PlayerIntents
     {
         GoToHorizontalOnScreen horizontalIntent;
         GoToVerticalOnScreen verticalIntent;
+        public EventHandler OnFinished { get; set; }
 
         public GoToOnScreenIntent(InputManager im, Camera c, Player p, Vector2 destination) : base(im, c, p)
         {
@@ -32,7 +33,10 @@ namespace Engine.PlayerIntents
                 second = verticalIntent.Finished;
 
             if (first && second)
+            {
                 Finished = true;
+                OnFinished?.Invoke(this, new EventArgs());
+            }
         }
 
         public override void Update(GameTime gameTime)

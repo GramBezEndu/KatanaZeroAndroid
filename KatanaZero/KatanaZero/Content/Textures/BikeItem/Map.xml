@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_bike_incoming_item_0</Key><Value>0 0 36 32</Value></Item>
+<Item><Key>spr_bike_incoming_item_1</Key><Value>37 0 36 32</Value></Item>
+<Item><Key>spr_bike_incoming_item_2</Key><Value>74 0 36 32</Value></Item>
+<Item><Key>spr_bike_incoming_item_3</Key><Value>0 33 36 32</Value></Item>
+<Item><Key>spr_bike_incoming_item_4</Key><Value>0 66 36 32</Value></Item>
+<Item><Key>spr_bike_incoming_item_5</Key><Value>37 33 36 32</Value></Item>
+<Item><Key>spr_bike_incoming_item_6</Key><Value>37 66 36 32</Value></Item>
+<Item><Key>spr_bike_incoming_item_7</Key><Value>74 33 36 32</Value></Item>
+</Asset>
+</XnaContent>

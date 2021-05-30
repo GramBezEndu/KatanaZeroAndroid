@@ -23,21 +23,49 @@ namespace KatanaZero.States
 {
     public class BikeEscape : GameState
     {
-        Script bossScript;
+        Script bossIntiate;
+        TrafficManager trafficManager;
         public override double LevelTimeInSeconds => 90;
+        int currentLane = 1;
+        //const float firstLaneMiddle = 170f;
+        //const float secondLaneMiddle = 210f;
+        //const float thirdLaneMiddle = 250f;
         public BikeEscape(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null) : base(gameReference, levelId, showLevelTitle, stageData)
         {
             game.PlaySong(songs["BikeEscape"]);
             Camera.CameraMode = Engine.Camera.CameraModes.ConstantVelocity;
             player.OnBike = true;
 
-            bossScript = new Script()
+            bossIntiate = new Script()
             {
                 OnUpdate = (o, e) => BossInitiate()
             };
-            gameComponents.Add(bossScript);
-
+            gameComponents.Add(bossIntiate);
+            InitializeTrafficManager();
+            gameComponents.Add(trafficManager);
             OnGameOver += new EventHandler(StopCameraMovement);
+        }
+
+        private void InitializeTrafficManager()
+        {
+            trafficManager = new TrafficManager(game, this, Camera, content);
+            foreach (var car in trafficManager.Cars)
+            {
+                gameComponents.Add(car);
+                physicsManager.AddMoveableBody(car);
+            }
+
+            foreach (var item in trafficManager.Items)
+            {
+                gameComponents.Add(item);
+                physicsManager.AddMoveableBody(item);
+            }
+
+            foreach (var notification in trafficManager.TrafficWarnings)
+                uiComponents.Add(notification);
+
+            foreach (var notification in trafficManager.ItemNotifications)
+                uiComponents.Add(notification);
         }
 
         private void StopCameraMovement(object sender, EventArgs e)
@@ -84,7 +112,50 @@ namespace KatanaZero.States
                 (int)sizeOnScreen.Y);
             if(roadArea.Contains(touch.Position))
             {
-                player.AddIntent(new GoToOnScreenIntent(inputManager, Camera, player, touch.Position));
+                //TODO: Finish lane swap (case when no lane swap is needed)
+                bool swapLanes = false;
+                int expectedLane = 0;
+                float beginningY = roadArea.Y + (35f * game.Scale.Y);
+                float posY = beginningY;
+                if (touch.Position.Y > posBeginning.Y + 0.666f * sizeOnScreen.Y)
+                {
+                    if (currentLane != 2)
+                    {
+                        posY = beginningY + 3.4f * (65f * game.Scale.Y);
+                        swapLanes = true;
+                        expectedLane = 2;
+                    }
+                }
+                else if (touch.Position.Y > posBeginning.Y + 0.333f * sizeOnScreen.Y)
+                {
+                    posY = beginningY + 2 * (65f * game.Scale.Y);
+                    if (currentLane != 1)
+                    {
+                        posY = beginningY + 2f * (65f * game.Scale.Y);
+                        swapLanes = true;
+                        expectedLane = 1;
+                    }
+                }
+                else
+                {
+                    if (currentLane != 0)
+                    {
+                        posY = beginningY;
+                        swapLanes = true;
+                        expectedLane = 0;
+                    }
+                }
+
+                if (swapLanes)
+                {
+                    var newIntent = new GoToOnScreenIntent(inputManager, Camera, player, new Vector2(touch.Position.X, posY))
+                    {
+                        OnFinished = (o, e) => currentLane = expectedLane
+                    };
+                    player.AddIntent(newIntent);
+                }
+                else
+                    player.AddIntent(new GoToHorizontalOnScreen(inputManager, Camera, player, touch.Position.X));
             }
         }
 
@@ -101,7 +172,7 @@ namespace KatanaZero.States
                 if (!GameOver)
                 {
                     game.PlaySong(songs["BikeEscapeBoss"]);
-                    bossScript.Enabled = false;
+                    bossIntiate.Enabled = false;
                 }
             }
         }
@@ -110,7 +181,7 @@ namespace KatanaZero.States
 
         public override void SetPlayerSpawnPoint()
         {
-            player.Position = new Vector2(100, 220);
+            player.Position = new Vector2(100, 230);
         }
 
         protected override void LoadMap()
@@ -121,77 +192,6 @@ namespace KatanaZero.States
         internal override Vector2 SetMapSize()
         {
             return new Vector2(57570, 334);
-        }
-
-        internal override void SpawnEntitiesAfterPlayer()
-        {
-            SpawnCar(4200f, 1);
-            SpawnCar(5200f, 3);
-            SpawnCar(7200f, 1);
-            SpawnCar(7300f, 3);
-            SpawnNitro(8000f, 2);
-            SpawnCar(12000f, 2);
-            SpawnCar(12000f, 3);
-            SpawnCar(14300f, 1);
-            SpawnCar(14000f, 3);
-            SpawnCar(15100f, 2);
-            SpawnCar(15400f, 1);
-            SpawnCar(19100f, 1);
-            SpawnCar(19700f, 2);
-            SpawnCar(20120f, 2);
-            SpawnCar(20300f, 3);
-            SpawnCar(20380f, 1);
-            SpawnCar(24120f, 1);
-            SpawnCar(24700f, 2);
-            //SpawnCar(new Vector2(3000, 170));
-            //SpawnCar(new Vector2(5000, 210));
-            //SpawnCar(new Vector2(18000, 180));
-        }
-
-        private void SpawnCar(float posX, int lane)
-        {
-            float posY = 160f;
-            switch (lane)
-            {
-                case 1:
-                    posY = 160f;
-                    break;
-                case 2:
-                    posY = 200f;
-                    break;
-                case 3:
-                    posY = 240f;
-                    break;
-            };
-            var car = new StreetCar(content.Load<Texture2D>("Textures/StreetCar"))
-            {
-                Position = new Vector2(posX, posY),
-            };
-            gameComponents.Add(car);
-            physicsManager.AddMoveableBody(car);
-        }
-
-        private void SpawnNitro(float posX, int lane)
-        {
-            float posY = 160f;
-            switch (lane)
-            {
-                case 1:
-                    posY = 160f;
-                    break;
-                case 2:
-                    posY = 200f;
-                    break;
-                case 3:
-                    posY = 240f;
-                    break;
-            };
-            var nitro = new Nitro(content.Load<Texture2D>("Textures/Nitro"), new Vector2(0.5f, 0.5f))
-            {
-                Position = new Vector2(posX, posY),
-            };
-            gameComponents.Add(nitro);
-            physicsManager.AddMoveableBody(nitro);
         }
     }
 }
