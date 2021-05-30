@@ -25,7 +25,7 @@ namespace KatanaZero.States
         protected override int FloorLevel { get { return 320; } }
         //Should be the same time across all prison parts
         public override double LevelTimeInSeconds { get { return 180; } }
-        public PrisonPart1(Game1 gameReference, int levelId, bool showLevelTitle) : base(gameReference, levelId, showLevelTitle)
+        public PrisonPart1(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null) : base(gameReference, levelId, showLevelTitle, stageData)
         {
             AmbientColor = new Color(150, 150, 150);
             game.PlaySong(content.Load<Song>("Songs/Prison"));
@@ -111,9 +111,9 @@ namespace KatanaZero.States
             return obstacle;
         }
 
-        internal override void RestartLevel()
+        internal override void RestartLevel(StageData stageData)
         {
-            game.ChangeState(new PrisonPart1(game, levelId, false));
+            game.ChangeState(new PrisonPart1(game, levelId, false, stageData));
         }
 
         internal override void SpawnEntitiesAfterPlayer()

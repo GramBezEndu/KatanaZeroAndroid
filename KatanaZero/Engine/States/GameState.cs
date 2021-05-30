@@ -41,6 +41,7 @@ namespace Engine.States
         protected List<IComponent> levelCompleteComponents = new List<IComponent>();
         protected List<IComponent> timeIsUpComponents = new List<IComponent>();
         protected List<IComponent> playerSpottedComponents = new List<IComponent>();
+        protected List<IComponent> genericLevelFailure = new List<IComponent>();
         protected List<IComponent> levelTitleComponents = new List<IComponent>();
         protected List<IComponent> uiBottom = new List<IComponent>();
         public virtual double LevelTimeInSeconds { get { return 120; } }
@@ -59,7 +60,7 @@ namespace Engine.States
         private Sprite bottleSprite;
         public const float UI_BOTTOM_SIZE_Y = 50f;
 
-        public EventHandler OnCompleted { get; set; }
+        public event EventHandler OnCompleted;
         private bool completed;
 
         /// <summary>
@@ -82,6 +83,7 @@ namespace Engine.States
                         MediaPlayer.Stop();
                         GameState.Sounds["LevelFail"].Play();
                         player.ResetIntent();
+                        OnGameOver?.Invoke(this, new EventArgs());
                     }
                 }
             }
@@ -103,16 +105,26 @@ namespace Engine.States
             }
         }
 
-        public GameState(Game1 gameReference, int levelId, bool showLevelTitle) : base(gameReference)
+        public EventHandler OnGameOver { get; protected set; }
+
+        public GameState(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null) : base(gameReference)
         {
             this.levelId = levelId;
             CreatePickUpComponents();
             CreateBottleThrowUI();
             mapBatch = new SpriteBatch(graphicsDevice);
             mapLayerRenderTarget = new RenderTarget2D(graphicsDevice, (int)game.LogicalSize.X, (int)game.LogicalSize.Y);
-            LoadMap();
+            if (stageData == null)
+            {
+                LoadMap();
+                CreateMapRenderer();
+            }
+            else
+            {
+                map = stageData.Map;
+                mapRenderer = stageData.MapRenderer;
+            }
             mapSize = SetMapSize();
-            CreateMapRenderer();
             CreatePhysicsManager();
 
             var hidingSpots = CreateHidingSpots();
@@ -123,6 +135,7 @@ namespace Engine.States
             CreateCamera(gameReference);
             AddGameOverComponents();
             AddTimeIsUpComponents();
+            AddGenericLevelFailureComponents();
             AddHud();
             CreateLevelTimer();
             if (showLevelTitle)
@@ -322,6 +335,31 @@ namespace Engine.States
                 AddUiComponent(c);
         }
 
+        private void AddGenericLevelFailureComponents()
+        {
+            var textColor = Color.LightBlue;
+            var font = fonts["Small"];
+            var thatWontWork = new Text(font, "That won't work.")
+            {
+                Color = textColor,
+            };
+            thatWontWork.Position = new Vector2(game.LogicalSize.X / 2 - thatWontWork.Size.X / 2, game.LogicalSize.Y / 2 - thatWontWork.Size.Y / 2);
+            thatWontWork.Hidden = true;
+
+            var restartText = new Text(font, "(Shake phone or tap to restart)")
+            {
+                Color = textColor,
+            };
+            restartText.Position = new Vector2(game.LogicalSize.X / 2 - restartText.Size.X / 2, thatWontWork.Position.Y + thatWontWork.Size.Y);
+            restartText.Hidden = true;
+
+            genericLevelFailure.Add(thatWontWork);
+            genericLevelFailure.Add(restartText);
+
+            foreach (var c in genericLevelFailure)
+                AddUiComponent(c);
+        }
+
         private void CreateLevelTimer()
         {
             StageTimer = new GameTimer(LevelTimeInSeconds)
@@ -437,10 +475,18 @@ namespace Engine.States
             if (!GameOver && !Completed)
                 PlayerClick();
             ManageBottomHudVisibility();
-            if (PlayerSpotted() && !GameOver)
+            if (!GameOver)
             {
-                GameOver = true;
-                ShowPlayerSpottedGameOverComponents();
+                if (PlayerSpotted())
+                {
+                    GameOver = true;
+                    ShowPlayerSpottedGameOverComponents();
+                }
+                if (player.MoveableBodyState == MoveableBodyStates.Dead)
+                {
+                    GameOver = true;
+                    ShowGenericLevelFailComponents();
+                }
             }
             Camera.Update(gameTime);
             mapRenderer.Update(gameTime);
@@ -456,10 +502,21 @@ namespace Engine.States
                 player.Color = Color.Red;
                 if (inputManager.AnyTapDetected() || inputManager.ShakeDetected())
                 {
-                    RestartLevel();
+                    RestartLevel(new StageData()
+                    {
+                        Map = this.map,
+                        MapRenderer = this.mapRenderer,
+                    });
                 }
             }
             base.Update(gameTime);
+        }
+
+        private void ShowGenericLevelFailComponents()
+        {
+            foreach (var c in genericLevelFailure)
+                if (c is IDrawableComponent drawable)
+                    drawable.Hidden = false;
         }
 
         private void ManageBottomHudVisibility()
@@ -486,7 +543,7 @@ namespace Engine.States
             }
         }
 
-        internal abstract void RestartLevel();
+        internal abstract void RestartLevel(StageData stageData = null);
 
         protected virtual void PlayerClick()
         {

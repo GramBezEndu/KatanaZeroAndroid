@@ -14,6 +14,7 @@ namespace Engine.Physics
         Attack,
         Dance,
         Hidden,
+        Dead,
     }
 
     public interface ICollidable : IDrawableComponent

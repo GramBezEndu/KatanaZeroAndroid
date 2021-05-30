@@ -20,7 +20,7 @@ namespace Engine
     public class Player : AnimatedObject, ICollidable
     {
         public static Vector2 NITRO_BONUS = new Vector2(4f, 0f);
-        public static Vector2 BIKE_VELOCITY = new Vector2(10f, 0f);
+        public static Vector2 BIKE_VELOCITY = new Vector2(9f, 0f);
         private readonly InputManager inputManager;
         private Intent currentIntent;
         public AnimatedObject KatanaSlash;
@@ -33,6 +33,10 @@ namespace Engine
             get => _moveableBodyState;
             set
             {
+                if (_moveableBodyState == MoveableBodyStates.Dead)
+                {
+                    return;
+                }
                 if (_moveableBodyState != value)
                 {
                     _moveableBodyState = value;
@@ -88,6 +92,9 @@ namespace Engine
                             PlayAnimation("Idle");
                             HiddenNotification.Hidden = false;
                             HiddenNotification.PlayAnimation("Idle");
+                            break;
+                        case MoveableBodyStates.Dead:
+                            base.Hidden = true;
                             break;
                     }
                 }
@@ -184,30 +191,42 @@ namespace Engine
 
         public void MoveRight()
         {
-            if (OnBike)
-                Velocity = new Vector2(Velocity.X + 3f, Velocity.Y);
-            else
-                Velocity = new Vector2(Velocity.X + 1.9f, Velocity.Y);
+            if (_moveableBodyState != MoveableBodyStates.Dead)
+            {
+                if (OnBike)
+                    Velocity = new Vector2(Velocity.X + 3f, Velocity.Y);
+                else
+                    Velocity = new Vector2(Velocity.X + 1.9f, Velocity.Y);
+            }
         }
 
         public void MoveLeft()
         {
-            if (OnBike)
-                Velocity = new Vector2(Velocity.X + (-3f), Velocity.Y);
-            else
-                Velocity = new Vector2(Velocity.X + (-1.9f), Velocity.Y);
+            if (_moveableBodyState != MoveableBodyStates.Dead)
+            {
+                if (OnBike)
+                    Velocity = new Vector2(Velocity.X + (-3f), Velocity.Y);
+                else
+                    Velocity = new Vector2(Velocity.X + (-1.9f), Velocity.Y);
+            }
         }
 
         public void MoveUp()
         {
-            if (OnBike)
-                Velocity = new Vector2(Velocity.X, Velocity.Y - 3f);
+            if (_moveableBodyState != MoveableBodyStates.Dead)
+            {
+                if (OnBike)
+                    Velocity = new Vector2(Velocity.X, Velocity.Y - 3f);
+            }
         }
 
         public void MoveDown()
         {
-            if (OnBike)
-                Velocity = new Vector2(Velocity.X, Velocity.Y + 3f);
+            if (_moveableBodyState != MoveableBodyStates.Dead)
+            {
+                if (OnBike)
+                    Velocity = new Vector2(Velocity.X, Velocity.Y + 3f);
+            }
         }
 
         public void Kill(Enemy e)

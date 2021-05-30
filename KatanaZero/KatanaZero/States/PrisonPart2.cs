@@ -20,7 +20,7 @@ namespace KatanaZero.States
     {
         //Should be the same time across all prison parts
         public override double LevelTimeInSeconds { get { return 180; } }
-        public PrisonPart2(Game1 gameReference, int levelId, bool showLevelTitle) : base(gameReference, levelId, showLevelTitle)
+        public PrisonPart2(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null) : base(gameReference, levelId, showLevelTitle, stageData)
         {
             gameComponents.Add(new Script()
             {
@@ -51,9 +51,9 @@ namespace KatanaZero.States
             map = content.Load<TiledMap>("Maps/PrisonPart2/PrisonPart2");
         }
 
-        internal override void RestartLevel()
+        internal override void RestartLevel(StageData stageData)
         {
-            game.ChangeState(new PrisonPart1(game, levelId, false));
+            game.ChangeState(new PrisonPart1(game, levelId, false, stageData));
         }
 
         internal override Vector2 SetMapSize()

@@ -61,6 +61,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\StreetCar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\State.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\StageData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\HighScoresStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\Score.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Text.cs" />

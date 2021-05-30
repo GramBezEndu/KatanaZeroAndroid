@@ -101,30 +101,33 @@ namespace Engine.Physics
 
         private void UpdateBodyState(ICollidable c)
         {
-            if (collisionManager.InAir(c))
+            if (c.MoveableBodyState != MoveableBodyStates.Dead)
             {
-                c.MoveableBodyState = MoveableBodyStates.InAir;
-            }
-            else if (c.Velocity.X > 0)
-            {
-                c.MoveableBodyState = MoveableBodyStates.WalkRight;
-            }
-            else if (c.Velocity.X < 0)
-            {
-                c.MoveableBodyState = MoveableBodyStates.WalkLeft;
-            }
-            else if(c is Player player)
-            {
-                if (collisionManager.InDancingGroup(player))
-                    c.MoveableBodyState = MoveableBodyStates.Dance;
-                else if (collisionManager.InHidingSpot(player))
-                    c.MoveableBodyState = MoveableBodyStates.Hidden;
+                if (collisionManager.InAir(c))
+                {
+                    c.MoveableBodyState = MoveableBodyStates.InAir;
+                }
+                else if (c.Velocity.X > 0)
+                {
+                    c.MoveableBodyState = MoveableBodyStates.WalkRight;
+                }
+                else if (c.Velocity.X < 0)
+                {
+                    c.MoveableBodyState = MoveableBodyStates.WalkLeft;
+                }
+                else if (c is Player player)
+                {
+                    if (collisionManager.InDancingGroup(player))
+                        c.MoveableBodyState = MoveableBodyStates.Dance;
+                    else if (collisionManager.InHidingSpot(player))
+                        c.MoveableBodyState = MoveableBodyStates.Hidden;
+                    else
+                        c.MoveableBodyState = MoveableBodyStates.Idle;
+                }
                 else
+                {
                     c.MoveableBodyState = MoveableBodyStates.Idle;
-            }
-            else
-            {
-                c.MoveableBodyState = MoveableBodyStates.Idle;
+                }
             }
         }
 

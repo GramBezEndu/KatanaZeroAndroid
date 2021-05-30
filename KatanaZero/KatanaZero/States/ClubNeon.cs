@@ -19,7 +19,7 @@ namespace KatanaZero.States
 
         public override string LevelName { get { return "CLUB NEON"; } }
 
-        public ClubNeon(Game1 gameReference, int levelId, bool showLevelTitle) : base(gameReference, levelId, showLevelTitle)
+        public ClubNeon(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null) : base(gameReference, levelId, showLevelTitle, stageData)
         {
             game.PlaySong(songs["Club"]);
             AddSecondFloorScript();
@@ -196,9 +196,9 @@ namespace KatanaZero.States
             player.Position = new Vector2(10, 375);
         }
 
-        internal override void RestartLevel()
+        internal override void RestartLevel(StageData stageData)
         {
-            game.ChangeState(new ClubNeon(game, levelId, false));
+            game.ChangeState(new ClubNeon(game, levelId, false, stageData));
         }
 
         internal override void SpawnEntitiesBeforePlayer()

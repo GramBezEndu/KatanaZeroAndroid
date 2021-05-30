@@ -25,7 +25,7 @@ namespace KatanaZero.States
     {
         Script bossScript;
         public override double LevelTimeInSeconds => 90;
-        public BikeEscape(Game1 gameReference, int levelId, bool showLevelTitle) : base(gameReference, levelId, showLevelTitle)
+        public BikeEscape(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null) : base(gameReference, levelId, showLevelTitle, stageData)
         {
             game.PlaySong(songs["BikeEscape"]);
             Camera.CameraMode = Engine.Camera.CameraModes.ConstantVelocity;
@@ -36,6 +36,13 @@ namespace KatanaZero.States
                 OnUpdate = (o, e) => BossInitiate()
             };
             gameComponents.Add(bossScript);
+
+            OnGameOver += new EventHandler(StopCameraMovement);
+        }
+
+        private void StopCameraMovement(object sender, EventArgs e)
+        {
+            Camera.CameraMode = Camera.CameraModes.Static;
         }
 
         protected override void PlayerClick()
@@ -55,6 +62,11 @@ namespace KatanaZero.States
                     AddPlayerGoToIntent(touch);
                 }
             }
+        }
+
+        internal override void RestartLevel(StageData stageData)
+        {
+            game.ChangeState(new BikeEscape(game, levelId, false, stageData));
         }
 
         protected override void AddPlayerGoToIntent(TouchLocation touch)
@@ -94,7 +106,7 @@ namespace KatanaZero.States
             }
         }
 
-        public override string LevelName => "TEST";
+        public override string LevelName => "BIKE ESCAPE";
 
         public override void SetPlayerSpawnPoint()
         {
@@ -104,11 +116,6 @@ namespace KatanaZero.States
         protected override void LoadMap()
         {
             map = content.Load<TiledMap>("Maps/Escape/Escape");
-        }
-
-        internal override void RestartLevel()
-        {
-            //
         }
 
         internal override Vector2 SetMapSize()
