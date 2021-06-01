@@ -100,7 +100,10 @@ namespace Engine.States
                     player.ResetIntent();
                     player.Hidden = true;
                     if(completed == true)
+                    {
+                        State.Sounds["StageClear"].Play();
                         OnCompleted?.Invoke(this, new EventArgs());
+                    }
                 }
             }
         }
@@ -394,7 +397,7 @@ namespace Engine.States
             Camera = new Camera(gameReference, mapSize, player);
         }
 
-        protected void AddMoveableBody(ICollidable body)
+        public void AddMoveableBody(ICollidable body)
         {
             gameComponents.Add(body);
             physicsManager.AddMoveableBody(body);

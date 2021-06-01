@@ -71,6 +71,8 @@ namespace Engine.Sprites
                     QuestionMark.Position = new Vector2(this.Position.X + adjustment.X, this.Position.Y + adjustment.Y);
                     break;
                 case MoveableBodyStates.InAir:
+                case MoveableBodyStates.InAirRight:
+                case MoveableBodyStates.InAirLeft:
                 case MoveableBodyStates.Idle:
                     //Idle right
                     if (this.SpriteEffects == SpriteEffects.None)
@@ -103,6 +105,8 @@ namespace Engine.Sprites
                     PatrollingSprite.Position = new Vector2(this.Position.X - PatrollingSprite.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
                     break;
                 case MoveableBodyStates.InAir:
+                case MoveableBodyStates.InAirRight:
+                case MoveableBodyStates.InAirLeft:
                 case MoveableBodyStates.Idle:
                     //Idle right
                     if (this.SpriteEffects == SpriteEffects.None)

@@ -50,10 +50,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Guy1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Guy2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Gangster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Helicopter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Officer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Enemy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\HelicopterScript.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\IInteractable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Mortar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\MortarTarget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Nitro.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\PickUpArrow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Player.cs" />

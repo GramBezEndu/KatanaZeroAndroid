@@ -43,6 +43,8 @@ namespace Engine
                     switch (value)
                     {
                         case MoveableBodyStates.InAir:
+                        case MoveableBodyStates.InAirRight:
+                        case MoveableBodyStates.InAirLeft:
                         case MoveableBodyStates.Idle:
                             HiddenNotification.Hidden = true;
                             Color = Color.White;

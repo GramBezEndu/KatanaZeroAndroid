@@ -95,7 +95,8 @@ namespace KatanaZero.States
         {
             var items = new List<ICollidable>();
             items.Add(CreateNitro(content, 8000f, 2));
-            items.Add(CreateBottlePickUp(content, 26000f, 2));
+            items.Add(CreateNitro(content, 23500f, 1));
+            items.Add(CreateBottlePickUp(content, 27000f, 2));
             return items;
         }
 

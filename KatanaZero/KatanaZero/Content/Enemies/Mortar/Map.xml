@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_heli_mortar_close_0</Key><Value>0 0 18 18</Value></Item>
+<Item><Key>spr_heli_mortar_far_0</Key><Value>0 19 11 11</Value></Item>
+</Asset>
+</XnaContent>

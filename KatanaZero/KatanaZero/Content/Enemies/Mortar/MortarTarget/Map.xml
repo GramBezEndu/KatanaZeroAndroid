@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_mortar_target_0</Key><Value>0 0 44 24</Value></Item>
+<Item><Key>spr_mortar_target_1</Key><Value>0 25 44 24</Value></Item>
+<Item><Key>spr_mortar_target_2</Key><Value>45 0 44 24</Value></Item>
+<Item><Key>spr_mortar_target_3</Key><Value>45 25 44 24</Value></Item>
+<Item><Key>spr_mortar_target_4</Key><Value>0 50 44 24</Value></Item>
+</Asset>
+</XnaContent>

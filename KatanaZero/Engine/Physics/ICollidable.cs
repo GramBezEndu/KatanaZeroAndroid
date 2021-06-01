@@ -11,6 +11,8 @@ namespace Engine.Physics
         WalkRight,
         WalkLeft,
         InAir,
+        InAirRight,
+        InAirLeft,
         Attack,
         Dance,
         Hidden,

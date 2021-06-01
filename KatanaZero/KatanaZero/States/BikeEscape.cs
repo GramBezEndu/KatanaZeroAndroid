@@ -13,6 +13,7 @@ using Engine;
 using Engine.Physics;
 using Engine.PlayerIntents;
 using Engine.Sprites;
+using Engine.Sprites.Enemies;
 using Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,6 +25,7 @@ namespace KatanaZero.States
     public class BikeEscape : GameState
     {
         Script bossIntiate;
+        Helicopter helicopter;
         TrafficManager trafficManager;
         public override double LevelTimeInSeconds => 90;
         int currentLane = 1;
@@ -43,6 +45,12 @@ namespace KatanaZero.States
             gameComponents.Add(bossIntiate);
             InitializeTrafficManager();
             gameComponents.Add(trafficManager);
+
+            helicopter = new Helicopter(this, content, content.Load<Texture2D>("Enemies/Helicopter/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Enemies/Helicopter/Map"), new Vector2(1f, 1f), player);
+            helicopter.Hidden = true;
+            gameComponents.Add(helicopter);
+            physicsManager.AddMoveableBody(helicopter);
+
             OnGameOver += new EventHandler(StopCameraMovement);
         }
 
@@ -167,11 +175,13 @@ namespace KatanaZero.States
 
         private void BossInitiate()
         {
-            if (Camera.Position.X > 32000f)
+            if (Camera.Position.X > /*32000f*/1000f)
             {
                 if (!GameOver)
                 {
                     game.PlaySong(songs["BikeEscapeBoss"]);
+                    helicopter.Position = new Vector2(/*33000f*/700f, 80f);
+                    helicopter.Hidden = false;
                     bossIntiate.Enabled = false;
                 }
             }

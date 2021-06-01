@@ -18,9 +18,9 @@ namespace Engine.Physics
 
         public virtual void Update(GameTime gameTime)
         {
-            foreach (var c in collidableBodies)
+            foreach (var c in collidableBodies.ToArray())
                 c.PrepareMove(gameTime);
-            foreach (var c in collidableBodies)
+            foreach (var c in collidableBodies.ToArray())
             {
                 foreach (var s in mapCollision)
                 {

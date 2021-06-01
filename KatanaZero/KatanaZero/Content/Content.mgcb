@@ -299,6 +299,213 @@
 /processorParam:TextureFormat=Color
 /build:Enemies/Gangster/Spritesheet.png
 
+#begin Enemies/Helicopter/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Enemies/Helicopter/Map.xml
+
+#begin Enemies/Helicopter/spr_heli_back_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Helicopter/spr_heli_back_0.png
+
+#begin Enemies/Helicopter/spr_heli_back_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Helicopter/spr_heli_back_1.png
+
+#begin Enemies/Helicopter/spr_heli_crashed_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Helicopter/spr_heli_crashed_0.png
+
+#begin Enemies/Helicopter/spr_heli_crashed_scrap_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Helicopter/spr_heli_crashed_scrap_0.png
+
+#begin Enemies/Helicopter/spr_heli_side_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Helicopter/spr_heli_side_0.png
+
+#begin Enemies/Helicopter/spr_heli_side_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Helicopter/spr_heli_side_1.png
+
+#begin Enemies/Helicopter/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Helicopter/Spritesheet.png
+
+#begin Enemies/Mortar/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Enemies/Mortar/Map.xml
+
+#begin Enemies/Mortar/MortarTarget/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Enemies/Mortar/MortarTarget/Map.xml
+
+#begin Enemies/Mortar/MortarTarget/spr_mortar_target_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Mortar/MortarTarget/spr_mortar_target_0.png
+
+#begin Enemies/Mortar/MortarTarget/spr_mortar_target_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Mortar/MortarTarget/spr_mortar_target_1.png
+
+#begin Enemies/Mortar/MortarTarget/spr_mortar_target_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Mortar/MortarTarget/spr_mortar_target_2.png
+
+#begin Enemies/Mortar/MortarTarget/spr_mortar_target_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Mortar/MortarTarget/spr_mortar_target_3.png
+
+#begin Enemies/Mortar/MortarTarget/spr_mortar_target_4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Mortar/MortarTarget/spr_mortar_target_4.png
+
+#begin Enemies/Mortar/MortarTarget/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Mortar/MortarTarget/Spritesheet.png
+
+#begin Enemies/Mortar/spr_heli_mortar_close_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Mortar/spr_heli_mortar_close_0.png
+
+#begin Enemies/Mortar/spr_heli_mortar_far_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Mortar/spr_heli_mortar_far_0.png
+
+#begin Enemies/Mortar/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/Mortar/Spritesheet.png
+
 #begin Enemies/Officer/Map.xml
 /importer:XmlImporter
 /processor:PassThroughProcessor
@@ -949,6 +1156,12 @@
 /processorParam:Quality=Best
 /build:Sounds/ElevatorFloorChange.wav
 
+#begin Sounds/Fire.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Fire.wav
+
 #begin Sounds/GlassBreak.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -1050,6 +1263,18 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/VehicleEngine.wav
+
+#begin Sounds/VehicleEngine2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/VehicleEngine2.wav
+
+#begin Sounds/VehicleEngine3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/VehicleEngine3.wav
 
 #begin Sounds/WeaponSlash.wav
 /importer:WavImporter

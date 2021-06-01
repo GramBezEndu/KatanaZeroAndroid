@@ -90,6 +90,8 @@ namespace Engine.States
             Sounds.Add("BottleThrow", content.Load<SoundEffect>("Sounds/BottleThrow"));
             Sounds.Add("GlassBreak", content.Load<SoundEffect>("Sounds/GlassBreak"));
             Sounds.Add("PickUp", content.Load<SoundEffect>("Sounds/KeycardPickUp"));
+            Sounds.Add("Fire", content.Load<SoundEffect>("Sounds/Fire"));
+            Sounds.Add("StageClear", content.Load<SoundEffect>("Sounds/StageClear"));
         }
 
         private void CreateRenderTarget()

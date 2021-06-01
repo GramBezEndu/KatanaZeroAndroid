@@ -105,7 +105,18 @@ namespace Engine.Physics
             {
                 if (collisionManager.InAir(c))
                 {
-                    c.MoveableBodyState = MoveableBodyStates.InAir;
+                    if (c.Velocity.X > 0f)
+                    {
+                        c.MoveableBodyState = MoveableBodyStates.InAirRight;
+                    }
+                    else if (c.Velocity.X < 0f)
+                    {
+                        c.MoveableBodyState = MoveableBodyStates.InAirLeft;
+                    }
+                    else
+                    {
+                        c.MoveableBodyState = MoveableBodyStates.InAir;
+                    }
                 }
                 else if (c.Velocity.X > 0)
                 {
