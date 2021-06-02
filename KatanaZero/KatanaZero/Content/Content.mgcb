@@ -1736,6 +1736,23 @@
 /processorParam:TextureFormat=Color
 /build:Textures/LevelSelect/Prison.png
 
+#begin Textures/LightPillar/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Textures/LightPillar/Map.xml
+
+#begin Textures/LightPillar/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/LightPillar/Spritesheet.png
+
 #begin Textures/MainMenu.png
 /importer:TextureImporter
 /processor:TextureProcessor

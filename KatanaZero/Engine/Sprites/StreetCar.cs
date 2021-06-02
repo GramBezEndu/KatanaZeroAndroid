@@ -39,7 +39,7 @@ namespace Engine.Sprites
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             base.Draw(gameTime, spriteBatch);
-            spriteBatch.DrawRectangle(CollisionRectangle, Color.Red, 2);
+            //spriteBatch.DrawRectangle(CollisionRectangle, Color.Red, 2);
         }
     }
 }

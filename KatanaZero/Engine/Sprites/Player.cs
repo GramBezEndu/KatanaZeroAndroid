@@ -109,7 +109,7 @@ namespace Engine
             get
             {
                 if (OnBike)
-                    return new Vector2(55, 20);
+                    return new Vector2(40, 20);
                 else
                     return new Vector2(22, 35);
             }
@@ -120,7 +120,7 @@ namespace Engine
             get
             {
                 if (OnBike)
-                    return new Rectangle((int)Position.X, (int)(Position.Y - 10), (int)CollisionSize.X, (int)CollisionSize.Y);
+                    return new Rectangle((int)Position.X, (int)(Position.Y - 10), (int)(CollisionSize.X - 10), (int)CollisionSize.Y);
                 else
                     return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y);
             }
@@ -184,7 +184,7 @@ namespace Engine
             base.Draw(gameTime, spriteBatch);
             KatanaSlash.Draw(gameTime, spriteBatch);
             HiddenNotification.Draw(gameTime, spriteBatch);
-            spriteBatch.DrawRectangle(CollisionRectangle, Color.AliceBlue, 2);
+            //spriteBatch.DrawRectangle(CollisionRectangle, Color.AliceBlue, 1);
         }
 
         private void ManagePlayerIntent(GameTime gameTime)
@@ -244,6 +244,14 @@ namespace Engine
         public void Kill(Enemy e)
         {
             throw new NotImplementedException();
+        }
+
+        public bool HasIntent()
+        {
+            if (currentIntent == null)
+                return false;
+            else
+                return true;
         }
 
         public void AddIntent(Intent intent)

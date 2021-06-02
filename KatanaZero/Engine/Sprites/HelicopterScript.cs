@@ -29,10 +29,10 @@ namespace Engine.Sprites
             phases[4] = new GameTimer(0.15f);
             phases[4].OnTimedEvent = (o, e) => AdvanceAndFire();
 
-            phases[5] = new GameTimer(0.3f);
+            phases[5] = new GameTimer(0.25f);
             phases[5].OnTimedEvent = (o, e) => Advance();
 
-            phases[6] = new GameTimer(1.25f);
+            phases[6] = new GameTimer(1f);
             phases[6].OnTimedEvent = (o, e) => Advance();
 
             phases[7] = new GameTimer(0.15f);
@@ -44,9 +44,9 @@ namespace Engine.Sprites
             phases[10] = new GameTimer(0.15f);
             phases[10].OnTimedEvent = (o, e) => AdvanceAndFire();
 
-            phases[11] = new GameTimer(0.3f);
+            phases[11] = new GameTimer(0.25f);
             phases[11].OnTimedEvent = (o, e) => Advance();
-            phases[12] = new GameTimer(1.25f);
+            phases[12] = new GameTimer(1f);
             phases[12].OnTimedEvent = (o, e) => Advance();
 
             phases[13] = new GameTimer(0.15f);

@@ -27,6 +27,7 @@ namespace KatanaZero.States
         Script bossIntiate;
         Helicopter helicopter;
         TrafficManager trafficManager;
+        AnimatedObject lightPillar;
         public override double LevelTimeInSeconds => 90;
         int currentLane = 1;
         //const float firstLaneMiddle = 170f;
@@ -50,6 +51,29 @@ namespace KatanaZero.States
             helicopter.Hidden = true;
             gameComponents.Add(helicopter);
             physicsManager.AddMoveableBody(helicopter);
+
+            lightPillar = new AnimatedObject(content.Load<Texture2D>("Textures/LightPillar/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/LightPillar/Map"), new Vector2(1f, 1f));
+            lightPillar.Color = Color.LightSkyBlue * 0.6f;
+            lightPillar.Hidden = true;
+            lightPillar.AddAnimation("Idle", new MonoGame.Extended.Animations.SpriteSheets.SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, frameDuration: 0.1f));
+            lightPillar.PlayAnimation("Idle");
+            AddUiComponent(lightPillar);
+
+            var lightScript = new Script()
+            {
+                OnUpdate = (o, e) =>
+                {
+                    if (player.HasIntent())
+                    {
+                        lightPillar.Hidden = false;
+                    }
+                    else
+                    {
+                        lightPillar.Hidden = true;
+                    }
+                }
+            };
+            AddUiComponent(lightScript);
 
             OnGameOver += new EventHandler(StopCameraMovement);
         }
@@ -120,9 +144,6 @@ namespace KatanaZero.States
                 (int)sizeOnScreen.Y);
             if(roadArea.Contains(touch.Position))
             {
-                //TODO: Finish lane swap (case when no lane swap is needed)
-                bool swapLanes = false;
-                int expectedLane = 0;
                 float beginningY = roadArea.Y + (35f * game.Scale.Y);
                 float posY = beginningY;
                 if (touch.Position.Y > posBeginning.Y + 0.666f * sizeOnScreen.Y)
@@ -130,8 +151,6 @@ namespace KatanaZero.States
                     if (currentLane != 2)
                     {
                         posY = beginningY + 3.4f * (65f * game.Scale.Y);
-                        swapLanes = true;
-                        expectedLane = 2;
                     }
                 }
                 else if (touch.Position.Y > posBeginning.Y + 0.333f * sizeOnScreen.Y)
@@ -140,8 +159,6 @@ namespace KatanaZero.States
                     if (currentLane != 1)
                     {
                         posY = beginningY + 2f * (65f * game.Scale.Y);
-                        swapLanes = true;
-                        expectedLane = 1;
                     }
                 }
                 else
@@ -149,21 +166,12 @@ namespace KatanaZero.States
                     if (currentLane != 0)
                     {
                         posY = beginningY;
-                        swapLanes = true;
-                        expectedLane = 0;
                     }
                 }
 
-                if (swapLanes)
-                {
-                    var newIntent = new GoToOnScreenIntent(inputManager, Camera, player, new Vector2(touch.Position.X, posY))
-                    {
-                        OnFinished = (o, e) => currentLane = expectedLane
-                    };
-                    player.AddIntent(newIntent);
-                }
-                else
-                    player.AddIntent(new GoToHorizontalOnScreen(inputManager, Camera, player, touch.Position.X));
+                var newIntent = new GoToOnScreenIntent(inputManager, Camera, player, new Vector2(touch.Position.X, posY));
+                player.AddIntent(newIntent);
+                lightPillar.Position = new Vector2(touch.Position.X - lightPillar.Size.X / 2, posY - lightPillar.Size.Y / 2);
             }
         }
 
