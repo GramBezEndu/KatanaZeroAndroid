@@ -397,6 +397,11 @@ namespace Engine.States
             Camera = new Camera(gameReference, mapSize, player);
         }
 
+        public void AddGameComponent(IComponent c)
+        {
+            gameComponents.Add(c);
+        }
+
         public void AddMoveableBody(ICollidable body)
         {
             gameComponents.Add(body);

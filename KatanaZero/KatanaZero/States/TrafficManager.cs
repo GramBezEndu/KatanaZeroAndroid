@@ -23,6 +23,8 @@ namespace KatanaZero.States
     public class TrafficManager : IComponent
     {
         public List<StreetCar> Cars { get; private set; }
+        bool[] honkUsed;
+        int soundCounter = 0;
         public List<AnimatedObject> TrafficWarnings { get; private set; }
         public List<ICollidable> Items { get; private set; }
         public List<AnimatedObject> ItemNotifications { get; private set; }
@@ -60,6 +62,11 @@ namespace KatanaZero.States
             cars.Add(SpawnCar(content, 21200f, 1));
             cars.Add(SpawnCar(content, 24120f, 1));
             cars.Add(SpawnCar(content, 24700f, 2));
+            cars.Add(SpawnCar(content, 29600f, 1));
+            cars.Add(SpawnCar(content, 30200f, 2));
+            cars.Add(SpawnCar(content, 30800f, 3));
+            cars.Add(SpawnCar(content, 31300f, 2));
+            honkUsed = new bool[cars.Count];
             return cars;
         }
 
@@ -95,8 +102,8 @@ namespace KatanaZero.States
         {
             var items = new List<ICollidable>();
             items.Add(CreateNitro(content, 8000f, 2));
-            items.Add(CreateNitro(content, 23500f, 1));
-            items.Add(CreateBottlePickUp(content, 27000f, 2));
+            items.Add(CreateNitro(content, 22000f, 3));
+            //items.Add(CreateBottlePickUp(content, 27000f, 2));
             return items;
         }
 
@@ -168,6 +175,7 @@ namespace KatanaZero.States
 
         public void Update(GameTime gameTime)
         {
+            UpdateTrafficCarsSound();
             UpdateTrafficWarnings();
             UpdateItemNotifications();
         }
@@ -206,6 +214,28 @@ namespace KatanaZero.States
                 else
                 {
                     notification.Hidden = true;
+                }
+            }
+        }
+
+        private void UpdateTrafficCarsSound()
+        {
+            for (int i = 0; i < Cars.Count; i++)
+            {
+                StreetCar car = (StreetCar)Cars[i];
+                if (car.Position.X - camera.Position.X < 450f && !honkUsed[i])
+                {
+                    honkUsed[i] = true;
+                    if (soundCounter == 0)
+                    {
+                        Engine.States.State.Sounds["SpeedingVehicle"].Play();
+                        soundCounter = 1;
+                    }
+                    else
+                    {
+                        Engine.States.State.Sounds["SpeedingVehicle2"].Play();
+                        soundCounter = 0;
+                    }
                 }
             }
         }

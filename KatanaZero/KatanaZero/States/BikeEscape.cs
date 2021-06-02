@@ -175,12 +175,12 @@ namespace KatanaZero.States
 
         private void BossInitiate()
         {
-            if (Camera.Position.X > /*32000f*/1000f)
+            if (Camera.Position.X > 32000f/*1000f*/)
             {
                 if (!GameOver)
                 {
                     game.PlaySong(songs["BikeEscapeBoss"]);
-                    helicopter.Position = new Vector2(/*33000f*/700f, 80f);
+                    helicopter.Position = new Vector2(32000f - 300f/*700f*/, 80f);
                     helicopter.Hidden = false;
                     bossIntiate.Enabled = false;
                 }

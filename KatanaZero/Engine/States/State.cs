@@ -92,6 +92,8 @@ namespace Engine.States
             Sounds.Add("PickUp", content.Load<SoundEffect>("Sounds/KeycardPickUp"));
             Sounds.Add("Fire", content.Load<SoundEffect>("Sounds/Fire"));
             Sounds.Add("StageClear", content.Load<SoundEffect>("Sounds/StageClear"));
+            Sounds.Add("SpeedingVehicle", content.Load<SoundEffect>("Sounds/SpeedingVehicle"));
+            Sounds.Add("SpeedingVehicle2", content.Load<SoundEffect>("Sounds/SpeedingVehicle2"));
         }
 
         private void CreateRenderTarget()
