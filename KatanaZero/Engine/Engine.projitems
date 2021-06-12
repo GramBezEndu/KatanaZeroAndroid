@@ -49,6 +49,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Guy1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Guy2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\BikeEnemy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Gangster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Helicopter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Officer.cs" />

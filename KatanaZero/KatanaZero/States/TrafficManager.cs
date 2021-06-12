@@ -12,6 +12,7 @@ using Android.Widget;
 using Engine;
 using Engine.Physics;
 using Engine.Sprites;
+using Engine.Sprites.Enemies;
 using Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -23,6 +24,8 @@ namespace KatanaZero.States
     public class TrafficManager : IComponent
     {
         public List<StreetCar> Cars { get; private set; }
+        public List<BikeEnemy> Enemies { get; private set; }
+        public List<AnimatedObject> EnemyWarnings { get; private set; }
         bool[] honkUsed;
         int soundCounter = 0;
         public List<AnimatedObject> TrafficWarnings { get; private set; }
@@ -31,15 +34,33 @@ namespace KatanaZero.States
         private readonly Camera camera;
         private readonly GameState gameState;
         private readonly Game1 game;
-        public TrafficManager(Game1 gameRef, GameState gs, Camera cam, ContentManager content)
+        private readonly Player player;
+        public TrafficManager(Game1 gameRef, GameState gs, Player p, Camera cam, ContentManager content)
         {
             camera = cam;
             game = gameRef;
             gameState = gs;
+            player = p;
             Cars = CreateCars(content);
+            Enemies = CreateBikeEnemies(content);
+            EnemyWarnings = CreateEnemyWarnings(content);
             TrafficWarnings = CreateTrafficWarnings(gameRef, cam, content);
             Items = CreateItems(content);
             ItemNotifications = CreateHelpfulItemsNotifications(gameRef, cam, content);
+        }
+
+        private List<AnimatedObject> CreateEnemyWarnings(ContentManager content)
+        {
+            var warnings = new List<AnimatedObject>();
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                BikeEnemy enemy = Enemies[i];
+                var t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeWarning/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeWarning/Map"), new Vector2(2.5f, 2.5f));
+                t1.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
+                t1.PlayAnimation("Idle");
+                warnings.Add(t1);
+            }
+            return warnings;
         }
 
         private List<StreetCar> CreateCars(ContentManager content)
@@ -68,6 +89,14 @@ namespace KatanaZero.States
             cars.Add(SpawnCar(content, 31300f, 2));
             honkUsed = new bool[cars.Count];
             return cars;
+        }
+
+        private List<BikeEnemy> CreateBikeEnemies(ContentManager content)
+        {
+            var enemies = new List<BikeEnemy>();
+            enemies.Add(CreateBikeEnemy(content, 2000f/*27000f*/, 1));
+            enemies.Add(CreateBikeEnemy(content, 29500f, 3));
+            return enemies;
         }
 
         private List<AnimatedObject> CreateTrafficWarnings(Game1 game, Camera camera, ContentManager content)
@@ -151,6 +180,29 @@ namespace KatanaZero.States
             return car;
         }
 
+        public BikeEnemy CreateBikeEnemy(ContentManager content, float posX, int lane)
+        {
+            float posY = 162f;
+            switch (lane)
+            {
+                case 1:
+                    posY = 162f;
+                    break;
+                case 2:
+                    posY = 200f;
+                    break;
+                case 3:
+                    posY = 240f;
+                    break;
+            };
+            var bikeEnemy = new BikeEnemy(gameState, content, content.Load<Texture2D>("Enemies/BikeMachinegun/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Enemies/BikeMachinegun/Map"), Vector2.One, player)
+            {
+                Position = new Vector2(posX, posY),
+                Hidden = true,
+            };
+            return bikeEnemy;
+        }
+
         private Nitro CreateNitro(ContentManager content, float posX, int lane)
         {
             float posY = 175f;
@@ -177,6 +229,7 @@ namespace KatanaZero.States
         {
             UpdateTrafficCarsSound();
             UpdateTrafficWarnings();
+            UpdateEnemyWarnings();
             UpdateItemNotifications();
         }
 
@@ -210,6 +263,26 @@ namespace KatanaZero.States
                     notification.Hidden = false;
                     notification.Position = new Vector2(game.LogicalSize.X - notification.Size.X, camera.WorldToScreen(new Vector2(0f, car.CollisionRectangle.Center.Y - 15f)).Y);
                     notification.SpriteEffects = SpriteEffects.FlipHorizontally;
+                }
+                else
+                {
+                    notification.Hidden = true;
+                }
+            }
+        }
+
+        private void UpdateEnemyWarnings()
+        {
+            for (int i = 0; i < EnemyWarnings.Count; i++)
+            {
+                var enemy = Enemies[i];
+                AnimatedObject notification = EnemyWarnings[i];
+                //TODO: Finish
+                if (enemy.Hidden == false && enemy.CurrentPhase == 0 && enemy.Position.X < camera.Position.X)
+                {
+                    notification.Hidden = false;
+                    notification.Position = new Vector2(0, camera.WorldToScreen(new Vector2(0f, enemy.CollisionRectangle.Center.Y - 15f)).Y);
+                    notification.SpriteEffects = SpriteEffects.None;
                 }
                 else
                 {

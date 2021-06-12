@@ -80,11 +80,17 @@ namespace KatanaZero.States
 
         private void InitializeTrafficManager()
         {
-            trafficManager = new TrafficManager(game, this, Camera, content);
+            trafficManager = new TrafficManager(game, this, player, Camera, content);
             foreach (var car in trafficManager.Cars)
             {
                 gameComponents.Add(car);
                 physicsManager.AddMoveableBody(car);
+            }
+
+            foreach (var enemy in trafficManager.Enemies)
+            {
+                gameComponents.Add(enemy);
+                physicsManager.AddMoveableBody(enemy);
             }
 
             foreach (var item in trafficManager.Items)
@@ -94,6 +100,9 @@ namespace KatanaZero.States
             }
 
             foreach (var notification in trafficManager.TrafficWarnings)
+                uiComponents.Add(notification);
+
+            foreach (var notification in trafficManager.EnemyWarnings)
                 uiComponents.Add(notification);
 
             foreach (var notification in trafficManager.ItemNotifications)

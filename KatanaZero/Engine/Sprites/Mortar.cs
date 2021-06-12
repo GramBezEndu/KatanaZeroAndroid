@@ -16,6 +16,7 @@ namespace Engine.Sprites
         MortarTarget target;
         GameTimer firstStage;
         bool secondStageActivated;
+        bool collidedWithTarget;
         readonly Vector2 movementVector;
         int verticalLane;
         int horizontalLane;
@@ -29,6 +30,7 @@ namespace Engine.Sprites
         {
             AddAnimation("Far", new SpriteSheetAnimationData(new int[] { 1 }, frameDuration: 0.1f));
             AddAnimation("Close", new SpriteSheetAnimationData(new int[] { 0 }, frameDuration: 0.1f));
+            AddAnimation("Explode", new SpriteSheetAnimationData(new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, frameDuration: 0.1f, isLooping: false));
             PlayAnimation("Far");
             this.verticalLane = verticalLane;
             this.horizontalLane = horizontalLane;
@@ -55,7 +57,8 @@ namespace Engine.Sprites
                         case MoveableBodyStates.InAirRight:
                         case MoveableBodyStates.InAirLeft:
                         case MoveableBodyStates.Idle:
-                            PlayAnimation("Far");
+                            if (!collidedWithTarget)
+                                PlayAnimation("Far");
                             break;
                     }
                 }
@@ -84,20 +87,17 @@ namespace Engine.Sprites
                 firstStage?.Update(gameTime);
                 if (secondStageActivated)
                 {
-                    //vel = new Vector2((Position.X - destination.X) / steps, (Position.Y - destination.Y) / steps);
-                    if (target != null)
-                    {
-                        //target.Position = gameState.Camera.WorldToScreen(destination) - target.Size / 2;
-                    }
-                    PlayAnimation("Close");
+                    Velocity = Vector2.Zero;
                     if (Position.Y < destination.Y)
                     {
                         Velocity = movementVector;
                     }
-                    else
+                    else if (!collidedWithTarget)
                     {
+                        Velocity = Vector2.Zero;
+                        collidedWithTarget = true;
                         target.Hidden = true;
-                        Hidden = true;
+                        PlayAnimation("Explode", onCompleted: new Action(HideMortar));
                     }
                 }
                 else
@@ -105,6 +105,11 @@ namespace Engine.Sprites
                     Velocity = new Vector2(15f, -2.2f);
                 }
             }
+        }
+
+        private void HideMortar()
+        {
+            Hidden = true;
         }
 
         private void CreateTargetUI()
@@ -119,7 +124,6 @@ namespace Engine.Sprites
         {
             if (!secondStageActivated)
             {
-                PlayAnimation("Close");
                 float tempY = 0f;
                 switch (horizontalLane)
                 {
@@ -146,6 +150,7 @@ namespace Engine.Sprites
                     destination += movementVector;
                     travelTimeInFrames++;
                 }
+                PlayAnimation("Close");
                 CreateTargetUI();
                 secondStageActivated = true;
             }
