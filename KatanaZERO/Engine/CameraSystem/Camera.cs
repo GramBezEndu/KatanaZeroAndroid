@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Engine.Input;
-using KatanaZero;
+using KatanaZERO;
 using Microsoft.Xna.Framework;
 
 namespace Engine

@@ -1,6 +1,6 @@
 ﻿using Engine.Sprites.Enemies;
 using Engine.Sprites;
-using KatanaZero;
+using KatanaZERO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -15,7 +15,7 @@ using Engine.Physics;
 using Engine.MoveStrategies;
 using PlatformerEngine.Timers;
 using System.Diagnostics;
-using KatanaZero.States;
+using KatanaZERO.States;
 using Microsoft.Xna.Framework.Media;
 using System.Text.RegularExpressions;
 using Engine.Controls;

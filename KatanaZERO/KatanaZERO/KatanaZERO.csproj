@@ -59,8 +59,24 @@
   <ItemGroup>
     <Compile Include="Activity1.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="LevelInfo.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecialEffects\ClubLights.cs" />
+    <Compile Include="SpecialEffects\LightStrategies\LightStrategy.cs" />
+    <Compile Include="SpecialEffects\LightStrategies\Toggle.cs" />
+    <Compile Include="SpecialEffects\LightStrategies\ToggleAll.cs" />
+    <Compile Include="SpecialEffects\LightStrategies\ToggleEvenLights.cs" />
+    <Compile Include="SpecialEffects\Rain.cs" />
+    <Compile Include="States\BikeEscape.cs" />
+    <Compile Include="States\ClubNeon.cs" />
+    <Compile Include="States\Highscores.cs" />
+    <Compile Include="States\LevelSelect.cs" />
+    <Compile Include="States\LevelsInfo.cs" />
+    <Compile Include="States\MainMenu.cs" />
+    <Compile Include="States\PrisonPart1.cs" />
+    <Compile Include="States\PrisonPart2.cs" />
+    <Compile Include="States\TrafficManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Drawable\Icon.png" />
@@ -75,7 +91,14 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
+    <PackageReference Include="MonoGame.Extended">
+      <Version>3.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="MonoGame.Extended.Tiled">
+      <Version>3.8.0</Version>
+    </PackageReference>
     <PackageReference Include="MonoGame.Framework.Android" Version="3.8.0.1641" />
   </ItemGroup>
+  <Import Project="..\Engine\Engine.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
