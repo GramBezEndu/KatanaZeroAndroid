@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.32510.428
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KatanaZERO", "KatanaZERO\KatanaZERO.csproj", "{C3A9A1BD-6F63-41BF-BCAB-2E406EF8AEFA}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Engine", "Engine\Engine.shproj", "{65713348-C4F1-4528-B4D8-17585AA1CE92}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Engine\Engine.projitems*{65713348-c4f1-4528-b4d8-17585aa1ce92}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

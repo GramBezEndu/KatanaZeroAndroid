@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>65713348-c4f1-4528-b4d8-17585aa1ce92</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Engine</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CameraSystem\Camera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Buttons\IButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Buttons\RectangleButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Buttons\TextButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Buttons\TextureButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\NavigationMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\VerticalNavigationMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DrawableRectangle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDrawableComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\AccelerometerManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\InputManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MoveStrategies\Distracted.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MoveStrategies\PatrollingStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MoveStrategies\Strategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Physics\CollisionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Physics\ICollidable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Physics\PhysicsManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Physics\SideScrollCollisionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoLeft.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoRight.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoToHorizontalOnScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoToOnScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoToVerticalOnScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoToHorizontal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\Intent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\IPlayerIntent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\TeleportIntent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Script.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SpecialEffects\JumpingEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SpecialEffects\RainbowEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SpecialEffects\SpecialEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\AnimatedObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Bottle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\BottlePickUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\CharacterCrowd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Girl2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Guy1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Crowd\Guy2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\BikeEnemy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Gangster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Helicopter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Officer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Enemy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\HelicopterScript.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\IInteractable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Mortar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\MortarTarget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Nitro.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PickUpArrow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\StreetCar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\State.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\StageData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\HighScoresStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\Score.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Text.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Timers\GameTimer.cs" />
+  </ItemGroup>
+</Project>
