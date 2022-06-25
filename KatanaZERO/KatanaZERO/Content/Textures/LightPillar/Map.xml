@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>0</Key><Value>0 0 192 192</Value></Item>
+<Item><Key>1</Key><Value>192 0 192 192</Value></Item>
+<Item><Key>2</Key><Value>384 0 192 192</Value></Item>
+<Item><Key>3</Key><Value>576 0 192 192</Value></Item>
+<Item><Key>4</Key><Value>768 0 192 192</Value></Item>
+<Item><Key>5</Key><Value>0 192 192 192</Value></Item>
+<Item><Key>6</Key><Value>192 192 192 192</Value></Item>
+<Item><Key>7</Key><Value>384 192 192 192</Value></Item>
+<Item><Key>8</Key><Value>576 192 192 192</Value></Item>
+<Item><Key>9</Key><Value>768 192 192 192</Value></Item>
+</Asset>
+</XnaContent>

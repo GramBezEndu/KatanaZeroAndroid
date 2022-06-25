@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_heli_mortar_close_0</Key><Value>196 0 18 18</Value></Item>
+<Item><Key>spr_heli_mortar_far_0</Key><Value>196 19 11 11</Value></Item>
+<Item><Key>spr_explosion_1_0</Key><Value>0 0 48 56</Value></Item>
+<Item><Key>spr_explosion_1_1</Key><Value>49 0 48 56</Value></Item>
+<Item><Key>spr_explosion_1_2</Key><Value>49 57 48 56</Value></Item>
+<Item><Key>spr_explosion_1_3</Key><Value>98 0 48 56</Value></Item>
+<Item><Key>spr_explosion_1_4</Key><Value>147 0 48 56</Value></Item>
+<Item><Key>spr_explosion_1_5</Key><Value>98 57 48 56</Value></Item>
+<Item><Key>spr_explosion_1_6</Key><Value>147 57 48 56</Value></Item>
+<Item><Key>spr_explosion_1_7</Key><Value>0 114 48 56</Value></Item>
+<Item><Key>spr_explosion_1_8</Key><Value>49 114 48 56</Value></Item>
+<Item><Key>spr_explosion_1_9</Key><Value>98 114 48 56</Value></Item>
+<Item><Key>spr_explosion_1_10</Key><Value>0 57 48 56</Value></Item>
+</Asset>
+</XnaContent>

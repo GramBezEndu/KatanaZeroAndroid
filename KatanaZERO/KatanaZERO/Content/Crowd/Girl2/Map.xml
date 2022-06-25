@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_clubgirl_2_0</Key><Value>0 0 29 37</Value></Item>
+<Item><Key>spr_clubgirl_2_1</Key><Value>30 0 29 37</Value></Item>
+<Item><Key>spr_clubgirl_2_10</Key><Value>60 0 29 37</Value></Item>
+<Item><Key>spr_clubgirl_2_11</Key><Value>90 0 29 37</Value></Item>
+<Item><Key>spr_clubgirl_2_2</Key><Value>0 38 29 37</Value></Item>
+<Item><Key>spr_clubgirl_2_3</Key><Value>30 38 29 37</Value></Item>
+<Item><Key>spr_clubgirl_2_4</Key><Value>0 76 29 37</Value></Item>
+<Item><Key>spr_clubgirl_2_5</Key><Value>60 38 29 37</Value></Item>
+<Item><Key>spr_clubgirl_2_6</Key><Value>30 76 29 37</Value></Item>
+<Item><Key>spr_clubgirl_2_7</Key><Value>90 38 29 37</Value></Item>
+<Item><Key>spr_clubgirl_2_8</Key><Value>60 76 29 37</Value></Item>
+<Item><Key>spr_clubgirl_2_9</Key><Value>90 76 29 37</Value></Item>
+</Asset>
+</XnaContent>

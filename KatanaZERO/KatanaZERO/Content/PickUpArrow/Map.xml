@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_pickuparrow_anim_0</Key><Value>0 0 18 21</Value></Item>
+<Item><Key>spr_pickuparrow_anim_1</Key><Value>19 0 18 21</Value></Item>
+<Item><Key>spr_pickuparrow_anim_2</Key><Value>38 0 18 21</Value></Item>
+<Item><Key>spr_pickuparrow_anim_3</Key><Value>0 22 18 21</Value></Item>
+<Item><Key>spr_pickuparrow_anim_4</Key><Value>19 22 18 21</Value></Item>
+<Item><Key>spr_pickuparrow_anim_5</Key><Value>38 22 18 21</Value></Item>
+<Item><Key>spr_pickuparrow_anim_6</Key><Value>57 0 18 21</Value></Item>
+<Item><Key>spr_pickuparrow_anim_7</Key><Value>76 0 18 21</Value></Item>
+</Asset>
+</XnaContent>

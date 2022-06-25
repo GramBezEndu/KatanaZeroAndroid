@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_gangster_machinegun_bike_turnaround_0</Key><Value>0 0 58 42</Value></Item>
+<Item><Key>spr_gangster_machinegun_bike_turnaround_1</Key><Value>59 0 58 42</Value></Item>
+<Item><Key>spr_gangster_machinegun_bike_turnaround_2</Key><Value>0 43 58 42</Value></Item>
+<Item><Key>spr_gangster_machinegun_bike_0</Key><Value>59 43 55 42</Value></Item>
+<Item><Key>spr_gangster_machinegun_bike_1</Key><Value>118 0 55 42</Value></Item>
+<Item><Key>spr_gangster_machinegun_bike_2</Key><Value>115 43 55 42</Value></Item>
+<Item><Key>spr_gangster_machinegun_bike_3</Key><Value>174 0 55 42</Value></Item>
+<Item><Key>spr_gangster_machinegun_bike_back_0</Key><Value>0 86 55 41</Value></Item>
+<Item><Key>spr_gangster_machinegun_bike_back_1</Key><Value>56 86 55 41</Value></Item>
+<Item><Key>spr_gangster_machinegun_bike_back_2</Key><Value>112 86 55 41</Value></Item>
+<Item><Key>spr_gangster_machinegun_bike_back_3</Key><Value>171 43 55 41</Value></Item>
+</Asset>
+</XnaContent>

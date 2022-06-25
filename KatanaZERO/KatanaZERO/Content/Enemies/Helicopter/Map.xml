@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_heli_crashed_scrap_0</Key><Value>0 0 182 45</Value></Item>
+<Item><Key>spr_heli_crashed_0</Key><Value>0 46 135 76</Value></Item>
+<Item><Key>spr_heli_side_0</Key><Value>0 123 131 68</Value></Item>
+<Item><Key>spr_heli_side_1</Key><Value>136 46 131 68</Value></Item>
+<Item><Key>spr_heli_back_0</Key><Value>136 115 110 67</Value></Item>
+<Item><Key>spr_heli_back_1</Key><Value>268 0 110 67</Value></Item>
+</Asset>
+</XnaContent>

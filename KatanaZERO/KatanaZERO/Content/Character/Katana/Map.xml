@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>spr_color_slash_0</Key><Value>0 0 86 42</Value></Item>
+<Item><Key>spr_color_slash_1</Key><Value>0 43 86 42</Value></Item>
+<Item><Key>spr_color_slash_2</Key><Value>87 0 86 42</Value></Item>
+<Item><Key>spr_color_slash_3</Key><Value>87 43 86 42</Value></Item>
+<Item><Key>spr_color_slash_4</Key><Value>0 86 86 42</Value></Item>
+<Item><Key>spr_color_slash_5</Key><Value>0 129 86 42</Value></Item>
+<Item><Key>spr_color_slash_6</Key><Value>87 86 86 42</Value></Item>
+</Asset>
+</XnaContent>
