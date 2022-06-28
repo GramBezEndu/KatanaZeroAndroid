@@ -1,0 +1,14 @@
+{
+  "textureAtlas": {
+    "texture": "Spritesheet.png",
+    "regionWidth": 30,
+    "regionHeight": 38
+  },
+  "cycles": {
+    "idle": {
+      "frames": [0,1,4,5,8,6,9,7,10,11,2,3],
+      "isLooping": true,
+      "frameDuration": 0.1
+    }
+  }
+}
