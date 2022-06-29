@@ -41,7 +41,7 @@ namespace Engine.Sprites
                     animatedSprite.TextureRegion.Height * Scale.Y);
             }
         }
-        private readonly AnimatedSprite animatedSprite;
+        private readonly MonoGame.Extended.Animations.AnimatedSprite animatedSprite;
         private readonly SpriteSheetAnimationFactory animationFactory;
         private readonly TextureAtlas spriteAtlas;
         public Color Color { get; set; } = Color.White;
@@ -75,7 +75,7 @@ namespace Engine.Sprites
         {
             spriteAtlas = new TextureAtlas("animations", spritesheet, map);
             animationFactory = new SpriteSheetAnimationFactory(spriteAtlas);
-            animatedSprite = new AnimatedSprite(animationFactory);
+            animatedSprite = new MonoGame.Extended.Animations.AnimatedSprite(animationFactory);
             Scale = scale;
         }
 
@@ -89,7 +89,7 @@ namespace Engine.Sprites
             animatedSprite.Play(name, onCompleted);
         }
 
-        public void AddAnimation(string name, SpriteSheetAnimationData data)
+        public void AddAnimation(string name, MonoGame.Extended.Animations.SpriteSheets.SpriteSheetAnimationData data)
         {
             animationFactory.Add(name, data);
         }

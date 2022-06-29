@@ -6,15 +6,14 @@ using Microsoft.Xna.Framework;
 
 namespace KatanaZERO
 {
-    [Activity(
-        Label = "@string/app_name",
-        MainLauncher = true,
-        Icon = "@drawable/icon",
-        AlwaysRetainTaskState = true,
-        LaunchMode = LaunchMode.SingleInstance,
-        ScreenOrientation = ScreenOrientation.FullUser,
-        ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize
-    )]
+    [Activity(Label = "KatanaZero"
+        , MainLauncher = true
+        , Icon = "@drawable/icon"
+        , Theme = "@style/Theme.Splash"
+        , AlwaysRetainTaskState = true
+        , LaunchMode = Android.Content.PM.LaunchMode.SingleInstance
+        , ScreenOrientation = ScreenOrientation.Landscape
+        , ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize | ConfigChanges.ScreenLayout)]
     public class Activity1 : AndroidGameActivity
     {
         private Game1 _game;

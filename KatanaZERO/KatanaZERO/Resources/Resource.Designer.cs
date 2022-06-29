@@ -46,6 +46,9 @@ namespace KatanaZERO
 			// aapt resource value: 0x7F010000
 			public const int Icon = 2130771968;
 			
+			// aapt resource value: 0x7F010001
+			public const int Splash = 2130771969;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -68,6 +71,22 @@ namespace KatanaZERO
 			}
 			
 			private String()
+			{
+			}
+		}
+		
+		public partial class Style
+		{
+			
+			// aapt resource value: 0x7F030000
+			public const int Theme_Splash = 2130903040;
+			
+			static Style()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Style()
 			{
 			}
 		}
