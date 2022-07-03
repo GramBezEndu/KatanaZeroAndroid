@@ -1,22 +1,24 @@
-﻿using Engine.Physics;
-using Engine.States;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
-using PlatformerEngine.Timers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Engine.Sprites
+﻿namespace Engine.Sprites
 {
+    using System;
+    using Engine.Physics;
+    using Engine.States;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using PlatformerEngine.Timers;
+
     public class Bottle : Sprite, ICollidable
     {
-        bool throwingLeft;
-        private float velocityIncrement = 0.8f;
-        private GameTimer increaseVelocityTimer;
+        private readonly bool throwingLeft;
+
+        private readonly float velocityIncrement = 0.8f;
+
+        private readonly GameTimer increaseVelocityTimer;
+
         private float velocityX = 8f;
-        public Bottle(Texture2D t, Vector2 scale, bool throwingLeft) : base(t, scale)
+
+        public Bottle(Texture2D t, Vector2 scale, bool throwingLeft)
+            : base(t, scale)
         {
             increaseVelocityTimer = new GameTimer(0.05f)
             {
@@ -52,25 +54,29 @@ namespace Engine.Sprites
         }
 
         public MoveableBodyStates MoveableBodyState { get; set; }
+
         public Vector2 Velocity { get; set; }
 
         public Vector2 CollisionSize { get { return new Vector2(5, 10); } }
 
-        public Rectangle CollisionRectangle { get { return new Rectangle((int)(this.Position.X), (int)(this.Position.Y), (int)this.CollisionSize.X, (int)this.CollisionSize.Y); } }
+        public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
 
         public EventHandler OnMapCollision { get; set; }
 
         public void PrepareMove(GameTime gameTime)
         {
             if (throwingLeft)
+            {
                 Velocity = new Vector2(-velocityX, 0.55f);
+            }
             else
+            {
                 Velocity = new Vector2(velocityX, 0.55f);
+            }
         }
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
         {
-
         }
     }
 }

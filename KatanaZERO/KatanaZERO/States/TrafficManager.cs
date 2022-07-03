@@ -1,40 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Engine;
-using Engine.Physics;
-using Engine.Sprites;
-using Engine.Sprites.Enemies;
-using Engine.States;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Animations.SpriteSheets;
-
-namespace KatanaZERO.States
+﻿namespace KatanaZERO.States
 {
+    using System.Collections.Generic;
+    using Engine;
+    using Engine.Physics;
+    using Engine.Sprites;
+    using Engine.Sprites.Enemies;
+    using Engine.States;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+    using MonoGame.Extended.Animations.SpriteSheets;
+
     public class TrafficManager : IComponent
     {
         public List<StreetCar> Cars { get; private set; }
+
         public List<BikeEnemy> Enemies { get; private set; }
+
         public List<AnimatedObject> EnemyWarnings { get; private set; }
-        bool[] honkUsed;
-        int soundCounter = 0;
+
+        private bool[] honkUsed;
+
+        private int soundCounter = 0;
+
         public List<AnimatedObject> TrafficWarnings { get; private set; }
+
         public List<ICollidable> Items { get; private set; }
+
         public List<AnimatedObject> ItemNotifications { get; private set; }
+
         private readonly Camera camera;
+
         private readonly GameState gameState;
+
         private readonly Game1 game;
+
         private readonly Player player;
+
         public TrafficManager(Game1 gameRef, GameState gs, Player p, Camera cam, ContentManager content)
         {
             camera = cam;
@@ -51,21 +53,22 @@ namespace KatanaZERO.States
 
         private List<AnimatedObject> CreateEnemyWarnings(ContentManager content)
         {
-            var warnings = new List<AnimatedObject>();
+            List<AnimatedObject> warnings = new List<AnimatedObject>();
             for (int i = 0; i < Enemies.Count; i++)
             {
                 BikeEnemy enemy = Enemies[i];
-                var t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeWarning/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeWarning/Map"), new Vector2(2.5f, 2.5f));
+                AnimatedObject t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeWarning/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeWarning/Map"), new Vector2(2.5f, 2.5f));
                 t1.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
                 t1.PlayAnimation("Idle");
                 warnings.Add(t1);
             }
+
             return warnings;
         }
 
         private List<StreetCar> CreateCars(ContentManager content)
         {
-            var cars = new List<StreetCar>();
+            List<StreetCar> cars = new List<StreetCar>();
             cars.Add(SpawnCar(content, 4200f, 1));
             cars.Add(SpawnCar(content, 5600f, 3));
             cars.Add(SpawnCar(content, 7500f, 1));
@@ -93,7 +96,7 @@ namespace KatanaZERO.States
 
         private List<BikeEnemy> CreateBikeEnemies(ContentManager content)
         {
-            var enemies = new List<BikeEnemy>();
+            List<BikeEnemy> enemies = new List<BikeEnemy>();
             enemies.Add(CreateBikeEnemy(content, 2000f/*27000f*/, 1));
             enemies.Add(CreateBikeEnemy(content, 29500f, 3));
             return enemies;
@@ -101,37 +104,41 @@ namespace KatanaZERO.States
 
         private List<AnimatedObject> CreateTrafficWarnings(Game1 game, Camera camera, ContentManager content)
         {
-            var notifications = new List<AnimatedObject>();
+            List<AnimatedObject> notifications = new List<AnimatedObject>();
             for (int i = 0; i < Cars.Count; i++)
             {
                 StreetCar car = Cars[i];
-                var t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeWarning/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeWarning/Map"), new Vector2(2.5f, 2.5f));
+                AnimatedObject t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeWarning/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeWarning/Map"), new Vector2(2.5f, 2.5f));
                 t1.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
                 t1.PlayAnimation("Idle");
                 notifications.Add(t1);
             }
+
             return notifications;
         }
 
         private List<AnimatedObject> CreateHelpfulItemsNotifications(Game1 gameRef, Camera cam, ContentManager content)
         {
-            var notifications = new List<AnimatedObject>();
+            List<AnimatedObject> notifications = new List<AnimatedObject>();
             for (int i = 0; i < Items.Count; i++)
             {
                 ICollidable item = Items[i];
-                var t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeItem/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeItem/Map"), new Vector2(2.5f, 2.5f));
+                AnimatedObject t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeItem/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeItem/Map"), new Vector2(2.5f, 2.5f));
                 t1.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
                 t1.PlayAnimation("Idle");
                 notifications.Add(t1);
             }
+
             return notifications;
         }
 
         public List<ICollidable> CreateItems(ContentManager content)
         {
-            var items = new List<ICollidable>();
-            items.Add(CreateNitro(content, 8000f, 2));
-            items.Add(CreateNitro(content, 22000f, 3));
+            List<ICollidable> items = new List<ICollidable>
+            {
+                CreateNitro(content, 8000f, 2),
+                CreateNitro(content, 22000f, 3),
+            };
             //items.Add(CreateBottlePickUp(content, 27000f, 2));
             return items;
         }
@@ -150,8 +157,9 @@ namespace KatanaZERO.States
                 case 3:
                     posY = 260f;
                     break;
-            };
-            var botttle = new BottlePickUp(gameState, content.Load<Texture2D>("Textures/Bottle"), new Vector2(0.7f, 0.7f))
+            }
+
+            BottlePickUp botttle = new BottlePickUp(gameState, content.Load<Texture2D>("Textures/Bottle"), new Vector2(0.7f, 0.7f))
             {
                 Position = new Vector2(posX, posY),
             };
@@ -172,8 +180,9 @@ namespace KatanaZERO.States
                 case 3:
                     posY = 240f;
                     break;
-            };
-            var car = new StreetCar(content.Load<Texture2D>("Textures/StreetCar"))
+            }
+
+            StreetCar car = new StreetCar(content.Load<Texture2D>("Textures/StreetCar"))
             {
                 Position = new Vector2(posX, posY),
             };
@@ -194,8 +203,9 @@ namespace KatanaZERO.States
                 case 3:
                     posY = 240f;
                     break;
-            };
-            var bikeEnemy = new BikeEnemy(gameState, content, content.Load<Texture2D>("Enemies/BikeMachinegun/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Enemies/BikeMachinegun/Map"), Vector2.One, player)
+            }
+
+            BikeEnemy bikeEnemy = new BikeEnemy(gameState, content, content.Load<Texture2D>("Enemies/BikeMachinegun/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Enemies/BikeMachinegun/Map"), Vector2.One, player)
             {
                 Position = new Vector2(posX, posY),
                 Hidden = true,
@@ -217,8 +227,9 @@ namespace KatanaZERO.States
                 case 3:
                     posY = 255f;
                     break;
-            };
-            var nitro = new Nitro(content.Load<Texture2D>("Textures/Nitro"), new Vector2(0.5f, 0.5f))
+            }
+
+            Nitro nitro = new Nitro(content.Load<Texture2D>("Textures/Nitro"), new Vector2(0.5f, 0.5f))
             {
                 Position = new Vector2(posX, posY),
             };
@@ -237,7 +248,7 @@ namespace KatanaZERO.States
         {
             for (int i = 0; i < Items.Count; i++)
             {
-                var nitro = Items[i];
+                ICollidable nitro = Items[i];
                 AnimatedObject notification = ItemNotifications[i];
                 if (nitro.Position.X - camera.Position.X < 1400f && nitro.Position.X - camera.Position.X > 450f)
                 {
@@ -256,7 +267,7 @@ namespace KatanaZERO.States
         {
             for (int i = 0; i < TrafficWarnings.Count; i++)
             {
-                var car = Cars[i];
+                StreetCar car = Cars[i];
                 AnimatedObject notification = TrafficWarnings[i];
                 if (car.Position.X - camera.Position.X < 1400f && car.Position.X - camera.Position.X > 450f)
                 {
@@ -275,9 +286,10 @@ namespace KatanaZERO.States
         {
             for (int i = 0; i < EnemyWarnings.Count; i++)
             {
-                var enemy = Enemies[i];
+                BikeEnemy enemy = Enemies[i];
                 AnimatedObject notification = EnemyWarnings[i];
-                //TODO: Finish
+
+                // TODO: Finish
                 if (enemy.Hidden == false && enemy.CurrentPhase == 0 && enemy.Position.X < camera.Position.X)
                 {
                     notification.Hidden = false;

@@ -1,40 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Engine.Input;
-using KatanaZERO;
-using Microsoft.Xna.Framework;
-
-namespace Engine
+﻿namespace Engine
 {
+    using KatanaZERO;
+    using Microsoft.Xna.Framework;
+
     public class Camera : IComponent
     {
         public enum CameraModes
         {
             FollowPlayer,
             Static,
-            ConstantVelocity
+            ConstantVelocity,
         }
+
         public CameraModes CameraMode = CameraModes.FollowPlayer;
+
         private bool deadZonesEnabled
         {
             get
             {
                 if (CameraMode == CameraModes.Static)
+                {
                     return false;
+                }
                 else
+                {
                     return true;
+                }
             }
         }
-        readonly Game1 game;
-        readonly Player player;
+
+        private readonly Game1 game;
+
+        private readonly Player player;
+
         public Matrix ViewMatrix { get; private set; } = Matrix.CreateTranslation(0, 0, 0);
+
         public Vector2 Position
         {
             get => _position;
             private set
             {
-                //Dead zones
+                // Dead zones
                 float positionX = value.X;
                 float positionY = value.Y;
                 if (deadZonesEnabled)
@@ -52,10 +58,11 @@ namespace Engine
         {
             if (positionY - Origin.Y * (1 / Zoom) < 0f)
             {
-                //how much camera is too much to the top
+                // how much camera is too much to the top
                 float distance = positionY - Origin.Y * (1 / Zoom);
                 return positionY - distance;
             }
+
             return positionY;
         }
 
@@ -63,10 +70,11 @@ namespace Engine
         {
             if (positionY + (game.LogicalSize.Y * (1 / Zoom) - Origin.Y * (1 / Zoom)) > mapSize.Y)
             {
-                //how much camera is too much to the bottom
+                // how much camera is too much to the bottom
                 float distance = (positionY + (game.LogicalSize.Y * (1 / Zoom) - Origin.Y * (1 / Zoom))) - mapSize.Y;
                 return positionY - distance;
             }
+
             return positionY;
         }
 
@@ -77,6 +85,7 @@ namespace Engine
                 float distance = (x + ((game.LogicalSize.X * (1 / Zoom)) - Origin.X * (1 / Zoom))) - mapSize.X;
                 return x - distance;
             }
+
             return x;
         }
 
@@ -87,23 +96,33 @@ namespace Engine
                 float distance = positionX - Origin.X * (1 / Zoom);
                 return positionX - distance;
             }
+
             return positionX;
         }
 
         public float Zoom { get; private set; } = 2.5f;
+
         public float MultiplierOriginX { get; set; } = 0.25f;
+
         public Vector2 Origin { get; private set; } = Vector2.Zero;
+
         private Vector2 constantVelocity
         {
             get
             {
                 if (player.NitroActive)
+                {
                     return Player.BIKE_VELOCITY + Player.NITRO_BONUS;
+                }
                 else
+                {
                     return Player.BIKE_VELOCITY;
+                }
             }
         }
+
         private Vector2 mapSize;
+
         private Vector2 _position = Vector2.Zero;
 
         public Camera(Game1 gameReference, Vector2 mapSize, Player p)
@@ -112,6 +131,7 @@ namespace Engine
             this.mapSize = mapSize;
             player = p;
         }
+
         public void Update(GameTime gameTime)
         {
             switch (CameraMode)
@@ -132,7 +152,7 @@ namespace Engine
         {
             get
             {
-                var invertedMatrix = Matrix.Invert(ViewMatrix);
+                Matrix invertedMatrix = Matrix.Invert(ViewMatrix);
                 return new Vector2(invertedMatrix.Translation.X, invertedMatrix.Translation.Y);
             }
         }
@@ -148,7 +168,7 @@ namespace Engine
             Origin = new Vector2(game.LogicalSize.X * MultiplierOriginX - player.Size.X / 2, game.LogicalSize.Y * (3 / 4f) - player.Size.Y / 2);
             Position = new Vector2(player.Position.X, player.Position.Y);
 
-            //After updating position we and origin can calculate view matrix
+            // After updating position we and origin can calculate view matrix
             CalculateViewMatrix();
         }
 
@@ -165,15 +185,18 @@ namespace Engine
 
         public Vector2 ScreenToWorld(Vector2 position)
         {
-            return Vector2.Transform(new Vector2((int)(position.X / (game.WindowSize.X / game.LogicalSize.X)), (int)(position.Y / (game.WindowSize.Y / game.LogicalSize.Y))),
+            return Vector2.Transform(
+                new Vector2((int)(position.X / (game.WindowSize.X / game.LogicalSize.X)), (int)(position.Y / (game.WindowSize.Y / game.LogicalSize.Y))),
                 Matrix.Invert(ViewMatrix));
         }
 
         public Vector2 WorldToScreen(Vector2 position)
         {
-            var pos = new Vector2((position.X - TopLeftPos.X) * (game.WindowSize.X / game.LogicalSize.X),
+            Vector2 pos = new Vector2(
+                (position.X - TopLeftPos.X) * (game.WindowSize.X / game.LogicalSize.X),
                 (position.Y - TopLeftPos.Y) * (game.WindowSize.Y / game.LogicalSize.Y));
-            //Scale with zoom ratio
+
+            // Scale with zoom ratio
             return new Vector2(pos.X * Zoom, pos.Y * Zoom);
         }
     }

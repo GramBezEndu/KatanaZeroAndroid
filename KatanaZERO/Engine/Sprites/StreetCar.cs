@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Engine.Physics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
-
-namespace Engine.Sprites
+﻿namespace Engine.Sprites
 {
+    using System;
+    using Engine.Physics;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     public class StreetCar : Sprite, ICollidable
     {
-        public StreetCar(Texture2D t) : base(t)
+        public StreetCar(Texture2D t)
+            : base(t)
         {
         }
 
         public EventHandler OnMapCollision { get; set; }
+
         public MoveableBodyStates MoveableBodyState { get; set; }
+
         public Vector2 Velocity { get; set; }
-        float heightTreshold = 18f;
+
+        private readonly float heightTreshold = 18f;
 
         public Vector2 CollisionSize => new Vector2(113, 45 - heightTreshold);
 

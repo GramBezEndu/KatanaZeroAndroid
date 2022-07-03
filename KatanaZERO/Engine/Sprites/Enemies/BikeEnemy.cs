@@ -1,25 +1,29 @@
-﻿using Engine.Physics;
-using Engine.States;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Animations.SpriteSheets;
-using PlatformerEngine.Timers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Engine.Sprites.Enemies
+﻿namespace Engine.Sprites.Enemies
 {
+    using System;
+    using System.Collections.Generic;
+    using Engine.Physics;
+    using Engine.States;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+    using MonoGame.Extended.Animations.SpriteSheets;
+    using PlatformerEngine.Timers;
+
     public class BikeEnemy : AnimatedObject, ICollidable
     {
         private readonly GameState gameState;
+
         private readonly ContentManager content;
+
         protected readonly Player player;
-        GameTimer[] phases;
+
+        private readonly GameTimer[] phases;
+
         public int CurrentPhase { get; private set; } = 0;
 
-        public BikeEnemy(GameState gs, ContentManager c, Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p) : base(spritesheet, map, scale)
+        public BikeEnemy(GameState gs, ContentManager c, Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p)
+            : base(spritesheet, map, scale)
         {
             player = p;
             gameState = gs;
@@ -81,7 +85,7 @@ namespace Engine.Sprites.Enemies
 
         public void PrepareMove(GameTime gameTime)
         {
-            //TODO: Finish movement, add shooting
+            // TODO: Finish movement, add shooting
             if (Hidden && CurrentPhase == 0)
             {
                 if (Math.Abs(gameState.Camera.Position.X - Position.X) > 265f && Position.X < gameState.Camera.Position.X)
@@ -89,10 +93,14 @@ namespace Engine.Sprites.Enemies
                     Hidden = false;
                 }
             }
+
             if (!Hidden)
             {
                 if (CurrentPhase >= 0 && CurrentPhase < phases.Length)
+                {
                     phases[CurrentPhase].Update(gameTime);
+                }
+
                 switch (CurrentPhase)
                 {
                     case 0:
@@ -110,7 +118,6 @@ namespace Engine.Sprites.Enemies
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
         {
-
         }
     }
 }

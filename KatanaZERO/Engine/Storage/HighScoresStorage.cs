@@ -1,46 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-
-namespace Engine.Storage
+﻿namespace Engine.Storage
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Xml.Serialization;
+
     public class HighScoresStorage
     {
-        private static string fullPath;
-        private static string filename = "highscores.xml";
-        public List<Score> Scores;
-        public const int MAX_HIGHSCORES_COUNT = 5;
+        private static readonly string FileName = "highscores.xml";
+
+        private static string filePath;
+
+        private List<Score> scores;
+
+        public const int MaxHighscoresCount = 5;
+
         private static HighScoresStorage instance;
+
         public static HighScoresStorage Instance
         {
             get
             {
-                //Create full file path to check if user has saved data
-                if (fullPath == null)
+                // Create full file path to check if user has saved data
+                if (filePath == null)
+                {
                     CreateFullPath();
+                }
 
-                //Create instance if does not exist
+                // Create instance if does not exist
                 if (instance == null)
                 {
-                    if(!File.Exists(fullPath))
+                    if (!File.Exists(filePath))
                     {
                         instance = new HighScoresStorage();
                     }
                     else
                     {
-                        using (var reader = new StreamReader(new FileStream(fullPath, FileMode.Open)))
+                        using (StreamReader reader = new StreamReader(new FileStream(filePath, FileMode.Open)))
                         {
-                            var serilizer = new XmlSerializer(typeof(List<Score>));
+                            XmlSerializer serilizer = new XmlSerializer(typeof(List<Score>));
                             try
                             {
-                                var scores = (List<Score>)serilizer.Deserialize(reader);
+                                List<Score> scores = (List<Score>)serilizer.Deserialize(reader);
                                 instance = new HighScoresStorage(scores);
                             }
-                            catch(InvalidOperationException e)
+                            catch (InvalidOperationException e)
                             {
                                 System.Diagnostics.Debug.WriteLine(e.Message);
                                 System.Diagnostics.Debug.WriteLine("Inner exception: " + e.InnerException.Message);
@@ -49,63 +54,67 @@ namespace Engine.Storage
                         }
                     }
                 }
-                //Return highscores storage
+
+                // Return highscores storage
                 return instance;
             }
         }
 
-        private HighScoresStorage(List<Score> scores) : this()
+        private HighScoresStorage(List<Score> scores)
+            : this()
         {
-            Scores = scores;
+            this.scores = scores;
         }
 
         private HighScoresStorage()
         {
-            Scores = new List<Score>();
+            scores = new List<Score>();
         }
 
         private static void CreateFullPath()
         {
             string[] paths =
-{
+            {
                 System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
-                filename
+                FileName,
             };
-            fullPath = Path.Combine(paths);
+            filePath = Path.Combine(paths);
         }
 
         public void AddTime(Score s)
         {
-            Scores.Add(s);
-            //Order and take best N scores for each level ID
-            //1. Find all distinct ids
-            int[] allIds = Scores.Select(x => x.LevelId).ToArray();
+            scores.Add(s);
+
+            // Order and take best N scores for each level ID
+            // 1. Find all distinct ids
+            int[] allIds = scores.Select(x => x.LevelId).ToArray();
             int[] allDistnictIds = allIds.Distinct().ToArray();
-            //2. Find N best scores for each level id
+
+            // 2. Find N best scores for each level id
             List<Score> tempScores = new List<Score>();
             for (int i = 0; i < allDistnictIds.Length; i++)
             {
-                var bestScoresForThisId = Scores.Where(x => x.LevelId == allDistnictIds[i]).OrderBy(x => x.Time).Take(MAX_HIGHSCORES_COUNT).ToList();
+                List<Score> bestScoresForThisId = scores.Where(x => x.LevelId == allDistnictIds[i]).OrderBy(x => x.Time).Take(MaxHighscoresCount).ToList();
                 tempScores.AddRange(bestScoresForThisId);
             }
 
-            Scores = tempScores;
+            scores = tempScores;
             Save();
         }
 
         public void Save()
         {
-            using (var writer = new StreamWriter(new FileStream(fullPath, FileMode.Create)))
+            using (StreamWriter writer = new StreamWriter(new FileStream(filePath, FileMode.Create)))
             {
-                var serilizer = new XmlSerializer(typeof(List<Score>));
+                XmlSerializer serilizer = new XmlSerializer(typeof(List<Score>));
 
-                serilizer.Serialize(writer, Scores);
+                serilizer.Serialize(writer, scores);
             }
         }
 
         public double[] GetBestScores(int levelId)
         {
-            var bestScores = Scores.Where(x => x.LevelId == levelId).OrderBy(x => x.Time).Take(MAX_HIGHSCORES_COUNT).ToArray();
+            Score[] bestScores = scores.Where(x => x.LevelId == levelId).OrderBy(x => x.Time).Take(MaxHighscoresCount).ToArray();
             return bestScores.Select(x => x.Time).ToArray();
         }
     }

@@ -1,32 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Engine.Controls.Buttons;
-using Engine.Input;
-using Engine.MoveStrategies;
-using Engine.Physics;
-using Engine.PlayerIntents;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
-
-namespace Engine.Sprites
+﻿namespace Engine.Sprites
 {
+    using System;
+    using System.Collections.Generic;
+    using Engine.MoveStrategies;
+    using Engine.Physics;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     public abstract class Enemy : AnimatedObject, ICollidable
     {
         public Strategy CurrentStrategy;
+
         protected readonly Player player;
+
         public virtual MoveableBodyStates MoveableBodyState { get; set; }
+
         public Vector2 Velocity { get; set; }
+
         public Sprite PatrollingSprite { get; set; }
+
         public Sprite QuestionMark { get; set; }
 
         public abstract Vector2 CollisionSize { get; }
+
         public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
 
         public EventHandler OnMapCollision { get; set; }
 
-        public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p) : base(spritesheet, map, scale)
+        public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p)
+            : base(spritesheet, map, scale)
         {
             player = p;
         }
@@ -44,13 +46,15 @@ namespace Engine.Sprites
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if(PatrollingSprite != null)
+            if (PatrollingSprite != null)
             {
                 PatrollingSprite.Update(gameTime);
-                //Adjust beam position based on current animation (state)
+
+                // Adjust beam position based on current animation (state)
                 AdjustPatrollBeamPosition();
             }
-            if(QuestionMark != null)
+
+            if (QuestionMark != null)
             {
                 QuestionMark.Update(gameTime);
                 AdjustQuestionMarkPosition();
@@ -64,27 +68,28 @@ namespace Engine.Sprites
             {
                 case MoveableBodyStates.WalkRight:
                     adjustment = new Vector2(12, -13);
-                    QuestionMark.Position = new Vector2(this.Position.X + adjustment.X, this.Position.Y + adjustment.Y);
+                    QuestionMark.Position = new Vector2(Position.X + adjustment.X, Position.Y + adjustment.Y);
                     break;
                 case MoveableBodyStates.WalkLeft:
                     adjustment = new Vector2(7, -15);
-                    QuestionMark.Position = new Vector2(this.Position.X + adjustment.X, this.Position.Y + adjustment.Y);
+                    QuestionMark.Position = new Vector2(Position.X + adjustment.X, Position.Y + adjustment.Y);
                     break;
                 case MoveableBodyStates.InAir:
                 case MoveableBodyStates.InAirRight:
                 case MoveableBodyStates.InAirLeft:
                 case MoveableBodyStates.Idle:
-                    //Idle right
-                    if (this.SpriteEffects == SpriteEffects.None)
+                    // Idle right
+                    if (SpriteEffects == SpriteEffects.None)
                     {
                         adjustment = new Vector2(2, -11);
-                        QuestionMark.Position = new Vector2(this.Position.X + adjustment.X, this.Position.Y + adjustment.Y);
+                        QuestionMark.Position = new Vector2(Position.X + adjustment.X, Position.Y + adjustment.Y);
                     }
                     else
                     {
                         adjustment = new Vector2(1, -12);
-                        QuestionMark.Position = new Vector2(this.Position.X + adjustment.X, this.Position.Y + adjustment.Y);
+                        QuestionMark.Position = new Vector2(Position.X + adjustment.X, Position.Y + adjustment.Y);
                     }
+
                     break;
             }
         }
@@ -97,30 +102,31 @@ namespace Engine.Sprites
                 case MoveableBodyStates.WalkRight:
                     adjustment = new Vector2(-10, -13);
                     PatrollingSprite.SpriteEffects = SpriteEffects.None;
-                    PatrollingSprite.Position = new Vector2(this.Position.X + this.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
+                    PatrollingSprite.Position = new Vector2(Position.X + Size.X + adjustment.X, Position.Y + adjustment.Y);
                     break;
                 case MoveableBodyStates.WalkLeft:
                     adjustment = new Vector2(5, -15);
                     PatrollingSprite.SpriteEffects = SpriteEffects.FlipHorizontally;
-                    PatrollingSprite.Position = new Vector2(this.Position.X - PatrollingSprite.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
+                    PatrollingSprite.Position = new Vector2(Position.X - PatrollingSprite.Size.X + adjustment.X, Position.Y + adjustment.Y);
                     break;
                 case MoveableBodyStates.InAir:
                 case MoveableBodyStates.InAirRight:
                 case MoveableBodyStates.InAirLeft:
                 case MoveableBodyStates.Idle:
-                    //Idle right
-                    if (this.SpriteEffects == SpriteEffects.None)
+                    // Idle right
+                    if (SpriteEffects == SpriteEffects.None)
                     {
                         adjustment = new Vector2(-35, -11);
                         PatrollingSprite.SpriteEffects = SpriteEffects.None;
-                        PatrollingSprite.Position = new Vector2(this.Position.X + this.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
+                        PatrollingSprite.Position = new Vector2(Position.X + Size.X + adjustment.X, Position.Y + adjustment.Y);
                     }
                     else
                     {
                         adjustment = new Vector2(-2, -12);
                         PatrollingSprite.SpriteEffects = SpriteEffects.FlipHorizontally;
-                        PatrollingSprite.Position = new Vector2(this.Position.X - PatrollingSprite.Size.X + adjustment.X, this.Position.Y + adjustment.Y);
+                        PatrollingSprite.Position = new Vector2(Position.X - PatrollingSprite.Size.X + adjustment.X, Position.Y + adjustment.Y);
                     }
+
                     break;
             }
         }
@@ -134,7 +140,6 @@ namespace Engine.Sprites
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
         {
-            
         }
     }
 }

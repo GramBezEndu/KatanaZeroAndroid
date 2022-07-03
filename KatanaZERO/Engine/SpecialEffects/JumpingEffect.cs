@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
-using PlatformerEngine.Timers;
-
-namespace Engine.SpecialEffects
+﻿namespace Engine.SpecialEffects
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using PlatformerEngine.Timers;
+
     public class JumpingEffect : SpecialEffect
     {
-        private GameTimer effectTimer;
-        List<Vector2> startingPositions = new List<Vector2>();
-        bool goingDown = true;
+        private readonly GameTimer effectTimer;
+
+        private readonly List<Vector2> startingPositions = new List<Vector2>();
+
+        private bool goingDown = true;
+
         public JumpingEffect()
         {
             effectTimer = new GameTimer(0.25f)
             {
-                OnTimedEvent = SwitchDirection
+                OnTimedEvent = SwitchDirection,
             };
         }
 
@@ -24,10 +26,11 @@ namespace Engine.SpecialEffects
             if (Enabled)
             {
                 goingDown = !goingDown;
-                //If we changed to going down
+
+                // If we changed to going down
                 if (goingDown)
                 {
-                    //Reset position to original position (will avoid position changes in long term)
+                    // Reset position to original position (will avoid position changes in long term)
                     for (int i = 0; i < targets.Count; i++)
                     {
                         targets[i].Position = startingPositions[i];
@@ -50,14 +53,14 @@ namespace Engine.SpecialEffects
                 float movementPerFrame = 0.2f;
                 if (goingDown)
                 {
-                    foreach (var target in targets)
+                    foreach (IDrawableComponent target in targets)
                     {
                         target.Position = new Vector2(target.Position.X, target.Position.Y + movementPerFrame);
                     }
                 }
                 else
                 {
-                    foreach (var target in targets)
+                    foreach (IDrawableComponent target in targets)
                     {
                         target.Position = new Vector2(target.Position.X, target.Position.Y - movementPerFrame);
                     }

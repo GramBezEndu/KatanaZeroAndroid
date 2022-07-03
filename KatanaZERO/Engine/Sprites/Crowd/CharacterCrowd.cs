@@ -1,21 +1,20 @@
-﻿using Engine.Physics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
-using MonoGame.Extended.Animations.SpriteSheets;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Engine.Sprites.Crowd
+﻿namespace Engine.Sprites.Crowd
 {
+    using System;
+    using System.Collections.Generic;
+    using Engine.Physics;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     public abstract class CharacterCrowd : AnimatedObject, ICollidable
     {
-        public CharacterCrowd(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale) : base(spritesheet, map, scale)
+        public CharacterCrowd(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale)
+            : base(spritesheet, map, scale)
         {
         }
 
         public MoveableBodyStates MoveableBodyState { get; set; }
+
         public Vector2 Velocity { get; set; }
 
         public abstract Vector2 CollisionSize { get; }
@@ -26,12 +25,10 @@ namespace Engine.Sprites.Crowd
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
         {
-            
         }
 
         public void PrepareMove(GameTime gameTime)
         {
-
         }
     }
 }

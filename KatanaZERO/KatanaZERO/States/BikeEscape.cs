@@ -1,39 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Engine;
-using Engine.Physics;
-using Engine.PlayerIntents;
-using Engine.Sprites;
-using Engine.Sprites.Enemies;
-using Engine.States;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input.Touch;
-using MonoGame.Extended.Tiled;
-
-namespace KatanaZERO.States
+﻿namespace KatanaZERO.States
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Engine;
+    using Engine.Physics;
+    using Engine.PlayerIntents;
+    using Engine.Sprites;
+    using Engine.Sprites.Enemies;
+    using Engine.States;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input.Touch;
+    using MonoGame.Extended.Tiled;
+
     public class BikeEscape : GameState
     {
-        Script bossIntiate;
-        Helicopter helicopter;
-        TrafficManager trafficManager;
-        AnimatedObject lightPillar;
+        private readonly Script bossIntiate;
+        private readonly Helicopter helicopter;
+        private TrafficManager trafficManager;
+        private readonly AnimatedObject lightPillar;
+
         public override double LevelTimeInSeconds => 90;
-        int currentLane = 1;
+
+        private readonly int currentLane = 1;
         //const float firstLaneMiddle = 170f;
         //const float secondLaneMiddle = 210f;
         //const float thirdLaneMiddle = 250f;
-        public BikeEscape(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null) : base(gameReference, levelId, showLevelTitle, stageData)
+        public BikeEscape(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null)
+            : base(gameReference, levelId, showLevelTitle, stageData)
         {
             game.PlaySong(songs["BikeEscape"]);
             Camera.CameraMode = Engine.Camera.CameraModes.ConstantVelocity;
@@ -41,7 +36,7 @@ namespace KatanaZERO.States
 
             bossIntiate = new Script()
             {
-                OnUpdate = (o, e) => BossInitiate()
+                OnUpdate = (o, e) => BossInitiate(),
             };
             gameComponents.Add(bossIntiate);
             InitializeTrafficManager();
@@ -59,7 +54,7 @@ namespace KatanaZERO.States
             lightPillar.PlayAnimation("Idle");
             AddUiComponent(lightPillar);
 
-            var lightScript = new Script()
+            Script lightScript = new Script()
             {
                 OnUpdate = (o, e) =>
                 {
@@ -71,7 +66,7 @@ namespace KatanaZERO.States
                     {
                         lightPillar.Hidden = true;
                     }
-                }
+                },
             };
             AddUiComponent(lightScript);
 
@@ -81,32 +76,38 @@ namespace KatanaZERO.States
         private void InitializeTrafficManager()
         {
             trafficManager = new TrafficManager(game, this, player, Camera, content);
-            foreach (var car in trafficManager.Cars)
+            foreach (StreetCar car in trafficManager.Cars)
             {
                 gameComponents.Add(car);
                 physicsManager.AddMoveableBody(car);
             }
 
-            foreach (var enemy in trafficManager.Enemies)
+            foreach (BikeEnemy enemy in trafficManager.Enemies)
             {
                 gameComponents.Add(enemy);
                 physicsManager.AddMoveableBody(enemy);
             }
 
-            foreach (var item in trafficManager.Items)
+            foreach (ICollidable item in trafficManager.Items)
             {
                 gameComponents.Add(item);
                 physicsManager.AddMoveableBody(item);
             }
 
-            foreach (var notification in trafficManager.TrafficWarnings)
+            foreach (AnimatedObject notification in trafficManager.TrafficWarnings)
+            {
                 uiComponents.Add(notification);
+            }
 
-            foreach (var notification in trafficManager.EnemyWarnings)
+            foreach (AnimatedObject notification in trafficManager.EnemyWarnings)
+            {
                 uiComponents.Add(notification);
+            }
 
-            foreach (var notification in trafficManager.ItemNotifications)
+            foreach (AnimatedObject notification in trafficManager.ItemNotifications)
+            {
                 uiComponents.Add(notification);
+            }
         }
 
         private void StopCameraMovement(object sender, EventArgs e)
@@ -116,16 +117,17 @@ namespace KatanaZERO.States
 
         protected override void PlayerClick()
         {
-            foreach (var touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed || x.State == TouchLocationState.Moved))
+            foreach (TouchLocation touch in inputManager.CurrentTouchCollection.Where(x => x.State == TouchLocationState.Pressed || x.State == TouchLocationState.Moved))
             {
-                //We clicked to throw the bottle
+                // We clicked to throw the bottle
                 if ((inputManager.RectangleWasJustClicked(weaponSlotButton.Rectangle) && !weaponSlotButton.Hidden) ||
                     (inputManager.RectangleWasJustClicked(throwButton.Rectangle) && !throwButton.Hidden))
                 {
                     lastBottleThrowTapId = touch.Id;
                     continue;
                 }
-                //We clicked to move (if it's the same ID as last bottle throw then player did not intend to move)
+
+                // We clicked to move (if it's the same ID as last bottle throw then player did not intend to move)
                 else if (touch.Id != lastBottleThrowTapId)
                 {
                     AddPlayerGoToIntent(touch);
@@ -133,7 +135,7 @@ namespace KatanaZERO.States
             }
         }
 
-        internal override void RestartLevel(StageData stageData)
+        override internal void RestartLevel(StageData stageData)
         {
             game.ChangeState(new BikeEscape(game, levelId, false, stageData));
         }
@@ -146,12 +148,12 @@ namespace KatanaZERO.States
             Vector2 posBeginning = new Vector2(player.CollisionSize.X, Camera.WorldToScreen(new Vector2(0f, roadBeginningY)).Y);
             Vector2 sizeOnScreen = new Vector2((game.LogicalSize.X - 2 * posBeginning.X) * game.Scale.X, game.WindowSize.Y - posBeginning.Y);
 
-            var roadArea = new Rectangle(
+            Rectangle roadArea = new Rectangle(
                 (int)posBeginning.X,
                 (int)posBeginning.Y,
                 (int)sizeOnScreen.X,
                 (int)sizeOnScreen.Y);
-            if(roadArea.Contains(touch.Position))
+            if (roadArea.Contains(touch.Position))
             {
                 float beginningY = roadArea.Y + (35f * game.Scale.Y);
                 float posY = beginningY;
@@ -178,7 +180,7 @@ namespace KatanaZERO.States
                     }
                 }
 
-                var newIntent = new GoToOnScreenIntent(inputManager, Camera, player, new Vector2(touch.Position.X, posY));
+                GoToOnScreenIntent newIntent = new GoToOnScreenIntent(inputManager, Camera, player, new Vector2(touch.Position.X, posY));
                 player.AddIntent(newIntent);
                 lightPillar.Position = new Vector2(touch.Position.X - lightPillar.Size.X / 2, posY - lightPillar.Size.Y / 2);
             }
@@ -216,7 +218,7 @@ namespace KatanaZERO.States
             map = content.Load<TiledMap>("Maps/Escape/Escape");
         }
 
-        internal override Vector2 SetMapSize()
+        override internal Vector2 SetMapSize()
         {
             return new Vector2(57570, 334);
         }

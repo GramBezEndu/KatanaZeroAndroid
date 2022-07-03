@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Engine.Sprites;
-using Microsoft.Xna.Framework;
-
-namespace Engine.Physics
+﻿namespace Engine.Physics
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+
     public class PhysicsManager : IComponent
     {
         private readonly CollisionManager collisionManager;
@@ -38,17 +36,25 @@ namespace Engine.Physics
         public void DeleteBody(ICollidable c)
         {
             if (moveableBodies.Contains(c))
+            {
                 moveableBodies.Remove(c);
+            }
             else
+            {
                 throw new ArgumentException("Body not found");
+            }
         }
 
         public void DeleteStaticBlock(Rectangle r)
         {
             if (mapCollision.Contains(r))
+            {
                 mapCollision.Remove(r);
+            }
             else
+            {
                 throw new ArgumentException("Block not found");
+            }
         }
 
         public void SetMapCollision(List<Rectangle> rectangles)
@@ -67,7 +73,7 @@ namespace Engine.Physics
         {
             collisionManager.SetCollisionBodies(moveableBodies);
             collisionManager.Update(gameTime);
-            foreach (var m in moveableBodies)
+            foreach (ICollidable m in moveableBodies)
             {
                 UpdateBodyState(m);
                 m.Update(gameTime);
@@ -82,9 +88,9 @@ namespace Engine.Physics
             c.Velocity = new Vector2(0f, c.Velocity.Y);
             //if (c.Velocity.X > 0)
             //{
-                //c.Velocity = new Vector2(c.Velocity.X - 1f, c.Velocity.Y);
-                //if (c.Velocity.X < 0)
-                //    c.Velocity = new Vector2(0, c.Velocity.Y);
+            //c.Velocity = new Vector2(c.Velocity.X - 1f, c.Velocity.Y);
+            //if (c.Velocity.X < 0)
+            //    c.Velocity = new Vector2(0, c.Velocity.Y);
             //}
             //else if (c.Velocity.X < 0)
             //{
@@ -129,11 +135,17 @@ namespace Engine.Physics
                 else if (c is Player player)
                 {
                     if (collisionManager.InDancingGroup(player))
+                    {
                         c.MoveableBodyState = MoveableBodyStates.Dance;
+                    }
                     else if (collisionManager.InHidingSpot(player))
+                    {
                         c.MoveableBodyState = MoveableBodyStates.Hidden;
+                    }
                     else
+                    {
                         c.MoveableBodyState = MoveableBodyStates.Idle;
+                    }
                 }
                 else
                 {

@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using KatanaZERO.States;
-using Microsoft.Xna.Framework;
-using PlatformerEngine.Timers;
-
-namespace KatanaZERO.LightStrategies
+﻿namespace KatanaZERO.LightStrategies
 {
+    using KatanaZERO.States;
+    using Microsoft.Xna.Framework;
+    using PlatformerEngine.Timers;
+
     public abstract class Toggle : LightStrategy
     {
         protected GameTimer toggleLightsTimer;
+
         private double _timeToggle = 0.5f;
 
         public double TimeToggle
@@ -25,14 +15,16 @@ namespace KatanaZERO.LightStrategies
             get => _timeToggle;
             set
             {
-                if(_timeToggle != value)
+                if (_timeToggle != value)
                 {
                     _timeToggle = value;
                     CreateTimer();
                 }
             }
         }
-        public Toggle(ClubLights cl) : base(cl)
+
+        public Toggle(ClubLights cl)
+            : base(cl)
         {
             CreateTimer();
         }
@@ -44,7 +36,7 @@ namespace KatanaZERO.LightStrategies
                 OnTimedEvent = (o, e) =>
                 {
                     ToggleLights();
-                }
+                },
             };
         }
 

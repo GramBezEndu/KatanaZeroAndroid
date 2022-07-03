@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KatanaZERO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
-
-namespace Engine.Input
+﻿namespace Engine.Input
 {
+    using KatanaZERO;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Input.Touch;
+
     public class InputManager : IComponent
     {
-        private AccelerometerManager accelometerManager;
+        private readonly AccelerometerManager accelometerManager;
+
         private readonly Game1 game;
+
         public TouchCollection CurrentTouchCollection { get; private set; }
         /// <summary>
         /// Initializes new InputManager
@@ -24,21 +19,24 @@ namespace Engine.Input
             accelometerManager = new AccelerometerManager();
             game = g;
         }
+
         public void Update(GameTime gameTime)
         {
             CurrentTouchCollection = TouchPanel.GetState();
             accelometerManager.Update(gameTime);
         }
+
         public bool RectangleWasJustClicked(Rectangle rec)
         {
-            foreach(TouchLocation touchLocation in CurrentTouchCollection)
+            foreach (TouchLocation touchLocation in CurrentTouchCollection)
             {
-                var touchRectangle = new Rectangle((int)(touchLocation.Position.X / (game.WindowSize.X / game.LogicalSize.X)), (int)(touchLocation.Position.Y / (game.WindowSize.Y / game.LogicalSize.Y)), 1, 1);
+                Rectangle touchRectangle = new Rectangle((int)(touchLocation.Position.X / (game.WindowSize.X / game.LogicalSize.X)), (int)(touchLocation.Position.Y / (game.WindowSize.Y / game.LogicalSize.Y)), 1, 1);
                 if (touchRectangle.Intersects(rec) && touchLocation.State == TouchLocationState.Pressed)
                 {
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -69,8 +67,11 @@ namespace Engine.Input
             foreach (TouchLocation touchLocation in CurrentTouchCollection)
             {
                 if (touchLocation.State == TouchLocationState.Pressed)
+                {
                     return true;
+                }
             }
+
             return false;
         }
 

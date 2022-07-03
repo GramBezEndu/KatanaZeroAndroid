@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Engine.MoveStrategies;
-using Engine.Physics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Animations.SpriteSheets;
-
-namespace Engine.Sprites.Enemies
+﻿namespace Engine.Sprites.Enemies
 {
+    using System.Collections.Generic;
+    using Engine.Physics;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using MonoGame.Extended.Animations.SpriteSheets;
+
     public class Gangster : Enemy
     {
-        public Gangster(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p) : base(spritesheet, map, scale, p)
+        public Gangster(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p)
+            : base(spritesheet, map, scale, p)
         {
             AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.05f));
             AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 8, 9, 10, 11, 12, 13, 14, 15 }, frameDuration: 0.05f));

@@ -1,24 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Engine.Physics;
-using Engine.SpecialEffects;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Animations;
-using MonoGame.Extended.Animations.SpriteSheets;
-using MonoGame.Extended.Sprites;
-using MonoGame.Extended.TextureAtlases;
-
-namespace Engine.Sprites
+﻿namespace Engine.Sprites
 {
+    using System;
+    using System.Collections.Generic;
+    using Engine.Physics;
+    using Engine.SpecialEffects;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using MonoGame.Extended.Animations.SpriteSheets;
+    using MonoGame.Extended.Sprites;
+    using MonoGame.Extended.TextureAtlases;
+
     public class AnimatedObject : ISprite
     {
         public List<SpecialEffect> SpecialEffects { get; set; } = new List<SpecialEffect>();
+
         public Vector2 Scale { get; private set; } = Vector2.One;
+
         public SpriteEffects SpriteEffects { get; set; } = SpriteEffects.None;
+
         public bool Hidden { get; set; }
+
         public Vector2 Position { get; set; }
+
         public Vector2 DrawingPosition
         {
             get
@@ -33,18 +36,25 @@ namespace Engine.Sprites
                 }
             }
         }
+
         public virtual Vector2 Size
         {
             get
             {
-                return new Vector2(animatedSprite.TextureRegion.Width * Scale.X,
+                return new Vector2(
+                    animatedSprite.TextureRegion.Width * Scale.X,
                     animatedSprite.TextureRegion.Height * Scale.Y);
             }
         }
+
         private readonly MonoGame.Extended.Animations.AnimatedSprite animatedSprite;
+
         private readonly SpriteSheetAnimationFactory animationFactory;
+
         private readonly TextureAtlas spriteAtlas;
+
         public Color Color { get; set; } = Color.White;
+
         public Rectangle Rectangle
         {
             get
@@ -55,16 +65,18 @@ namespace Engine.Sprites
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if(!Hidden)
+            if (!Hidden)
+            {
                 spriteBatch.Draw(animatedSprite.TextureRegion, DrawingPosition, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects, 0f);
+            }
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            if(!Hidden)
+            if (!Hidden)
             {
                 animatedSprite.Update(gameTime);
-                foreach (var effect in SpecialEffects)
+                foreach (SpecialEffect effect in SpecialEffects)
                 {
                     effect.Update(gameTime);
                 }

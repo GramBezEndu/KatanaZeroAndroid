@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Engine.Input;
-using Microsoft.Xna.Framework;
-
-namespace Engine.PlayerIntents
+﻿namespace Engine.PlayerIntents
 {
     //public class TeleportIntent : Intent
     //{

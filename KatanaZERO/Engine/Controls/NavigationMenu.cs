@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Engine.Controls.Buttons;
-using Engine.Input;
-using Engine.SpecialEffects;
-
-namespace Engine.Controls
+﻿namespace Engine.Controls
 {
+    using System;
+    using System.Collections.Generic;
+    using Engine.Controls.Buttons;
+    using Engine.Input;
+    using Engine.SpecialEffects;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     public abstract class NavigationMenu : IDrawableComponent
     {
         protected readonly InputManager inputManager;
+
         protected List<IButton> buttons;
+
         public bool Hidden { get; set; }
+
         /// <summary>
         /// Position determines beginning of the navigation menu
         /// </summary>
@@ -36,14 +36,17 @@ namespace Engine.Controls
         public List<SpecialEffect> SpecialEffects { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         /// <summary>
-        /// Creates a new instance of navigation through buttons
+        /// Creates a new instance of navigation through buttons.
         /// </summary>
         /// <param name="listButtons"></param>
         public NavigationMenu(InputManager im, List<IButton> listButtons)
         {
             inputManager = im;
             if (listButtons == null || listButtons.Count < 1)
+            {
                 throw new ArgumentException("Invalid list of buttons");
+            }
+
             buttons = listButtons;
         }
 
@@ -55,8 +58,10 @@ namespace Engine.Controls
         {
             if (!Hidden)
             {
-                foreach (var button in buttons)
+                foreach (IButton button in buttons)
+                {
                     button.Draw(gameTime, spriteBatch);
+                }
             }
         }
 
@@ -70,8 +75,10 @@ namespace Engine.Controls
 
         private void UpdateButtons(GameTime gameTime)
         {
-            foreach (var button in buttons)
+            foreach (IButton button in buttons)
+            {
                 button.Update(gameTime);
+            }
         }
 
         public void AddSpecialEffect(SpecialEffect effect)

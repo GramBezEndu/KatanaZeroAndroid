@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Engine.Sprites.Enemies;
-using Microsoft.Xna.Framework;
-using PlatformerEngine.Timers;
-
-namespace Engine.Sprites
+﻿namespace Engine.Sprites
 {
+    using Engine.Sprites.Enemies;
+    using Microsoft.Xna.Framework;
+    using PlatformerEngine.Timers;
+
     public class HelicopterScript : IComponent
     {
-        Helicopter helicopter;
-        GameTimer[] phases;
-        int currentPhase = 0;
-        int fireLane = 1;
+        private readonly Helicopter helicopter;
+        private readonly GameTimer[] phases;
+        private int currentPhase = 0;
+        private int fireLane = 1;
+
         public HelicopterScript(Helicopter h)
         {
             helicopter = h;
@@ -64,7 +62,10 @@ namespace Engine.Sprites
             helicopter.Fire(fireLane);
             fireLane += 1;
             if (fireLane > 4)
+            {
                 fireLane = 1;
+            }
+
             Advance();
         }
 
@@ -76,9 +77,15 @@ namespace Engine.Sprites
         public void Update(GameTime gameTime)
         {
             if (helicopter.Hidden)
+            {
                 return;
+            }
+
             if (currentPhase >= 0 && currentPhase < phases.Length)
+            {
                 phases[currentPhase].Update(gameTime);
+            }
+
             switch (currentPhase)
             {
                 case 0:

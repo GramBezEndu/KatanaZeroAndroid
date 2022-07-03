@@ -1,29 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Engine.Physics;
-using Engine.States;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
-
-namespace Engine.Sprites
+﻿namespace Engine.Sprites
 {
+    using System;
+    using Engine.Physics;
+    using Engine.States;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     public class BottlePickUp : Sprite, ICollidable
     {
         private readonly GameState gameState;
+
         public PickUpArrow PickUpArrow;
-        public BottlePickUp(Texture2D t) : base(t)
+
+        public BottlePickUp(Texture2D t)
+            : base(t)
         {
         }
 
-        public BottlePickUp(GameState state, Texture2D t, Vector2 objScale) : base(t, objScale)
+        public BottlePickUp(GameState state, Texture2D t, Vector2 objScale)
+            : base(t, objScale)
         {
             gameState = state;
         }
 
         public EventHandler OnMapCollision { get; set; }
+
         public MoveableBodyStates MoveableBodyState { get; set; }
+
         public Vector2 Velocity { get; set; }
 
         public Vector2 CollisionSize { get { return new Vector2(10, 21); } }
@@ -32,7 +35,6 @@ namespace Engine.Sprites
 
         public void PrepareMove(GameTime gameTime)
         {
-            
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -57,7 +59,7 @@ namespace Engine.Sprites
         {
             if (collider is Player player)
             {
-                if (player.Hidden || player.HasBottle || this.Hidden)
+                if (player.Hidden || player.HasBottle || Hidden)
                 {
                     return;
                 }
@@ -66,7 +68,7 @@ namespace Engine.Sprites
                     State.Sounds["PickUp"].Play();
                     gameState.PickUpBottle();
                     player.HasBottle = true;
-                    this.Hidden = true;
+                    Hidden = true;
                 }
             }
         }

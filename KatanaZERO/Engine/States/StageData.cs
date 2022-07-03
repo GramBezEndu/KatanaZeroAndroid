@@ -1,11 +1,8 @@
-﻿using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Engine.States
+﻿namespace Engine.States
 {
+    using MonoGame.Extended.Tiled;
+    using MonoGame.Extended.Tiled.Renderers;
+
     public class StageData
     {
         public TiledMap Map;

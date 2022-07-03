@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KatanaZERO", "KatanaZERO\Ka
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Engine", "Engine\Engine.shproj", "{65713348-C4F1-4528-B4D8-17585AA1CE92}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B846A353-E884-4C09-B6A0-991F8A9F3415}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Engine\Engine.projitems*{65713348-c4f1-4528-b4d8-17585aa1ce92}*SharedItemsImports = 13

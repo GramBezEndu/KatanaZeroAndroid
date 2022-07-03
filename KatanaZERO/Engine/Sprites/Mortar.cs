@@ -1,32 +1,45 @@
-﻿using Engine.Physics;
-using Engine.States;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Animations.SpriteSheets;
-using PlatformerEngine.Timers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Engine.Sprites
+﻿namespace Engine.Sprites
 {
+    using System;
+    using System.Collections.Generic;
+    using Engine.Physics;
+    using Engine.States;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+    using MonoGame.Extended.Animations.SpriteSheets;
+    using PlatformerEngine.Timers;
+
     public class Mortar : AnimatedObject, ICollidable
     {
-        MortarTarget target;
-        GameTimer firstStage;
-        bool secondStageActivated;
-        bool collidedWithTarget;
-        readonly Vector2 movementVector;
-        int verticalLane;
-        int horizontalLane;
-        int travelTimeInFrames = 0;
-        Vector2 destination;
-        Vector2 cameraMovement = Vector2.Zero;
-        Vector2 previousCameraPosition = Vector2.Zero;
-        readonly GameState gameState;
-        readonly ContentManager content;
-        public Mortar(GameState gs, ContentManager c, Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, int verticalLane, int horizontalLane) : base(spritesheet, map, scale)
+        private MortarTarget target;
+
+        private GameTimer firstStage;
+
+        private bool secondStageActivated;
+
+        private bool collidedWithTarget;
+
+        private readonly Vector2 movementVector;
+
+        private readonly int verticalLane;
+
+        private readonly int horizontalLane;
+
+        private int travelTimeInFrames = 0;
+
+        private Vector2 destination;
+
+        private Vector2 cameraMovement = Vector2.Zero;
+
+        private Vector2 previousCameraPosition = Vector2.Zero;
+
+        private readonly GameState gameState;
+
+        private readonly ContentManager content;
+
+        public Mortar(GameState gs, ContentManager c, Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, int verticalLane, int horizontalLane)
+            : base(spritesheet, map, scale)
         {
             AddAnimation("Far", new SpriteSheetAnimationData(new int[] { 1 }, frameDuration: 0.1f));
             AddAnimation("Close", new SpriteSheetAnimationData(new int[] { 0 }, frameDuration: 0.1f));
@@ -58,12 +71,16 @@ namespace Engine.Sprites
                         case MoveableBodyStates.InAirLeft:
                         case MoveableBodyStates.Idle:
                             if (!collidedWithTarget)
+                            {
                                 PlayAnimation("Far");
+                            }
+
                             break;
                     }
                 }
             }
         }
+
         public Vector2 Velocity { get; set; }
 
         public Vector2 CollisionSize => new Vector2(10f, 10f);
@@ -72,7 +89,6 @@ namespace Engine.Sprites
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
         {
-            
         }
 
         public void PrepareMove(GameTime gameTime)
@@ -84,6 +100,7 @@ namespace Engine.Sprites
                     firstStage = new GameTimer(1.2f);
                     firstStage.OnTimedEvent = (o, e) => ActivateSecondStage();
                 }
+
                 firstStage?.Update(gameTime);
                 if (secondStageActivated)
                 {
@@ -116,7 +133,8 @@ namespace Engine.Sprites
         {
             target = new MortarTarget(content.Load<Texture2D>("Enemies/Mortar/MortarTarget/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Enemies/Mortar/MortarTarget/Map"), new Vector2(2f, 2f));
             target.Color = Color.Red;
-            target.Position = gameState.Camera.WorldToScreen(destination - travelTimeInFrames * new Vector2(Player.BIKE_VELOCITY.X, Player.BIKE_VELOCITY.Y)) - target.Size / 2;
+            target.Position = gameState.Camera.WorldToScreen(
+                destination - (travelTimeInFrames * new Vector2(Player.BIKE_VELOCITY.X, Player.BIKE_VELOCITY.Y))) - (target.Size / 2);
             gameState.AddUiComponent(target);
         }
 
@@ -143,6 +161,7 @@ namespace Engine.Sprites
                         tempY = 270f;
                         break;
                 }
+
                 destination = new Vector2(Position.X + movementVector.X, Position.Y + movementVector.Y);
                 travelTimeInFrames = 1;
                 while (destination.Y < tempY)
@@ -150,6 +169,7 @@ namespace Engine.Sprites
                     destination += movementVector;
                     travelTimeInFrames++;
                 }
+
                 PlayAnimation("Close");
                 CreateTargetUI();
                 secondStageActivated = true;

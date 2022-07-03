@@ -1,46 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Engine;
-using Engine.Controls;
-using Engine.Controls.Buttons;
-using Engine.SpecialEffects;
-using Engine.Sprites;
-using Engine.States;
-using Engine.Storage;
-using KatanaZERO.SpecialEffects;
-using Microsoft.Xna.Framework;
-
-namespace KatanaZERO.States
+﻿namespace KatanaZERO.States
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text.RegularExpressions;
+    using Engine;
+    using Engine.Controls;
+    using Engine.Controls.Buttons;
+    using Engine.SpecialEffects;
+    using Engine.Sprites;
+    using Engine.States;
+    using Engine.Storage;
+    using KatanaZERO.SpecialEffects;
+    using Microsoft.Xna.Framework;
+
     public class Highscores : State
     {
         private int currentLevelSelected = 0;
-        private Text currentLevelName;
-        Text levelTextSmall;
-        RectangleButton rightLevelButton;
-        RectangleButton leftLevelButton;
-        VerticalNavigationMenu menu;
-        Sprite currentLevelImg;
+        private readonly Text currentLevelName;
+        private Text levelTextSmall;
+        private readonly RectangleButton rightLevelButton;
+        private readonly RectangleButton leftLevelButton;
+        private readonly VerticalNavigationMenu menu;
+        private readonly Sprite currentLevelImg;
+        private Text noDataFound;
+        private Text bestTimesText;
+        private List<Text> currentHighScores = new List<Text>();
 
-        Text noDataFound;
-        Text bestTimesText;
-        List<Text> currentHighScores = new List<Text>();
-
-        public Highscores(Game1 gameReference) : base(gameReference)
+        public Highscores(Game1 gameReference)
+            : base(gameReference)
         {
             AddUiComponent(new Sprite(commonTextures["MainMenu"]));
             AddUiComponent(new Rain());
 
-            var backButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "BACK")
+            RectangleButton backButton = new RectangleButton(inputManager, new Rectangle(0, 0, (int)(game.LogicalSize.X * 0.5f), (int)game.LogicalSize.Y / 10), fonts["Standard"], "BACK")
             {
                 Color = Color.Gray * 0.3f,
                 Filled = true,
@@ -50,7 +42,7 @@ namespace KatanaZERO.States
             {
                 backButton,
             });
-            menu.Position = new Vector2(game.LogicalSize.X / 2 - menu.Size.X / 2, game.LogicalSize.Y * (0.925f) - menu.Size.Y / 2);
+            menu.Position = new Vector2(game.LogicalSize.X / 2 - menu.Size.X / 2, game.LogicalSize.Y * 0.925f - menu.Size.Y / 2);
 
             currentLevelName = new Text(fonts["Standard"], LevelsInfo.LevelInfo[currentLevelSelected].Name);
             int margin = 30;
@@ -65,12 +57,12 @@ namespace KatanaZERO.States
             leftLevelButton.OnClick += DecreaseSelectedLevel;
             leftLevelButton.Position = new Vector2(menu.Rectangle.Left, currentLevelName.Rectangle.Center.Y - rightLevelButton.Size.Y / 2);
 
-            var backgroundMenu = new DrawableRectangle(new Rectangle(0, 0, (int)((menu.Size.X) * 1.1f), (int)((menu.Size.Y + currentLevelName.Size.Y + margin) * 1.2f)))
+            DrawableRectangle backgroundMenu = new DrawableRectangle(new Rectangle(0, 0, (int)(menu.Size.X * 1.1f), (int)((menu.Size.Y + currentLevelName.Size.Y + margin) * 1.2f)))
             {
                 Color = Color.Black * 0.7f,
                 Filled = true,
             };
-            backgroundMenu.Position = new Vector2(menu.Position.X - 0.05f * (menu.Size.X), currentLevelName.Position.Y - 0.1f * (menu.Size.Y + currentLevelName.Size.Y));
+            backgroundMenu.Position = new Vector2(menu.Position.X - 0.05f * menu.Size.X, currentLevelName.Position.Y - 0.1f * (menu.Size.Y + currentLevelName.Size.Y));
 
             currentLevelImg = new Sprite(LevelsInfo.LevelInfo[currentLevelSelected].Texture, new Vector2(0.382f, 0.53f))
             {
@@ -78,7 +70,6 @@ namespace KatanaZERO.States
                 Origin = new Vector2(380 / 2, 270 / 2),
                 Rotation = 0.0872665f,
             };
-
 
             CreateJobFolder();
             AddUiComponent(backgroundMenu);
@@ -99,7 +90,7 @@ namespace KatanaZERO.States
             for (int i = 0; i < bestScores.Length; i++)
             {
                 double bestScore = bestScores[i];
-                var text = new Text(fonts["Small"], String.Format("{0}. {1} s", i + 1, Math.Round(bestScore, 2).ToString()))
+                Text text = new Text(fonts["Small"], string.Format("{0}. {1} s", i + 1, Math.Round(bestScore, 2).ToString()))
                 {
                     Position = position,
                     Color = Color.Black,
@@ -113,7 +104,10 @@ namespace KatanaZERO.States
         {
             currentLevelSelected--;
             if (currentLevelSelected < 0)
+            {
                 currentLevelSelected = LevelsInfo.LevelInfo.Length - 1;
+            }
+
             OnSelectedChange();
         }
 
@@ -121,7 +115,10 @@ namespace KatanaZERO.States
         {
             currentLevelSelected++;
             if (currentLevelSelected > LevelsInfo.LevelInfo.Length - 1)
+            {
                 currentLevelSelected = 0;
+            }
+
             OnSelectedChange();
         }
 
@@ -135,9 +132,13 @@ namespace KatanaZERO.States
             currentLevelImg.Texture = LevelsInfo.LevelInfo[currentLevelSelected].Texture;
             AddCurrentLevelHighscores();
             if (currentHighScores.Count == 0)
+            {
                 noDataFound.Hidden = false;
+            }
             else
+            {
                 noDataFound.Hidden = true;
+            }
         }
 
         private void ManageRainbowEffect()
@@ -157,15 +158,15 @@ namespace KatanaZERO.States
         private void CreateJobFolder()
         {
             float jobFolderScale = 2f;
-            var folderFront = new Sprite(commonTextures["JobFolderFrontOpen"], new Vector2(jobFolderScale));
-            folderFront.Position = new Vector2(game.LogicalSize.X * (0.15f), game.LogicalSize.Y * (0.02f));
-            var folderBack = new Sprite(commonTextures["JobFolderBack"], new Vector2(jobFolderScale));
+            Sprite folderFront = new Sprite(commonTextures["JobFolderFrontOpen"], new Vector2(jobFolderScale));
+            folderFront.Position = new Vector2(game.LogicalSize.X * 0.15f, game.LogicalSize.Y * 0.02f);
+            Sprite folderBack = new Sprite(commonTextures["JobFolderBack"], new Vector2(jobFolderScale));
             folderBack.Position = new Vector2(folderFront.Rectangle.Right, folderFront.Position.Y);
             levelTextSmall = new Text(fonts["Small"], Regex.Replace(currentLevelName.Message, @"\s+", "\n"))
             {
                 Color = Color.Gray,
             };
-            levelTextSmall.Position = new Vector2(game.LogicalSize.X * (0.53f), game.LogicalSize.Y * (0.1f));
+            levelTextSmall.Position = new Vector2(game.LogicalSize.X * 0.53f, game.LogicalSize.Y * 0.1f);
 
             AddUiComponent(folderFront);
             AddUiComponent(folderBack);
@@ -175,13 +176,13 @@ namespace KatanaZERO.States
 
         private void AddCommonHighscoresComponents()
         {
-            var textColor = Color.Black;
-            var colorNoData = Color.DarkRed;
+            Color textColor = Color.Black;
+            Color colorNoData = Color.DarkRed;
 
             CreateBestTimesText(textColor, new Vector2(game.LogicalSize.X * 0.505f, game.LogicalSize.Y * 0.35f));
             AddUiComponent(bestTimesText);
 
-            var position = new Vector2(bestTimesText.Position.X, bestTimesText.Rectangle.Bottom);
+            Vector2 position = new Vector2(bestTimesText.Position.X, bestTimesText.Rectangle.Bottom);
             CreateNoDataFound(colorNoData, position);
             AddUiComponent(noDataFound);
         }
@@ -189,8 +190,10 @@ namespace KatanaZERO.States
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            foreach (var score in currentHighScores)
+            foreach (Text score in currentHighScores)
+            {
                 score.Update(gameTime);
+            }
         }
 
         protected override void DrawToRenderTarget(GameTime gameTime)
@@ -198,13 +201,19 @@ namespace KatanaZERO.States
             graphicsDevice.SetRenderTarget(uiLayerRenderTarget);
             graphicsDevice.Clear(Color.Transparent);
             uiSpriteBatch.Begin();
-            foreach (var c in uiComponents)
+            foreach (IComponent c in uiComponents)
             {
                 if (c is IDrawableComponent)
+                {
                     (c as IDrawableComponent).Draw(gameTime, uiSpriteBatch);
+                }
             }
-            foreach (var score in currentHighScores)
+
+            foreach (Text score in currentHighScores)
+            {
                 score.Draw(gameTime, uiSpriteBatch);
+            }
+
             uiSpriteBatch.End();
             graphicsDevice.SetRenderTarget(null);
         }

@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Engine.Sprites;
-using Microsoft.Xna.Framework;
-using PlatformerEngine.Timers;
-
-namespace Engine.MoveStrategies
+﻿namespace Engine.MoveStrategies
 {
+    using System;
+    using Engine.Sprites;
+    using Microsoft.Xna.Framework;
+    using PlatformerEngine.Timers;
+
     public class Distracted : Strategy
     {
-        private GameTimer strategyTimer;
-        private Strategy previousStrategy;
+        private readonly GameTimer strategyTimer;
+        private readonly Strategy previousStrategy;
         private Vector2 distractionPosition;
-        private bool distractionOnLeftSide;
+        private readonly bool distractionOnLeftSide;
 
         public Distracted(Enemy e, Strategy previousStrategy, Vector2 distractionPosition) : base(e)
         {
@@ -22,6 +20,7 @@ namespace Engine.MoveStrategies
             {
                 distractionOnLeftSide = true;
             }
+
             strategyTimer = new GameTimer(10f)
             {
                 OnTimedEvent = RestorePreviousStrategy,
@@ -38,7 +37,8 @@ namespace Engine.MoveStrategies
         public override void Update(GameTime gameTime)
         {
             strategyTimer.Update(gameTime);
-            //If enemy is not nearby where the sound was made
+
+            // If enemy is not nearby where the sound was made
             if (!enemy.CollisionRectangle.Contains(distractionPosition))
             {
                 if (distractionOnLeftSide)

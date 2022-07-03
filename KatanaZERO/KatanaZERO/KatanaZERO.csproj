@@ -83,8 +83,12 @@
     <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="Content\Content.mgcb" />
     <None Include="Properties\AndroidManifest.xml" />
+    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" Visible="false" />

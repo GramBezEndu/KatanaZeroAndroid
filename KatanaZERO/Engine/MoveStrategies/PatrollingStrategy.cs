@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Engine.Sprites;
-using Microsoft.Xna.Framework;
-using PlatformerEngine.Timers;
-
-namespace Engine.MoveStrategies
+﻿namespace Engine.MoveStrategies
 {
+    using Engine.Sprites;
+    using Microsoft.Xna.Framework;
+    using PlatformerEngine.Timers;
+
     public class PatrollingStrategy : Strategy
     {
-        float positionStartPatrolX;
-        float positionEndPatrolX;
-        GameTimer idleTimer;
-        float idleTime;
+        private readonly float positionStartPatrolX;
+        private readonly float positionEndPatrolX;
+        private GameTimer idleTimer;
+        private readonly float idleTime;
+
         /// <summary>
         /// Determines in which direction (left/right) will go now
         /// Note: If not specified enemy will go left on first move
         /// </summary>
-        bool goingLeft = true;
+        private bool goingLeft = true;
+
         public PatrollingStrategy(Enemy e, float startX, float endX, float idleTimeSeconds = 3.5f, bool startingLeft = true) : base(e)
         {
             positionStartPatrolX = startX;
@@ -32,8 +30,8 @@ namespace Engine.MoveStrategies
             get => goingLeft;
             private set
             {
-                //On value change
-                if(goingLeft != value)
+                // On value change
+                if (goingLeft != value)
                 {
                     CreateIdleTimer();
                     goingLeft = value;
@@ -43,23 +41,24 @@ namespace Engine.MoveStrategies
 
         public override void Update(GameTime gameTime)
         {
-            //Idle
-            if(idleTimer != null)
+            // Idle
+            if (idleTimer != null)
             {
                 idleTimer.Update(gameTime);
                 return;
             }
-            //Move
-            if(GoingLeft)
+
+            // Move
+            if (GoingLeft)
             {
                 if (enemy.Position.X < positionStartPatrolX)
                 {
-                    //End going left -> start going right
+                    // End going left -> start going right
                     GoingLeft = false;
                 }
                 else
                 {
-                    //Go left still
+                    // Go left still
                     enemy.Velocity = new Vector2(-0.8f, enemy.Velocity.Y);
                 }
             }
@@ -75,11 +74,12 @@ namespace Engine.MoveStrategies
                 }
             }
         }
+
         private void CreateIdleTimer()
         {
             idleTimer = new GameTimer(idleTime)
             {
-                OnTimedEvent = (o, e) => idleTimer = null
+                OnTimedEvent = (o, e) => idleTimer = null,
             };
         }
     }

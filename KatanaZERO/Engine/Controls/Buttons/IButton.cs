@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Engine.Controls.Buttons
+﻿namespace Engine.Controls.Buttons
 {
+    using System;
+
     public interface IButton : IDrawableComponent
     {
         EventHandler OnClick { get; set; }

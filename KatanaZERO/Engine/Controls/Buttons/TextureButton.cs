@@ -1,16 +1,15 @@
-﻿using Engine.Input;
-using Engine.Sprites;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Engine.Controls.Buttons
+﻿namespace Engine.Controls.Buttons
 {
+    using System;
+    using Engine.Input;
+    using Engine.Sprites;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     public class TextureButton : Sprite, IButton
     {
-        private InputManager inputManager;
+        private readonly InputManager inputManager;
+
         public TextureButton(InputManager im, Texture2D t, Vector2 objScale) : base(t, objScale)
         {
             inputManager = im;
@@ -21,7 +20,7 @@ namespace Engine.Controls.Buttons
         {
             if (!Hidden)
             {
-                if (inputManager.RectangleWasJustClicked(this.Rectangle))
+                if (inputManager.RectangleWasJustClicked(Rectangle))
                 {
                     OnClick?.Invoke(this, new EventArgs());
                 }

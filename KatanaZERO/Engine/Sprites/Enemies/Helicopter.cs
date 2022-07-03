@@ -1,15 +1,14 @@
-﻿using Engine.Physics;
-using Engine.States;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Animations.SpriteSheets;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Engine.Sprites.Enemies
+﻿namespace Engine.Sprites.Enemies
 {
+    using System;
+    using System.Collections.Generic;
+    using Engine.Physics;
+    using Engine.States;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+    using MonoGame.Extended.Animations.SpriteSheets;
+
     public class Helicopter : AnimatedObject, ICollidable
     {
         public bool RotationBack
@@ -24,13 +23,15 @@ namespace Engine.Sprites.Enemies
                 }
             }
         }
+
         private bool rotationBack = false;
         private readonly GameState gameState;
         private readonly ContentManager content;
         protected readonly Player player;
-        HelicopterScript heliScript;
+        private readonly HelicopterScript heliScript;
 
-        public Helicopter(GameState gs, ContentManager c, Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p) : base(spritesheet, map, scale)
+        public Helicopter(GameState gs, ContentManager c, Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p)
+            : base(spritesheet, map, scale)
         {
             player = p;
             gameState = gs;
@@ -77,9 +78,14 @@ namespace Engine.Sprites.Enemies
                 case MoveableBodyStates.InAirRight:
                     SpriteEffects = SpriteEffects.None;
                     if (RotationBack)
+                    {
                         PlayAnimation("Back");
+                    }
                     else
+                    {
                         PlayAnimation("Right");
+                    }
+
                     break;
             }
         }
@@ -99,7 +105,6 @@ namespace Engine.Sprites.Enemies
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
         {
-            
         }
     }
 }

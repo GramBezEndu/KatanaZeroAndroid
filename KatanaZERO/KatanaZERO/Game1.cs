@@ -1,28 +1,32 @@
-using Engine.Input;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
-using System;
-//using System.Diagnostics;
-using Engine.States;
-using KatanaZERO.States;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
-
 namespace KatanaZERO
 {
+    using Engine.Input;
+    using Engine.States;
+    using KatanaZERO.States;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Audio;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+    using Microsoft.Xna.Framework.Input.Touch;
+    using Microsoft.Xna.Framework.Media;
+
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        State currentState;
-        State nextState;
-        Song currentSong;
+        private readonly GraphicsDeviceManager graphics;
+
+        private State currentState;
+
+        private State nextState;
+
+        private Song currentSong;
+
         public InputManager InputManager { get; private set; }
+
         public Vector2 LogicalSize { get; } = new Vector2(1280, 720);
+
         public Vector2 WindowSize
         {
             get
@@ -46,14 +50,15 @@ namespace KatanaZERO
 
         public void PlaySong(Song s)
         {
-            //If parameter is null we stop playing music
+            // If parameter is null we stop playing music
             if (s == null)
             {
                 currentSong = null;
                 MediaPlayer.Stop();
                 return;
             }
-            //Regular case: stop playing old song and start playing new song
+
+            // Regular case: stop playing old song and start playing new song
             currentSong = s;
             MediaPlayer.Stop();
             MediaPlayer.Play(s);
@@ -62,9 +67,13 @@ namespace KatanaZERO
         public bool IsThisSongPlaying(Song song)
         {
             if (currentSong == song)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
 
         public Game1()
@@ -98,6 +107,7 @@ namespace KatanaZERO
             {
                 TouchPanel.EnableMouseTouchPoint = true;
             }
+
             base.Initialize();
         }
 
@@ -129,18 +139,25 @@ namespace KatanaZERO
         {
             // TODO: Add your update logic here
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.ChangeState(new MainMenu(this));
-            //Handle changing states
+            {
+                ChangeState(new MainMenu(this));
+            }
+
+            // Handle changing states
             if (nextState != null)
             {
-                //Remember to dispose any unmanaged resources
-                if(currentState != null)
+                // Remember to dispose any unmanaged resources
+                if (currentState != null)
+                {
                     currentState.Dispose();
+                }
+
                 currentState = nextState;
                 nextState = null;
             }
+
             InputManager.Update(gameTime);
-            //Update
+            // Update
             currentState.Update(gameTime);
 
             base.Update(gameTime);

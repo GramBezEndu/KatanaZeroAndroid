@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Engine;
-using Engine.States;
-using Microsoft.Xna.Framework;
-using MonoGame.Extended.Tiled;
-
-namespace KatanaZERO.States
+﻿namespace KatanaZERO.States
 {
+    using System;
+    using Engine;
+    using Engine.States;
+    using Microsoft.Xna.Framework;
+    using MonoGame.Extended.Tiled;
+
     public class PrisonPart2 : GameState
     {
-        //Should be the same time across all prison parts
+        // Should be the same time across all prison parts
         public override double LevelTimeInSeconds { get { return 180; } }
-        public PrisonPart2(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null) : base(gameReference, levelId, showLevelTitle, stageData)
+
+        public PrisonPart2(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null)
+            : base(gameReference, levelId, showLevelTitle, stageData)
         {
             gameComponents.Add(new Script()
             {
@@ -51,22 +43,22 @@ namespace KatanaZERO.States
             map = content.Load<TiledMap>("Maps/PrisonPart2/PrisonPart2");
         }
 
-        internal override void RestartLevel(StageData stageData)
+        override internal void RestartLevel(StageData stageData)
         {
             game.ChangeState(new PrisonPart1(game, levelId, false, stageData));
         }
 
-        internal override Vector2 SetMapSize()
+        override internal Vector2 SetMapSize()
         {
             return new Vector2(1132, 410 + GameState.UI_BOTTOM_SIZE_Y);
         }
 
-        internal override void SpawnEntitiesBeforePlayer()
+        override internal void SpawnEntitiesBeforePlayer()
         {
             SpawnBottlePickUp(new Vector2(910, 360));
         }
 
-        internal override void SpawnEntitiesAfterPlayer()
+        override internal void SpawnEntitiesAfterPlayer()
         {
             SpawnPatrollingGangster(new Vector2(510, 120), 3f);
             SpawnPatrollingGangster(new Vector2(600, 120), 2.5f, false);

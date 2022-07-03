@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Engine.Input;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Animations.SpriteSheets;
-
-namespace Engine.Sprites.Enemies
+﻿namespace Engine.Sprites.Enemies
 {
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using MonoGame.Extended.Animations.SpriteSheets;
+
     public class Officer : Enemy
     {
-        public Officer(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p) : base(spritesheet, map, scale, p)
+        public Officer(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p)
+            : base(spritesheet, map, scale, p)
         {
             AddAnimation("Shoot", new SpriteSheetAnimationData(new int[] { 0, 1, 2 }, frameDuration: 0.1f));
             AddAnimation("DrawGun", new SpriteSheetAnimationData(new int[] { 3, 4, 5, 6, 7, 8, 9, 10 }, frameDuration: 0.1f));

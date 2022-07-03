@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Engine.Input;
-
-namespace Engine.Controls.Buttons
+﻿namespace Engine.Controls.Buttons
 {
+    using System;
+    using Engine.Input;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     public class TextButton : Text, IButton
     {
         protected InputManager inputManager;
@@ -36,7 +32,7 @@ namespace Engine.Controls.Buttons
         {
             if (!Hidden)
             {
-                if (inputManager.RectangleWasJustClicked(this.Rectangle))
+                if (inputManager.RectangleWasJustClicked(Rectangle))
                 {
                     OnClick?.Invoke(this, new EventArgs());
                 }

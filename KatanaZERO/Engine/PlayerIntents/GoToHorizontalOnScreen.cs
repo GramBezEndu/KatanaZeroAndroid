@@ -1,25 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Engine.Input;
-using Microsoft.Xna.Framework;
-
-namespace Engine.PlayerIntents
+﻿namespace Engine.PlayerIntents
 {
+    using Engine.Input;
+    using Microsoft.Xna.Framework;
+
     public class GoToHorizontalOnScreen : Intent
     {
-        float destinationX;
-        bool commingFromLeft;
+        private readonly float destinationX;
+        private readonly bool commingFromLeft;
 
-        public GoToHorizontalOnScreen(InputManager im, Camera c, Player p, float onScreenX) : base(im, c, p)
+        public GoToHorizontalOnScreen(InputManager im, Camera c, Player p, float onScreenX)
+            : base(im, c, p)
         {
             destinationX = onScreenX;
-            var r = new Rectangle((int)c.ScreenToWorld(new Vector2(onScreenX, 0f)).X, 0, 1, 1);
+            Rectangle r = new Rectangle((int)c.ScreenToWorld(new Vector2(onScreenX, 0f)).X, 0, 1, 1);
             bool shareX = player.CollisionRectangle.Left <= r.Right && player.CollisionRectangle.Right >= r.Left;
             if (shareX)
+            {
                 Finished = true;
+            }
+
             if (camera.WorldToScreen(new Vector2(player.CollisionRectangle.Center.X, 0f)).X < onScreenX)
+            {
                 commingFromLeft = true;
+            }
         }
 
         public override void IntentFinished()
@@ -27,12 +30,16 @@ namespace Engine.PlayerIntents
             if (commingFromLeft)
             {
                 if (camera.WorldToScreen(new Vector2(player.CollisionRectangle.Center.X, 0f)).X >= destinationX)
+                {
                     Finished = true;
+                }
             }
             else
             {
                 if (camera.WorldToScreen(new Vector2(player.CollisionRectangle.Center.X, 0f)).X <= destinationX)
+                {
                     Finished = true;
+                }
             }
         }
 

@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Engine.SpecialEffects;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace Engine.Sprites
+﻿namespace Engine.Sprites
 {
+    using System.Collections.Generic;
+    using Engine.SpecialEffects;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     /// <summary>
     /// Class for creating objects based on single texture
     /// </summary>
     public class Sprite : ISprite
     {
         public List<SpecialEffect> SpecialEffects { get; set; } = new List<SpecialEffect>();
+
         public Vector2 Scale { get; set; } = Vector2.One;
+
         public bool Hidden { get; set; }
+
         public Vector2 Position { get; set; }
+
         public Vector2 Size
         {
             get
@@ -25,9 +25,13 @@ namespace Engine.Sprites
                 return new Vector2(Texture.Width * Scale.X, Texture.Height * Scale.Y);
             }
         }
+
         public Color Color { get; set; } = Color.White;
+
         public SpriteEffects SpriteEffects { get; set; } = SpriteEffects.None;
+
         public Vector2 Origin { get; set; } = Vector2.Zero;
+
         public float Rotation { get; set; } = 0f;
 
         public Rectangle Rectangle
@@ -53,15 +57,17 @@ namespace Engine.Sprites
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if(!Hidden)
+            if (!Hidden)
+            {
                 spriteBatch.Draw(Texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects, 0f);
+            }
         }
 
         public virtual void Update(GameTime gameTime)
         {
             if (!Hidden)
             {
-                foreach(var effect in SpecialEffects)
+                foreach (SpecialEffect effect in SpecialEffects)
                 {
                     effect.Update(gameTime);
                 }

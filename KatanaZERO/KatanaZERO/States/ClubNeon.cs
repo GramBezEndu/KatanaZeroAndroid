@@ -1,25 +1,24 @@
-﻿using Engine;
-using Engine.SpecialEffects;
-using Engine.Sprites;
-using Engine.Sprites.Crowd;
-using Engine.States;
-using Engine.Storage;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Tiled;
-using System;
-using System.Collections.Generic;
-
-namespace KatanaZERO.States
+﻿namespace KatanaZERO.States
 {
+    using System;
+    using System.Collections.Generic;
+    using Engine;
+    using Engine.Sprites;
+    using Engine.Sprites.Crowd;
+    using Engine.States;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using MonoGame.Extended.Tiled;
+
     public class ClubNeon : GameState
     {
-        Rectangle doorToSecondFloor;
-        Rectangle doorLevelEnd;
+        private Rectangle doorToSecondFloor;
+        private Rectangle doorLevelEnd;
 
         public override string LevelName { get { return "CLUB NEON"; } }
 
-        public ClubNeon(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null) : base(gameReference, levelId, showLevelTitle, stageData)
+        public ClubNeon(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null)
+            : base(gameReference, levelId, showLevelTitle, stageData)
         {
             game.PlaySong(songs["Club"]);
             AddSecondFloorScript();
@@ -59,8 +58,8 @@ namespace KatanaZERO.States
 
         private void SpawnPoliceCar()
         {
-            var car = new Sprite(commonTextures["PoliceCar"], new Vector2(3f, 3f));
-            car.Position = new Vector2(game.LogicalSize.X/2, FloorLevel - car.Size.Y);
+            Sprite car = new Sprite(commonTextures["PoliceCar"], new Vector2(3f, 3f));
+            car.Position = new Vector2(game.LogicalSize.X / 2, FloorLevel - car.Size.Y);
             gameComponents.Add(car);
         }
 
@@ -69,7 +68,7 @@ namespace KatanaZERO.States
             Girl1 girl = new Girl1(content.Load<Texture2D>("Crowd/Girl1/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Crowd/Girl1/Map"), Vector2.One);
             girl.Position = position;
             girl.SpriteEffects = spriteEffects;
-            this.AddMoveableBody(girl);
+            AddMoveableBody(girl);
         }
 
         private void SpawnGirl2(Vector2 position, SpriteEffects spriteEffects = SpriteEffects.None)
@@ -77,7 +76,7 @@ namespace KatanaZERO.States
             Girl2 girl = new Girl2(content.Load<Texture2D>("Crowd/Girl2/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Crowd/Girl2/Map"), Vector2.One);
             girl.Position = position;
             girl.SpriteEffects = spriteEffects;
-            this.AddMoveableBody(girl);
+            AddMoveableBody(girl);
         }
 
         private void SpawnGuy1(Vector2 position, SpriteEffects spriteEffects = SpriteEffects.None)
@@ -85,7 +84,7 @@ namespace KatanaZERO.States
             Guy1 guy = new Guy1(content.Load<Texture2D>("Crowd/Guy1/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Crowd/Guy1/Map"), Vector2.One);
             guy.Position = position;
             guy.SpriteEffects = spriteEffects;
-            this.AddMoveableBody(guy);
+            AddMoveableBody(guy);
         }
 
         private void SpawnGuy2(Vector2 position, SpriteEffects spriteEffects = SpriteEffects.None)
@@ -93,7 +92,7 @@ namespace KatanaZERO.States
             Guy2 guy = new Guy2(content.Load<Texture2D>("Crowd/Guy2/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Crowd/Guy2/Map"), Vector2.One);
             guy.Position = position;
             guy.SpriteEffects = spriteEffects;
-            this.AddMoveableBody(guy);
+            AddMoveableBody(guy);
         }
 
         private void SpawnCrowdGroupOne()
@@ -217,7 +216,7 @@ namespace KatanaZERO.States
             gameComponents.Add(new ClubLights());
         }
 
-        internal override void SpawnEntitiesAfterPlayer()
+        override internal void SpawnEntitiesAfterPlayer()
         {
             SpawnPatrollingGangster(new Vector2(475, 350));
             SpawnPatrollingGangster(new Vector2(650, 350), 4.5f, false);

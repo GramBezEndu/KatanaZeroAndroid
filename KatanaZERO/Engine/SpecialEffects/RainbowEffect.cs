@@ -1,22 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
-
-namespace Engine.SpecialEffects
+﻿namespace Engine.SpecialEffects
 {
+    using System;
+    using Microsoft.Xna.Framework;
+
     public class RainbowEffect : SpecialEffect
     {
         private double currentHue = 0f;
+
         public override void Update(GameTime gameTime)
         {
             if (Enabled)
             {
-                foreach (var target in targets)
+                foreach (IDrawableComponent target in targets)
+                {
                     target.Color = HslToRgb(currentHue, 0.5, 0.5);
+                }
+
                 currentHue += 0.015f;
                 if (currentHue >= 1f)
+                {
                     currentHue = 0f;
+                }
             }
         }
 
@@ -83,6 +87,7 @@ namespace Engine.SpecialEffects
                         break;
                 }
             }
+
             Color rgb = new Color(Convert.ToByte(r * 255.0f), Convert.ToByte(g * 255.0f), Convert.ToByte(b * 255.0f));
             return rgb;
         }

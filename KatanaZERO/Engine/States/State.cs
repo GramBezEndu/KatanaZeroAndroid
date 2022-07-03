@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Engine.Input;
-using KatanaZERO;
-using Microsoft.Xna.Framework.Media;
-using Engine.Controls.Buttons;
-using Microsoft.Xna.Framework.Audio;
-
-namespace Engine.States
+﻿namespace Engine.States
 {
+    using System;
+    using System.Collections.Generic;
+    using Engine.Input;
+    using KatanaZERO;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Audio;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Media;
+
     public abstract class State : IComponent, IDisposable
     {
         protected readonly Game1 game;
@@ -45,8 +40,10 @@ namespace Engine.States
             LoadFonts();
             LoadCommonTextures();
             LoadSongs();
-            if(Sounds.Count == 0)
+            if (Sounds.Count == 0)
+            {
                 LoadSoundEffects();
+            }
         }
 
         private void LoadFonts()
@@ -119,24 +116,29 @@ namespace Engine.States
             graphicsDevice.SetRenderTarget(uiLayerRenderTarget);
             graphicsDevice.Clear(Color.Transparent);
             uiSpriteBatch.Begin();
-            foreach (var c in uiComponents)
+            foreach (IComponent c in uiComponents)
             {
-                if (c is IDrawableComponent)
-                    (c as IDrawableComponent).Draw(gameTime, uiSpriteBatch);
+                if (c is IDrawableComponent drawableComponent)
+                {
+                    drawableComponent.Draw(gameTime, uiSpriteBatch);
+                }
             }
+
             uiSpriteBatch.End();
             graphicsDevice.SetRenderTarget(null);
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            foreach (var c in uiComponents)
+            foreach (IComponent c in uiComponents)
+            {
                 c.Update(gameTime);
+            }
         }
 
         public void Dispose()
         {
-            if(uiLayerRenderTarget != null && !(uiLayerRenderTarget.IsDisposed))
+            if (uiLayerRenderTarget != null && !(uiLayerRenderTarget.IsDisposed))
             {
                 uiLayerRenderTarget.Dispose();
                 GC.SuppressFinalize(this);

@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Microsoft.Devices.Sensors;
-using Microsoft.Xna.Framework;
-using PlatformerEngine.Timers;
-
-namespace Engine.Input
+﻿namespace Engine.Input
 {
+    using System;
+    using Microsoft.Devices.Sensors;
+    using Microsoft.Xna.Framework;
+    using PlatformerEngine.Timers;
+
     public class AccelerometerManager : IComponent
     {
-        private Accelerometer accelerometer;
-        private Vector3 previousAccelometerValues = new Vector3();
-        private Vector3 currentAccelometerValues = new Vector3();
-        private GameTimer accelerometerValueCheckInterval;
+        private readonly Accelerometer accelerometer;
+        private Vector3 previousAccelometerValues = Vector3.Zero;
+        private Vector3 currentAccelometerValues = Vector3.Zero;
+        private readonly GameTimer accelerometerValueCheckInterval;
         private const float shakeMinimumForce = 0.9f;
+
         public AccelerometerManager()
         {
             if (Accelerometer.IsSupported)
@@ -23,7 +21,7 @@ namespace Engine.Input
                 accelerometer.Start();
                 accelerometerValueCheckInterval = new GameTimer(0.2f)
                 {
-                    OnTimedEvent = (o, e) => UpdateValues()
+                    OnTimedEvent = (o, e) => UpdateValues(),
                 };
             }
         }

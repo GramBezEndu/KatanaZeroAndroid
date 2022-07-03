@@ -1,32 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Engine.Input;
-using Microsoft.Xna.Framework;
-
-namespace Engine.PlayerIntents
+﻿namespace Engine.PlayerIntents
 {
+    using Engine.Input;
+    using Microsoft.Xna.Framework;
+
     public class GoToHorizontal : Intent
     {
-        bool commingFromLeft;
-        float destinationX;
-        public GoToHorizontal(InputManager im, Camera c, Player p, float destinationX) : base(im, c, p)
+        private readonly bool commingFromLeft;
+
+        private readonly float destinationX;
+
+        public GoToHorizontal(InputManager im, Camera c, Player p, float destinationX)
+            : base(im, c, p)
         {
             this.destinationX = destinationX;
             if (player.CollisionRectangle.Center.X < destinationX)
+            {
                 commingFromLeft = true;
+            }
         }
+
         public override void IntentFinished()
         {
             if (commingFromLeft)
             {
                 if (player.CollisionRectangle.Center.X >= destinationX)
+                {
                     Finished = true;
+                }
             }
             else
             {
                 if (player.CollisionRectangle.Center.X <= destinationX)
+                {
                     Finished = true;
+                }
             }
         }
 

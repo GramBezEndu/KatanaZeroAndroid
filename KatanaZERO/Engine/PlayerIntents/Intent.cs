@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Engine.Input;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
-
-namespace Engine.PlayerIntents
+﻿namespace Engine.PlayerIntents
 {
+    using Engine.Input;
+    using Microsoft.Xna.Framework;
+
     public abstract class Intent : IPlayerIntent
     {
         protected Player player;
+
         public bool Finished { get; protected set; }
+
         protected InputManager inputManager;
+
         protected Camera camera;
 
         public Intent(InputManager im, Camera c, Player p)
