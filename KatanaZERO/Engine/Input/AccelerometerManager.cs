@@ -8,10 +8,14 @@
     public class AccelerometerManager : IComponent
     {
         private readonly Accelerometer accelerometer;
-        private Vector3 previousAccelometerValues = Vector3.Zero;
-        private Vector3 currentAccelometerValues = Vector3.Zero;
+
         private readonly GameTimer accelerometerValueCheckInterval;
-        private const float shakeMinimumForce = 0.9f;
+
+        private readonly float shakeMinimalForce = 0.9f;
+
+        private Vector3 previousAccelometerValues = Vector3.Zero;
+
+        private Vector3 currentAccelometerValues = Vector3.Zero;
 
         public AccelerometerManager()
         {
@@ -19,27 +23,19 @@
             {
                 accelerometer = new Accelerometer();
                 accelerometer.Start();
-                accelerometerValueCheckInterval = new GameTimer(0.2f)
-                {
-                    OnTimedEvent = (o, e) => UpdateValues(),
-                };
+                accelerometerValueCheckInterval = new GameTimer(0.2f);
+                accelerometerValueCheckInterval.OnTimedEvent += (o, e) => UpdateValues();
             }
         }
 
-        private void UpdateValues()
-        {
-            previousAccelometerValues = currentAccelometerValues;
-            currentAccelometerValues = accelerometer.CurrentValue.Acceleration;
-        }
-
         /// <summary>
-        /// Note: If accelerometer is not supported or failed to initialize then method will always return false
+        /// Note: If accelerometer is not supported or failed to initialize then method will always return false.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if shake was detected.</returns>
         public bool ShakeDetected()
         {
             Vector3 result = currentAccelometerValues - previousAccelometerValues;
-            if (Math.Abs(result.X + result.Y + result.Z) > shakeMinimumForce)
+            if (Math.Abs(result.X + result.Y + result.Z) > shakeMinimalForce)
             {
                 return true;
             }
@@ -52,6 +48,12 @@
         public void Update(GameTime gameTime)
         {
             accelerometerValueCheckInterval?.Update(gameTime);
+        }
+
+        private void UpdateValues()
+        {
+            previousAccelometerValues = currentAccelometerValues;
+            currentAccelometerValues = accelerometer.CurrentValue.Acceleration;
         }
     }
 }

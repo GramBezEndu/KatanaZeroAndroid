@@ -11,24 +11,17 @@
 
     public class Helicopter : AnimatedObject, ICollidable
     {
-        public bool RotationBack
-        {
-            get => rotationBack;
-            set
-            {
-                if (rotationBack != value)
-                {
-                    rotationBack = value;
-                    ChangeAnimation(_moveableBodyState);
-                }
-            }
-        }
+        private readonly GameState gameState;
+
+        private readonly ContentManager content;
+
+        private readonly HelicopterScript heliScript;
+
+        private readonly Player player;
 
         private bool rotationBack = false;
-        private readonly GameState gameState;
-        private readonly ContentManager content;
-        protected readonly Player player;
-        private readonly HelicopterScript heliScript;
+
+        private MovableBodyState movableBodyState;
 
         public Helicopter(GameState gs, ContentManager c, Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p)
             : base(spritesheet, map, scale)
@@ -42,40 +35,75 @@
             heliScript = new HelicopterScript(this);
         }
 
-        internal void Fire(int verticalLane)
-        {
-            //TODO: Finish
-            for (int i = 0; i < 5; i++)
-            {
-                Mortar mortar = new Mortar(gameState, content, content.Load<Texture2D>("Enemies/Mortar/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Enemies/Mortar/Map"), Vector2.One, verticalLane, i);
-                mortar.Position = new Vector2(Rectangle.Right - 10 + i, Rectangle.Center.Y - 15 + i * 1);
-                gameState.AddMoveableBody(mortar);
-                State.Sounds["Fire"].Play();
-            }
-        }
+        public event EventHandler OnMapCollision;
 
-        private MoveableBodyStates _moveableBodyState;
+        public Vector2 CollisionSize => new Vector2(30, 38);
 
-        public MoveableBodyStates MoveableBodyState
+        public Vector2 Velocity { get; set; }
+
+        public Rectangle CollisionRectangle => new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y);
+
+        public MovableBodyState MovableBodyState
         {
-            get => _moveableBodyState;
+            get => movableBodyState;
             set
             {
-                if (_moveableBodyState != value)
+                if (movableBodyState != value)
                 {
                     ChangeAnimation(value);
                 }
             }
         }
 
-        private void ChangeAnimation(MoveableBodyStates value)
+        public bool RotationBack
         {
-            _moveableBodyState = value;
+            get => rotationBack;
+            set
+            {
+                if (rotationBack != value)
+                {
+                    rotationBack = value;
+                    ChangeAnimation(movableBodyState);
+                }
+            }
+        }
+
+        public void PrepareMove(GameTime gameTime)
+        {
+            heliScript.Update(gameTime);
+        }
+
+        public void NotifyHorizontalCollision(GameTime gameTime, object collider)
+        {
+        }
+
+        public void InvokeOnMapCollision(object sender, EventArgs args)
+        {
+            OnMapCollision?.Invoke(sender, args);
+        }
+
+        internal void Fire(int verticalLane)
+        {
+            // TODO: Finish
+            for (int i = 0; i < 5; i++)
+            {
+                Mortar mortar = new Mortar(gameState, content, content.Load<Texture2D>("Enemies/Mortar/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Enemies/Mortar/Map"), Vector2.One, verticalLane, i)
+                {
+                    Position = new Vector2(Rectangle.Right - 10 + i, Rectangle.Center.Y - 15 + (i * 1)),
+                };
+                gameState.AddMoveableBody(mortar);
+                State.Sounds["Fire"].Play();
+            }
+        }
+
+        private void ChangeAnimation(MovableBodyState value)
+        {
+            movableBodyState = value;
             switch (value)
             {
-                case MoveableBodyStates.Idle:
-                case MoveableBodyStates.InAir:
-                case MoveableBodyStates.InAirRight:
+                case MovableBodyState.Idle:
+                case MovableBodyState.InAir:
+                case MovableBodyState.InAirRight:
                     SpriteEffects = SpriteEffects.None;
                     if (RotationBack)
                     {
@@ -88,23 +116,6 @@
 
                     break;
             }
-        }
-
-        public Vector2 CollisionSize { get { return new Vector2(30, 38); } }
-
-        public EventHandler OnMapCollision { get; set; }
-
-        public Vector2 Velocity { get; set; }
-
-        public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
-
-        public void PrepareMove(GameTime gameTime)
-        {
-            heliScript.Update(gameTime);
-        }
-
-        public void NotifyHorizontalCollision(GameTime gameTime, object collider)
-        {
         }
     }
 }

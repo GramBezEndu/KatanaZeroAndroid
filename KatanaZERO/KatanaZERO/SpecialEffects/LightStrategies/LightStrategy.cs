@@ -6,12 +6,12 @@
 
     public abstract class LightStrategy : IComponent
     {
-        protected ClubLights clubLights;
-
         public LightStrategy(ClubLights cl)
         {
-            clubLights = cl;
+            ClubLights = cl;
         }
+
+        protected ClubLights ClubLights { get; private set; }
 
         public abstract void Update(GameTime gameTime);
     }

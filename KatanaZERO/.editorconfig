@@ -106,7 +106,7 @@ dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggest
 #Style - Modifier preferences
 
 #when this rule is set to a list of modifiers, prefer the specified ordering.
-csharp_preferred_modifier_order = public,private,protected,readonly,override,static,abstract,virtual:suggestion
+csharp_preferred_modifier_order = public,private,protected,readonly,override,static,abstract,virtual:none
 
 #Style - Pattern matching
 
@@ -127,8 +127,14 @@ dotnet_diagnostic.SA1600.severity=silent
 dotnet_diagnostic.SA1101.severity=silent
 dotnet_diagnostic.SA1633.severity=silent
 csharp_using_directive_placement=inside_namespace:warning
-csharp_prefer_simple_using_statement=true:warning
+csharp_prefer_simple_using_statement=false:warning
 dotnet_diagnostic.SA0001.severity=silent
 dotnet_diagnostic.SA0002.severity=silent
 csharp_style_prefer_pattern_matching=true:suggestion
 dotnet_diagnostic.SA1602.severity=silent
+
+# Default severity for analyzer diagnostics with category 'StyleCop.CSharp.DocumentationRules'
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.DocumentationRules.severity = none
+
+# IDE0036: Order modifiers
+dotnet_diagnostic.IDE0036.severity = none

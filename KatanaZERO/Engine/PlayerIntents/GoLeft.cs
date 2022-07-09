@@ -16,7 +16,7 @@
 
         public override void Update(GameTime gameTime)
         {
-            player.MoveLeft();
+            Player.MoveLeft();
         }
     }
 }

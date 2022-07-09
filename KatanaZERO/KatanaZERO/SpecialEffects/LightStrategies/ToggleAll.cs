@@ -26,7 +26,7 @@
 
         private void TurnOn()
         {
-            foreach (Engine.DrawableRectangle l in clubLights.Lights)
+            foreach (Engine.DrawableRectangle l in ClubLights.Lights)
             {
                 l.Hidden = false;
             }
@@ -34,7 +34,7 @@
 
         private void TurnOff()
         {
-            foreach (Engine.DrawableRectangle l in clubLights.Lights)
+            foreach (Engine.DrawableRectangle l in ClubLights.Lights)
             {
                 l.Hidden = true;
             }

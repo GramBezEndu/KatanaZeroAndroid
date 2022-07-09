@@ -12,6 +12,16 @@
 
     public class Mortar : AnimatedObject, ICollidable
     {
+        private readonly Vector2 movementVector;
+
+        private readonly int verticalLane;
+
+        private readonly int horizontalLane;
+
+        private readonly GameState gameState;
+
+        private readonly ContentManager content;
+
         private MortarTarget target;
 
         private GameTimer firstStage;
@@ -20,23 +30,15 @@
 
         private bool collidedWithTarget;
 
-        private readonly Vector2 movementVector;
-
-        private readonly int verticalLane;
-
-        private readonly int horizontalLane;
-
         private int travelTimeInFrames = 0;
+
+        private MovableBodyState movableBodyState;
 
         private Vector2 destination;
 
         private Vector2 cameraMovement = Vector2.Zero;
 
         private Vector2 previousCameraPosition = Vector2.Zero;
-
-        private readonly GameState gameState;
-
-        private readonly ContentManager content;
 
         public Mortar(GameState gs, ContentManager c, Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, int verticalLane, int horizontalLane)
             : base(spritesheet, map, scale)
@@ -49,27 +51,25 @@
             this.horizontalLane = horizontalLane;
             gameState = gs;
             content = c;
-            movementVector = new Vector2(0.3f + verticalLane * 1.45f/*0.725f*/, 3f + horizontalLane * 0.2f);
+            movementVector = new Vector2(0.3f + (verticalLane * 1.45f), 3f + (horizontalLane * 0.2f));
         }
 
-        public EventHandler OnMapCollision { get; set; }
+        public event EventHandler OnMapCollision;
 
-        private MoveableBodyStates _moveableBodyState;
-
-        public MoveableBodyStates MoveableBodyState
+        public MovableBodyState MovableBodyState
         {
-            get => _moveableBodyState;
+            get => movableBodyState;
             set
             {
-                if (_moveableBodyState != value)
+                if (movableBodyState != value)
                 {
-                    _moveableBodyState = value;
+                    movableBodyState = value;
                     switch (value)
                     {
-                        case MoveableBodyStates.InAir:
-                        case MoveableBodyStates.InAirRight:
-                        case MoveableBodyStates.InAirLeft:
-                        case MoveableBodyStates.Idle:
+                        case MovableBodyState.InAir:
+                        case MovableBodyState.InAirRight:
+                        case MovableBodyState.InAirLeft:
+                        case MovableBodyState.Idle:
                             if (!collidedWithTarget)
                             {
                                 PlayAnimation("Far");
@@ -85,10 +85,15 @@
 
         public Vector2 CollisionSize => new Vector2(10f, 10f);
 
-        public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
+        public Rectangle CollisionRectangle => new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y);
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
         {
+        }
+
+        public void InvokeOnMapCollision(object sender, EventArgs args)
+        {
+            OnMapCollision?.Invoke(sender, args);
         }
 
         public void PrepareMove(GameTime gameTime)
@@ -98,7 +103,7 @@
                 if (firstStage == null)
                 {
                     firstStage = new GameTimer(1.2f);
-                    firstStage.OnTimedEvent = (o, e) => ActivateSecondStage();
+                    firstStage.OnTimedEvent += (o, e) => ActivateSecondStage();
                 }
 
                 firstStage?.Update(gameTime);
@@ -134,7 +139,7 @@
             target = new MortarTarget(content.Load<Texture2D>("Enemies/Mortar/MortarTarget/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Enemies/Mortar/MortarTarget/Map"), new Vector2(2f, 2f));
             target.Color = Color.Red;
             target.Position = gameState.Camera.WorldToScreen(
-                destination - (travelTimeInFrames * new Vector2(Player.BIKE_VELOCITY.X, Player.BIKE_VELOCITY.Y))) - (target.Size / 2);
+                destination - (travelTimeInFrames * new Vector2(Player.BikeVelocity.X, Player.BikeVelocity.Y))) - (target.Size / 2);
             gameState.AddUiComponent(target);
         }
 

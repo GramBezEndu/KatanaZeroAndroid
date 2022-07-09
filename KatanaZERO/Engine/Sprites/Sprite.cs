@@ -6,10 +6,21 @@
     using Microsoft.Xna.Framework.Graphics;
 
     /// <summary>
-    /// Class for creating objects based on single texture
+    /// Class for creating objects based on single texture.
     /// </summary>
     public class Sprite : ISprite
     {
+        public Sprite(Texture2D t, Vector2 objScale)
+        {
+            Texture = t;
+            Scale = objScale;
+        }
+
+        public Sprite(Texture2D t)
+        {
+            Texture = t;
+        }
+
         public List<SpecialEffect> SpecialEffects { get; set; } = new List<SpecialEffect>();
 
         public Vector2 Scale { get; set; } = Vector2.One;
@@ -42,18 +53,7 @@
             }
         }
 
-        public Texture2D Texture;
-
-        public Sprite(Texture2D t, Vector2 objScale)
-        {
-            Texture = t;
-            Scale = objScale;
-        }
-
-        public Sprite(Texture2D t)
-        {
-            Texture = t;
-        }
+        public Texture2D Texture { get; set; }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

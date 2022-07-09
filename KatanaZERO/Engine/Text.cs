@@ -8,20 +8,33 @@
 
     public class Text : IDrawableComponent
     {
-        private string _message;
+        private string message;
+
+        public Text(SpriteFont f, string msg, Vector2 scale)
+        {
+            Font = f;
+            Message = msg;
+            Scale = scale;
+        }
+
+        public Text(SpriteFont f, string msg)
+        {
+            Font = f;
+            Message = msg;
+        }
 
         public bool Hidden { get; set; }
 
         public Vector2 Position { get; set; }
 
-        protected SpriteFont font;
+        public SpriteFont Font { get; private set; }
 
         public string Message
         {
-            get => _message;
+            get => message;
             set
             {
-                _message = value;
+                message = value;
             }
         }
 
@@ -29,9 +42,9 @@
         {
             get
             {
-                if (font != null && _message != null)
+                if (Font != null && message != null)
                 {
-                    return new Vector2(font.MeasureString(_message).X * Scale.X, font.MeasureString(_message).Y * Scale.Y);
+                    return new Vector2(Font.MeasureString(message).X * Scale.X, Font.MeasureString(message).Y * Scale.Y);
                 }
                 else
                 {
@@ -54,24 +67,11 @@
 
         public List<SpecialEffect> SpecialEffects { get; set; } = new List<SpecialEffect>();
 
-        public Text(SpriteFont f, string msg, Vector2 scale)
-        {
-            font = f;
-            Message = msg;
-            Scale = scale;
-        }
-
-        public Text(SpriteFont f, string msg)
-        {
-            font = f;
-            Message = msg;
-        }
-
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (!Hidden)
             {
-                spriteBatch.DrawString(font, Message, Position, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(Font, Message, Position, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects.None, 0f);
             }
         }
 

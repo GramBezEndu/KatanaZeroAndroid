@@ -8,6 +8,8 @@
 
     public class Gangster : Enemy
     {
+        private MovableBodyState movableBodyState;
+
         public Gangster(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p)
             : base(spritesheet, map, scale, p)
         {
@@ -16,29 +18,27 @@
             PlayAnimation("Idle");
         }
 
-        private MoveableBodyStates _moveableBodyState;
-
-        public override MoveableBodyStates MoveableBodyState
+        public override MovableBodyState MovableBodyState
         {
-            get => _moveableBodyState;
+            get => movableBodyState;
             set
             {
-                if (_moveableBodyState != value)
+                if (movableBodyState != value)
                 {
-                    _moveableBodyState = value;
+                    movableBodyState = value;
                     switch (value)
                     {
-                        case MoveableBodyStates.InAir:
-                        case MoveableBodyStates.InAirRight:
-                        case MoveableBodyStates.InAirLeft:
-                        case MoveableBodyStates.Idle:
+                        case MovableBodyState.InAir:
+                        case MovableBodyState.InAirRight:
+                        case MovableBodyState.InAirLeft:
+                        case MovableBodyState.Idle:
                             PlayAnimation("Idle");
                             break;
-                        case MoveableBodyStates.WalkRight:
+                        case MovableBodyState.WalkRight:
                             SpriteEffects = SpriteEffects.None;
                             PlayAnimation("Walk");
                             break;
-                        case MoveableBodyStates.WalkLeft:
+                        case MovableBodyState.WalkLeft:
                             SpriteEffects = SpriteEffects.FlipHorizontally;
                             PlayAnimation("Walk");
                             break;
@@ -47,6 +47,6 @@
             }
         }
 
-        public override Vector2 CollisionSize { get { return new Vector2(30, 38); } }
+        public override Vector2 CollisionSize => new Vector2(30, 38);
     }
 }

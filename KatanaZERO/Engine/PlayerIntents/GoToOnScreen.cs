@@ -10,14 +10,14 @@
 
         private readonly GoToVerticalOnScreen verticalIntent;
 
-        public EventHandler OnFinished { get; set; }
-
         public GoToOnScreenIntent(InputManager im, Camera c, Player p, Vector2 destination)
             : base(im, c, p)
         {
             horizontalIntent = new GoToHorizontalOnScreen(im, c, p, destination.X);
             verticalIntent = new GoToVerticalOnScreen(im, c, p, destination.Y);
         }
+
+        public EventHandler OnFinished { get; set; }
 
         public override void IntentFinished()
         {

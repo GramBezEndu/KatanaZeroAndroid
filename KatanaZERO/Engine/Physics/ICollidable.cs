@@ -3,7 +3,7 @@
     using System;
     using Microsoft.Xna.Framework;
 
-    public enum MoveableBodyStates
+    public enum MovableBodyState
     {
         Idle,
         WalkRight,
@@ -19,9 +19,9 @@
 
     public interface ICollidable : IDrawableComponent
     {
-        EventHandler OnMapCollision { get; set; }
+        event EventHandler OnMapCollision;
 
-        MoveableBodyStates MoveableBodyState { get; set; }
+        MovableBodyState MovableBodyState { get; set; }
 
         Vector2 Velocity { get; set; }
 
@@ -32,5 +32,7 @@
         void PrepareMove(GameTime gameTime);
 
         void NotifyHorizontalCollision(GameTime gameTime, object collider);
+
+        void InvokeOnMapCollision(object sender, EventArgs args);
     }
 }

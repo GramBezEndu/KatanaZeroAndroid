@@ -10,8 +10,6 @@
     {
         private readonly GameState gameState;
 
-        public PickUpArrow PickUpArrow;
-
         public BottlePickUp(Texture2D t)
             : base(t)
         {
@@ -23,15 +21,17 @@
             gameState = state;
         }
 
-        public EventHandler OnMapCollision { get; set; }
+        public event EventHandler OnMapCollision;
 
-        public MoveableBodyStates MoveableBodyState { get; set; }
+        public PickUpArrow PickUpArrow { get; set; }
+
+        public MovableBodyState MovableBodyState { get; set; }
 
         public Vector2 Velocity { get; set; }
 
-        public Vector2 CollisionSize { get { return new Vector2(10, 21); } }
+        public Vector2 CollisionSize => new Vector2(10, 21);
 
-        public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
+        public Rectangle CollisionRectangle => new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y);
 
         public void PrepareMove(GameTime gameTime)
         {
@@ -53,6 +53,11 @@
                 base.Update(gameTime);
                 PickUpArrow?.Update(gameTime);
             }
+        }
+
+        public void InvokeOnMapCollision(object sender, EventArgs args)
+        {
+            OnMapCollision?.Invoke(sender, args);
         }
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)

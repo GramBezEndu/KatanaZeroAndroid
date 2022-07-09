@@ -14,6 +14,6 @@
             PlayAnimation("Idle");
         }
 
-        public override Vector2 CollisionSize { get { return new Vector2(30, 40); } }
+        public override Vector2 CollisionSize => new Vector2(30, 40);
     }
 }

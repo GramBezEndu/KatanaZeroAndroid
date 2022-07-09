@@ -12,75 +12,68 @@
 
     public class PrisonPart1 : GameState
     {
-        protected override int FloorLevel { get { return 320; } }
-
-        // Should be the same time across all prison parts
-        public override double LevelTimeInSeconds { get { return 180; } }
-
         public PrisonPart1(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null)
             : base(gameReference, levelId, showLevelTitle, stageData)
         {
             AmbientColor = new Color(150, 150, 150);
-            game.PlaySong(content.Load<Song>("Songs/Prison"));
+            Game.PlaySong(Content.Load<Song>("Songs/Prison"));
 
             AddGoToArrowRight(new Vector2(1460, 310));
-            gameComponents.Add(new Script()
+            GameComponents.Add(new Script()
             {
                 OnUpdate = AutoRun,
             });
         }
 
-        private void AutoRun(object sender, EventArgs e)
+        // Should be the same time across all prison parts
+        public override double LevelTimeInSeconds => 180;
+
+        public override string LevelName => "PRISON";
+
+        protected override int FloorLevel => 320;
+
+        public override void SetPlayerSpawnPoint()
         {
-            if (!GameOver)
-            {
-                if (player.Position.X > 1400f)
-                {
-                    player.ResetIntent();
-                    player.MoveRight();
-                }
-
-                if (player.Position.X > 1500f)
-                {
-                    PrisonPart2 nextStage = new PrisonPart2(game, levelId, false);
-
-                    // Setup stage timer manually
-                    nextStage.StageTimer.CurrentInterval = StageTimer.CurrentInterval;
-
-                    // Change camera origin
-                    nextStage.Camera.MultiplierOriginX = 0.5f;
-
-                    game.ChangeState(nextStage);
-                    (sender as Script).Enabled = false;
-                }
-            }
+            Player.Position = new Vector2(35, 270);
         }
 
-        public override string LevelName { get { return "PRISON"; } }
+        internal override Vector2 SetMapSize()
+        {
+            return new Vector2(1480, 464);
+        }
+
+        internal override void RestartLevel(StageData stageData)
+        {
+            Game.ChangeState(new PrisonPart1(Game, LevelId, false, stageData));
+        }
+
+        internal override void SpawnEntitiesAfterPlayer()
+        {
+            SpawnPatrollingGangster(new Vector2(510, 200), 3f);
+            SpawnPatrollingGangster(new Vector2(500, 200), 2.5f, false);
+            SpawnPatrollingGangster(new Vector2(800, 200), 2.5f);
+            SpawnPatrollingGangster(new Vector2(1120, 200), 2f);
+            SpawnPatrollingGangster(new Vector2(1200, 200), 3f, false);
+        }
 
         protected override List<Rectangle> CreateHidingSpots()
         {
             List<Rectangle> hidingSpots = new List<Rectangle>()
             {
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle6"), 180f).Rectangle,
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle3"), 400f).Rectangle,
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle4"), 430f).Rectangle,
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle5"), 600f).Rectangle,
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle5"), 650f).Rectangle,
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle5"), 700f).Rectangle,
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle3"), 950f).Rectangle,
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle1"), 985f).Rectangle,
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle1"), 1100f).Rectangle,
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle2"), 1160f).Rectangle,
-                SpawnObstacle(content.Load<Texture2D>("Obstacles/Obstacle7"), 1300f).Rectangle,
+                SpawnObstacle(Content.Load<Texture2D>("Obstacles/Obstacle6"), 180f).Rectangle,
+                SpawnObstacle(Content.Load<Texture2D>("Obstacles/Obstacle3"), 400f).Rectangle,
+                SpawnObstacle(Content.Load<Texture2D>("Obstacles/Obstacle4"), 430f).Rectangle,
+                SpawnObstacle(Content.Load<Texture2D>("Obstacles/Obstacle5"), 600f).Rectangle,
+                SpawnObstacle(Content.Load<Texture2D>("Obstacles/Obstacle5"), 650f).Rectangle,
+                SpawnObstacle(Content.Load<Texture2D>("Obstacles/Obstacle5"), 700f).Rectangle,
+                SpawnObstacle(Content.Load<Texture2D>("Obstacles/Obstacle3"), 950f).Rectangle,
+                SpawnObstacle(Content.Load<Texture2D>("Obstacles/Obstacle1"), 985f).Rectangle,
+                SpawnObstacle(Content.Load<Texture2D>("Obstacles/Obstacle1"), 1100f).Rectangle,
+                SpawnObstacle(Content.Load<Texture2D>("Obstacles/Obstacle2"), 1160f).Rectangle,
+                SpawnObstacle(Content.Load<Texture2D>("Obstacles/Obstacle7"), 1300f).Rectangle,
             };
             hidingSpots.AddRange(ReadHidingSpotsFromMap());
             return hidingSpots;
-        }
-
-        public override void SetPlayerSpawnPoint()
-        {
-            player.Position = new Vector2(35, 270);
         }
 
         protected override void AddHighscore()
@@ -89,35 +82,44 @@
 
         protected override void LoadMap()
         {
-            map = content.Load<TiledMap>("Maps/PrisonPart1/PrisonPart1");
-        }
-
-        override internal Vector2 SetMapSize()
-        {
-            return new Vector2(1480, 464);
+            Map = Content.Load<TiledMap>("Maps/PrisonPart1/PrisonPart1");
         }
 
         private Sprite SpawnObstacle(Texture2D texture, float posX)
         {
-            Sprite obstacle = new Sprite(texture);
-            obstacle.Color = Color.Black;
+            Sprite obstacle = new Sprite(texture)
+            {
+                Color = Color.Black,
+            };
             obstacle.Position = new Vector2(posX, FloorLevel - obstacle.Size.Y);
-            gameComponents.Add(obstacle);
+            GameComponents.Add(obstacle);
             return obstacle;
         }
 
-        override internal void RestartLevel(StageData stageData)
+        private void AutoRun(object sender, EventArgs e)
         {
-            game.ChangeState(new PrisonPart1(game, levelId, false, stageData));
-        }
+            if (!GameOver)
+            {
+                if (Player.Position.X > 1400f)
+                {
+                    Player.ResetIntent();
+                    Player.MoveRight();
+                }
 
-        override internal void SpawnEntitiesAfterPlayer()
-        {
-            SpawnPatrollingGangster(new Vector2(510, 200), 3f);
-            SpawnPatrollingGangster(new Vector2(500, 200), 2.5f, false);
-            SpawnPatrollingGangster(new Vector2(800, 200), 2.5f);
-            SpawnPatrollingGangster(new Vector2(1120, 200), 2f);
-            SpawnPatrollingGangster(new Vector2(1200, 200), 3f, false);
+                if (Player.Position.X > 1500f)
+                {
+                    PrisonPart2 nextStage = new PrisonPart2(Game, LevelId, false);
+
+                    // Setup stage timer manually
+                    nextStage.StageTimer.CurrentInterval = StageTimer.CurrentInterval;
+
+                    // Change camera origin
+                    nextStage.Camera.MultiplierOriginX = 0.5f;
+
+                    Game.ChangeState(nextStage);
+                    (sender as Script).Enabled = false;
+                }
+            }
         }
     }
 }

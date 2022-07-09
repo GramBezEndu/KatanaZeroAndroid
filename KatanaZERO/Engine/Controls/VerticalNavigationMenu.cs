@@ -7,10 +7,12 @@
 
     public class VerticalNavigationMenu : NavigationMenu
     {
-        private const int margin = 20;
+        private const int MarginY = 20;
+
         private Vector2 position;
 
-        public VerticalNavigationMenu(InputManager im, List<IButton> listButtons) : base(im, listButtons)
+        public VerticalNavigationMenu(InputManager im, List<IButton> listButtons)
+            : base(im, listButtons)
         {
         }
 
@@ -21,10 +23,10 @@
             {
                 position = value;
                 Vector2 currentPos = position;
-                foreach (IButton button in buttons)
+                foreach (IButton button in Buttons)
                 {
                     button.Position = currentPos;
-                    currentPos += new Vector2(0, button.Size.Y + margin);
+                    currentPos += new Vector2(0, button.Size.Y + MarginY);
                 }
             }
         }
@@ -35,19 +37,19 @@
             get
             {
                 Vector2 size = Vector2.Zero;
-                for (int i = 0; i < buttons.Count; i++)
+                for (int i = 0; i < Buttons.Count; i++)
                 {
-                    if (buttons[i].Size.X > size.X)
+                    if (Buttons[i].Size.X > size.X)
                     {
-                        size.X = buttons[i].Size.X;
+                        size.X = Buttons[i].Size.X;
                     }
 
-                    size.Y += buttons[i].Size.Y;
+                    size.Y += Buttons[i].Size.Y;
                 }
 
-                for (int i = 0; i < buttons.Count - 1; i++)
+                for (int i = 0; i < Buttons.Count - 1; i++)
                 {
-                    size.Y += margin;
+                    size.Y += MarginY;
                 }
 
                 return size;

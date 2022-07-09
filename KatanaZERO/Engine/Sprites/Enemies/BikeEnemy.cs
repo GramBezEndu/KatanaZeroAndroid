@@ -16,11 +16,11 @@
 
         private readonly ContentManager content;
 
-        protected readonly Player player;
+        private readonly Player player;
 
         private readonly GameTimer[] phases;
 
-        public int CurrentPhase { get; private set; } = 0;
+        private MovableBodyState movableBodyState;
 
         public BikeEnemy(GameState gs, ContentManager c, Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p)
             : base(spritesheet, map, scale)
@@ -32,56 +32,36 @@
             PlayAnimation("Right");
             phases = new GameTimer[3];
             phases[0] = new GameTimer(2.5f);
-            phases[0].OnTimedEvent = (o, e) => Adavance();
+            phases[0].OnTimedEvent += (o, e) => Adavance();
 
             phases[1] = new GameTimer(7f);
-            phases[1].OnTimedEvent = (o, e) => Adavance();
+            phases[1].OnTimedEvent += (o, e) => Adavance();
 
             phases[2] = new GameTimer(6f);
-            phases[2].OnTimedEvent = (o, e) => Adavance();
+            phases[2].OnTimedEvent += (o, e) => Adavance();
         }
 
-        private void Adavance()
-        {
-            CurrentPhase++;
-        }
+        public event EventHandler OnMapCollision;
 
-        private MoveableBodyStates _moveableBodyState;
+        public int CurrentPhase { get; private set; } = 0;
 
-        public MoveableBodyStates MoveableBodyState
+        public MovableBodyState MovableBodyState
         {
-            get => _moveableBodyState;
+            get => movableBodyState;
             set
             {
-                if (_moveableBodyState != value)
+                if (movableBodyState != value)
                 {
                     ChangeAnimation(value);
                 }
             }
         }
 
-        private void ChangeAnimation(MoveableBodyStates value)
-        {
-            _moveableBodyState = value;
-            switch (value)
-            {
-                case MoveableBodyStates.InAir:
-                case MoveableBodyStates.InAirRight:
-                case MoveableBodyStates.InAirLeft:
-                case MoveableBodyStates.Idle:
-                    SpriteEffects = SpriteEffects.None;
-                    PlayAnimation("Right");
-                    break;
-            }
-        }
-
-        public Vector2 CollisionSize { get { return new Vector2(30, 25); } }
-
-        public EventHandler OnMapCollision { get; set; }
+        public Vector2 CollisionSize => new Vector2(30, 25);
 
         public Vector2 Velocity { get; set; }
 
-        public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
+        public Rectangle CollisionRectangle => new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y);
 
         public void PrepareMove(GameTime gameTime)
         {
@@ -116,8 +96,33 @@
             }
         }
 
+        public void InvokeOnMapCollision(object sender, EventArgs args)
+        {
+            OnMapCollision?.Invoke(sender, args);
+        }
+
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
         {
+        }
+
+        private void Adavance()
+        {
+            CurrentPhase++;
+        }
+
+        private void ChangeAnimation(MovableBodyState value)
+        {
+            movableBodyState = value;
+            switch (value)
+            {
+                case MovableBodyState.InAir:
+                case MovableBodyState.InAirRight:
+                case MovableBodyState.InAirLeft:
+                case MovableBodyState.Idle:
+                    SpriteEffects = SpriteEffects.None;
+                    PlayAnimation("Right");
+                    break;
+            }
         }
     }
 }

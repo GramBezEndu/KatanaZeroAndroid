@@ -7,9 +7,12 @@
     public class PatrollingStrategy : Strategy
     {
         private readonly float positionStartPatrolX;
+
         private readonly float positionEndPatrolX;
-        private GameTimer idleTimer;
+
         private readonly float idleTime;
+
+        private GameTimer idleTimer;
 
         /// <summary>
         /// Determines in which direction (left/right) will go now
@@ -17,7 +20,8 @@
         /// </summary>
         private bool goingLeft = true;
 
-        public PatrollingStrategy(Enemy e, float startX, float endX, float idleTimeSeconds = 3.5f, bool startingLeft = true) : base(e)
+        public PatrollingStrategy(Enemy enemy, float startX, float endX, float idleTimeSeconds = 3.5f, bool startingLeft = true)
+            : base(enemy)
         {
             positionStartPatrolX = startX;
             positionEndPatrolX = endX;
@@ -51,7 +55,7 @@
             // Move
             if (GoingLeft)
             {
-                if (enemy.Position.X < positionStartPatrolX)
+                if (Enemy.Position.X < positionStartPatrolX)
                 {
                     // End going left -> start going right
                     GoingLeft = false;
@@ -59,28 +63,26 @@
                 else
                 {
                     // Go left still
-                    enemy.Velocity = new Vector2(-0.8f, enemy.Velocity.Y);
+                    Enemy.Velocity = new Vector2(-0.8f, Enemy.Velocity.Y);
                 }
             }
             else
             {
-                if (enemy.Position.X > positionEndPatrolX)
+                if (Enemy.Position.X > positionEndPatrolX)
                 {
                     GoingLeft = true;
                 }
                 else
                 {
-                    enemy.Velocity = new Vector2(0.8f, enemy.Velocity.Y);
+                    Enemy.Velocity = new Vector2(0.8f, Enemy.Velocity.Y);
                 }
             }
         }
 
         private void CreateIdleTimer()
         {
-            idleTimer = new GameTimer(idleTime)
-            {
-                OnTimedEvent = (o, e) => idleTimer = null,
-            };
+            idleTimer = new GameTimer(idleTime);
+            idleTimer.OnTimedEvent += (o, e) => idleTimer = null;
         }
     }
 }

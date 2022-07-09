@@ -9,11 +9,19 @@
 
     public abstract class Enemy : AnimatedObject, ICollidable
     {
-        public Strategy CurrentStrategy;
+        private readonly Player player;
 
-        protected readonly Player player;
+        public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p)
+            : base(spritesheet, map, scale)
+        {
+            player = p;
+        }
 
-        public virtual MoveableBodyStates MoveableBodyState { get; set; }
+        public event EventHandler OnMapCollision;
+
+        public Strategy CurrentStrategy { get; set; }
+
+        public virtual MovableBodyState MovableBodyState { get; set; }
 
         public Vector2 Velocity { get; set; }
 
@@ -23,15 +31,7 @@
 
         public abstract Vector2 CollisionSize { get; }
 
-        public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
-
-        public EventHandler OnMapCollision { get; set; }
-
-        public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale, Player p)
-            : base(spritesheet, map, scale)
-        {
-            player = p;
-        }
+        public Rectangle CollisionRectangle => new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y);
 
         public void Die()
         {
@@ -61,23 +61,39 @@
             }
         }
 
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            base.Draw(gameTime, spriteBatch);
+            PatrollingSprite?.Draw(gameTime, spriteBatch);
+            QuestionMark?.Draw(gameTime, spriteBatch);
+        }
+
+        public void NotifyHorizontalCollision(GameTime gameTime, object collider)
+        {
+        }
+
+        public void InvokeOnMapCollision(object sender, EventArgs args)
+        {
+            OnMapCollision?.Invoke(sender, args);
+        }
+
         private void AdjustQuestionMarkPosition()
         {
             Vector2 adjustment;
-            switch (MoveableBodyState)
+            switch (MovableBodyState)
             {
-                case MoveableBodyStates.WalkRight:
+                case MovableBodyState.WalkRight:
                     adjustment = new Vector2(12, -13);
                     QuestionMark.Position = new Vector2(Position.X + adjustment.X, Position.Y + adjustment.Y);
                     break;
-                case MoveableBodyStates.WalkLeft:
+                case MovableBodyState.WalkLeft:
                     adjustment = new Vector2(7, -15);
                     QuestionMark.Position = new Vector2(Position.X + adjustment.X, Position.Y + adjustment.Y);
                     break;
-                case MoveableBodyStates.InAir:
-                case MoveableBodyStates.InAirRight:
-                case MoveableBodyStates.InAirLeft:
-                case MoveableBodyStates.Idle:
+                case MovableBodyState.InAir:
+                case MovableBodyState.InAirRight:
+                case MovableBodyState.InAirLeft:
+                case MovableBodyState.Idle:
                     // Idle right
                     if (SpriteEffects == SpriteEffects.None)
                     {
@@ -97,22 +113,22 @@
         private void AdjustPatrollBeamPosition()
         {
             Vector2 adjustment;
-            switch (MoveableBodyState)
+            switch (MovableBodyState)
             {
-                case MoveableBodyStates.WalkRight:
+                case MovableBodyState.WalkRight:
                     adjustment = new Vector2(-10, -13);
                     PatrollingSprite.SpriteEffects = SpriteEffects.None;
                     PatrollingSprite.Position = new Vector2(Position.X + Size.X + adjustment.X, Position.Y + adjustment.Y);
                     break;
-                case MoveableBodyStates.WalkLeft:
+                case MovableBodyState.WalkLeft:
                     adjustment = new Vector2(5, -15);
                     PatrollingSprite.SpriteEffects = SpriteEffects.FlipHorizontally;
                     PatrollingSprite.Position = new Vector2(Position.X - PatrollingSprite.Size.X + adjustment.X, Position.Y + adjustment.Y);
                     break;
-                case MoveableBodyStates.InAir:
-                case MoveableBodyStates.InAirRight:
-                case MoveableBodyStates.InAirLeft:
-                case MoveableBodyStates.Idle:
+                case MovableBodyState.InAir:
+                case MovableBodyState.InAirRight:
+                case MovableBodyState.InAirLeft:
+                case MovableBodyState.Idle:
                     // Idle right
                     if (SpriteEffects == SpriteEffects.None)
                     {
@@ -129,17 +145,6 @@
 
                     break;
             }
-        }
-
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            base.Draw(gameTime, spriteBatch);
-            PatrollingSprite?.Draw(gameTime, spriteBatch);
-            QuestionMark?.Draw(gameTime, spriteBatch);
-        }
-
-        public void NotifyHorizontalCollision(GameTime gameTime, object collider)
-        {
         }
     }
 }

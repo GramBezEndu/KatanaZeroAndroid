@@ -2,10 +2,6 @@
 {
     public class Score
     {
-        public double Time;
-
-        public int LevelId;
-
         public Score()
         {
         }
@@ -15,5 +11,9 @@
             LevelId = levelId;
             Time = time;
         }
+
+        public double Time { get; set; }
+
+        public int LevelId { get; set; }
     }
 }

@@ -9,6 +9,25 @@
 
     public class Rain : IDrawableComponent
     {
+        private readonly List<DrawableRectangle> rainComponents = new List<DrawableRectangle>();
+
+        private readonly Random random = new Random();
+
+        private Color color;
+
+        public Rain()
+        {
+            Color = Color.DarkGray;
+            for (int i = 0; i < 35; i++)
+            {
+                rainComponents.Add(new DrawableRectangle(new Rectangle(5 + (i * 41), 0 - random.Next(50, 400), 7, 30 + random.Next(0, 20)))
+                {
+                    Color = Color * 0.14f,
+                    Filled = true,
+                });
+            }
+        }
+
         public bool Hidden { get; set; }
 
         public Vector2 Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -34,23 +53,6 @@
         }
 
         public List<SpecialEffect> SpecialEffects { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        private readonly List<DrawableRectangle> rainComponents = new List<DrawableRectangle>();
-        private readonly Random random = new Random();
-        private Color color;
-
-        public Rain()
-        {
-            Color = Color.DarkGray;
-            for (int i = 0; i < 35; i++)
-            {
-                rainComponents.Add(new DrawableRectangle(new Rectangle(5 + i * 41, 0 - random.Next(50, 400), 7, 30 + random.Next(0, 20)))
-                {
-                    Color = Color * 0.14f,
-                    Filled = true,
-                });
-            }
-        }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

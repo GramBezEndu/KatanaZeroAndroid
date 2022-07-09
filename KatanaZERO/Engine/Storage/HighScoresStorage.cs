@@ -8,15 +8,26 @@
 
     public class HighScoresStorage
     {
+        private const int MaxHighscoresCount = 5;
+
         private static readonly string FileName = "highscores.xml";
 
         private static string filePath;
 
+        private static HighScoresStorage instance;
+
         private List<Score> scores;
 
-        public const int MaxHighscoresCount = 5;
+        private HighScoresStorage(List<Score> scores)
+            : this()
+        {
+            this.scores = scores;
+        }
 
-        private static HighScoresStorage instance;
+        private HighScoresStorage()
+        {
+            scores = new List<Score>();
+        }
 
         public static HighScoresStorage Instance
         {
@@ -60,27 +71,6 @@
             }
         }
 
-        private HighScoresStorage(List<Score> scores)
-            : this()
-        {
-            this.scores = scores;
-        }
-
-        private HighScoresStorage()
-        {
-            scores = new List<Score>();
-        }
-
-        private static void CreateFullPath()
-        {
-            string[] paths =
-            {
-                System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
-                FileName,
-            };
-            filePath = Path.Combine(paths);
-        }
-
         public void AddTime(Score s)
         {
             scores.Add(s);
@@ -116,6 +106,16 @@
         {
             Score[] bestScores = scores.Where(x => x.LevelId == levelId).OrderBy(x => x.Time).Take(MaxHighscoresCount).ToArray();
             return bestScores.Select(x => x.Time).ToArray();
+        }
+
+        private static void CreateFullPath()
+        {
+            string[] paths =
+            {
+                System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+                FileName,
+            };
+            filePath = Path.Combine(paths);
         }
     }
 }

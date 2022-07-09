@@ -12,30 +12,13 @@
 
     public abstract class State : IComponent, IDisposable
     {
-        protected readonly Game1 game;
-        protected readonly InputManager inputManager;
-        protected readonly GraphicsDevice graphicsDevice;
-        protected readonly ContentManager content;
-        protected Dictionary<string, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
-        protected RenderTarget2D uiLayerRenderTarget;
-        protected List<IComponent> uiComponents = new List<IComponent>();
-        protected SpriteBatch uiSpriteBatch;
-        protected Dictionary<string, Texture2D> commonTextures = new Dictionary<string, Texture2D>();
-        protected Dictionary<string, Song> songs = new Dictionary<string, Song>();
-        public static Dictionary<string, SoundEffect> Sounds = new Dictionary<string, SoundEffect>();
-
-        public void AddUiComponent(IComponent component)
-        {
-            uiComponents.Add(component);
-        }
-
         public State(Game1 gameReference)
         {
-            game = gameReference;
-            graphicsDevice = game.GraphicsDevice;
-            uiSpriteBatch = new SpriteBatch(graphicsDevice);
-            inputManager = game.InputManager;
-            content = game.Content;
+            Game = gameReference;
+            GraphicsDevice = Game.GraphicsDevice;
+            UiSpriteBatch = new SpriteBatch(GraphicsDevice);
+            InputManager = Game.InputManager;
+            Content = Game.Content;
             CreateRenderTarget();
             LoadFonts();
             LoadCommonTextures();
@@ -46,56 +29,39 @@
             }
         }
 
-        private void LoadFonts()
+        public static Dictionary<string, SoundEffect> Sounds { get; private set; } = new Dictionary<string, SoundEffect>();
+
+        protected Game1 Game { get; private set; }
+
+        protected ContentManager Content { get; private set; }
+
+        protected Dictionary<string, SpriteFont> Fonts { get; private set; } = new Dictionary<string, SpriteFont>();
+
+        protected RenderTarget2D UiLayerRenderTarget { get; private set; }
+
+        protected List<IComponent> UiComponents { get; private set; } = new List<IComponent>();
+
+        protected SpriteBatch UiSpriteBatch { get; private set; }
+
+        protected Dictionary<string, Texture2D> Textures { get; private set; } = new Dictionary<string, Texture2D>();
+
+        protected InputManager InputManager { get; private set; }
+
+        protected GraphicsDevice GraphicsDevice { get; private set; }
+
+        protected Dictionary<string, Song> Songs { get; private set; } = new Dictionary<string, Song>();
+
+        public void AddUiComponent(IComponent component)
         {
-            fonts["Standard"] = content.Load<SpriteFont>("Font");
-            fonts["Small"] = content.Load<SpriteFont>("FontSmall");
-            fonts["Big"] = content.Load<SpriteFont>("FontBig");
-            fonts["XirodMedium"] = content.Load<SpriteFont>("XirodMedium");
+            UiComponents.Add(component);
         }
 
-        private void LoadCommonTextures()
+        public virtual void Update(GameTime gameTime)
         {
-            commonTextures.Add("MainMenu", content.Load<Texture2D>("Textures/MainMenu"));
-            commonTextures.Add("Fence", content.Load<Texture2D>("Textures/Fence"));
-            commonTextures.Add("Floor", content.Load<Texture2D>("Textures/Floor"));
-            commonTextures.Add("PoliceCar", content.Load<Texture2D>("Textures/PoliceCar"));
-            commonTextures.Add("GoArrow", content.Load<Texture2D>("Textures/GoArrow"));
-            commonTextures.Add("GoText", content.Load<Texture2D>("Textures/GoText"));
-            commonTextures.Add("HudTimer", content.Load<Texture2D>("Textures/HudTimer"));
-            commonTextures.Add("Timer", content.Load<Texture2D>("Textures/Timer"));
-            commonTextures.Add("Hud", content.Load<Texture2D>("Textures/Hud"));
-            commonTextures.Add("JobFolderBack", content.Load<Texture2D>("Textures/JobFolderBack"));
-            commonTextures.Add("JobFolderFrontOpen", content.Load<Texture2D>("Textures/JobFolderFrontOpen"));
-            commonTextures.Add("JobFolderFrontClosed", content.Load<Texture2D>("Textures/JobFolderFrontClosed"));
-        }
-
-        private void LoadSongs()
-        {
-            songs.Add("MainMenu", content.Load<Song>("Songs/MainMenu"));
-            songs.Add("Stage1", content.Load<Song>("Songs/Stage1"));
-            songs.Add("Club", content.Load<Song>("Songs/Club"));
-            songs.Add("BikeEscape", content.Load<Song>("Songs/BikeEscape"));
-            songs.Add("BikeEscapeBoss", content.Load<Song>("Songs/BikeEscapeBoss"));
-        }
-
-        private void LoadSoundEffects()
-        {
-            Sounds.Add("WeaponSlash", content.Load<SoundEffect>("Sounds/WeaponSlash"));
-            Sounds.Add("OptionSelect", content.Load<SoundEffect>("Sounds/OptionSelect"));
-            Sounds.Add("LevelFail", content.Load<SoundEffect>("Sounds/LevelFail"));
-            Sounds.Add("BottleThrow", content.Load<SoundEffect>("Sounds/BottleThrow"));
-            Sounds.Add("GlassBreak", content.Load<SoundEffect>("Sounds/GlassBreak"));
-            Sounds.Add("PickUp", content.Load<SoundEffect>("Sounds/KeycardPickUp"));
-            Sounds.Add("Fire", content.Load<SoundEffect>("Sounds/Fire"));
-            Sounds.Add("StageClear", content.Load<SoundEffect>("Sounds/StageClear"));
-            Sounds.Add("SpeedingVehicle", content.Load<SoundEffect>("Sounds/SpeedingVehicle"));
-            Sounds.Add("SpeedingVehicle2", content.Load<SoundEffect>("Sounds/SpeedingVehicle2"));
-        }
-
-        private void CreateRenderTarget()
-        {
-            uiLayerRenderTarget = new RenderTarget2D(graphicsDevice, (int)game.LogicalSize.X, (int)game.LogicalSize.Y);
+            foreach (IComponent c in UiComponents)
+            {
+                c.Update(gameTime);
+            }
         }
 
         public void Draw(GameTime gameTime)
@@ -104,45 +70,89 @@
             DrawToScreen();
         }
 
+        public void Dispose()
+        {
+            if (UiLayerRenderTarget != null && !UiLayerRenderTarget.IsDisposed)
+            {
+                UiLayerRenderTarget.Dispose();
+                GC.SuppressFinalize(this);
+            }
+        }
+
         protected virtual void DrawToScreen()
         {
-            uiSpriteBatch.Begin();
-            uiSpriteBatch.Draw(uiLayerRenderTarget, new Rectangle(0, 0, (int)game.WindowSize.X, (int)game.WindowSize.Y), Color.White);
-            uiSpriteBatch.End();
+            UiSpriteBatch.Begin();
+            UiSpriteBatch.Draw(UiLayerRenderTarget, new Rectangle(0, 0, (int)Game.WindowSize.X, (int)Game.WindowSize.Y), Color.White);
+            UiSpriteBatch.End();
         }
 
         protected virtual void DrawToRenderTarget(GameTime gameTime)
         {
-            graphicsDevice.SetRenderTarget(uiLayerRenderTarget);
-            graphicsDevice.Clear(Color.Transparent);
-            uiSpriteBatch.Begin();
-            foreach (IComponent c in uiComponents)
+            GraphicsDevice.SetRenderTarget(UiLayerRenderTarget);
+            GraphicsDevice.Clear(Color.Transparent);
+            UiSpriteBatch.Begin();
+            foreach (IComponent c in UiComponents)
             {
                 if (c is IDrawableComponent drawableComponent)
                 {
-                    drawableComponent.Draw(gameTime, uiSpriteBatch);
+                    drawableComponent.Draw(gameTime, UiSpriteBatch);
                 }
             }
 
-            uiSpriteBatch.End();
-            graphicsDevice.SetRenderTarget(null);
+            UiSpriteBatch.End();
+            GraphicsDevice.SetRenderTarget(null);
         }
 
-        public virtual void Update(GameTime gameTime)
+        private void LoadFonts()
         {
-            foreach (IComponent c in uiComponents)
-            {
-                c.Update(gameTime);
-            }
+            Fonts["Standard"] = Content.Load<SpriteFont>("Font");
+            Fonts["Small"] = Content.Load<SpriteFont>("FontSmall");
+            Fonts["Big"] = Content.Load<SpriteFont>("FontBig");
+            Fonts["XirodMedium"] = Content.Load<SpriteFont>("XirodMedium");
         }
 
-        public void Dispose()
+        private void LoadCommonTextures()
         {
-            if (uiLayerRenderTarget != null && !(uiLayerRenderTarget.IsDisposed))
-            {
-                uiLayerRenderTarget.Dispose();
-                GC.SuppressFinalize(this);
-            }
+            Textures.Add("MainMenu", Content.Load<Texture2D>("Textures/MainMenu"));
+            Textures.Add("Fence", Content.Load<Texture2D>("Textures/Fence"));
+            Textures.Add("Floor", Content.Load<Texture2D>("Textures/Floor"));
+            Textures.Add("PoliceCar", Content.Load<Texture2D>("Textures/PoliceCar"));
+            Textures.Add("GoArrow", Content.Load<Texture2D>("Textures/GoArrow"));
+            Textures.Add("GoText", Content.Load<Texture2D>("Textures/GoText"));
+            Textures.Add("HudTimer", Content.Load<Texture2D>("Textures/HudTimer"));
+            Textures.Add("Timer", Content.Load<Texture2D>("Textures/Timer"));
+            Textures.Add("Hud", Content.Load<Texture2D>("Textures/Hud"));
+            Textures.Add("JobFolderBack", Content.Load<Texture2D>("Textures/JobFolderBack"));
+            Textures.Add("JobFolderFrontOpen", Content.Load<Texture2D>("Textures/JobFolderFrontOpen"));
+            Textures.Add("JobFolderFrontClosed", Content.Load<Texture2D>("Textures/JobFolderFrontClosed"));
+        }
+
+        private void LoadSongs()
+        {
+            Songs.Add("MainMenu", Content.Load<Song>("Songs/MainMenu"));
+            Songs.Add("Stage1", Content.Load<Song>("Songs/Stage1"));
+            Songs.Add("Club", Content.Load<Song>("Songs/Club"));
+            Songs.Add("BikeEscape", Content.Load<Song>("Songs/BikeEscape"));
+            Songs.Add("BikeEscapeBoss", Content.Load<Song>("Songs/BikeEscapeBoss"));
+        }
+
+        private void LoadSoundEffects()
+        {
+            Sounds.Add("WeaponSlash", Content.Load<SoundEffect>("Sounds/WeaponSlash"));
+            Sounds.Add("OptionSelect", Content.Load<SoundEffect>("Sounds/OptionSelect"));
+            Sounds.Add("LevelFail", Content.Load<SoundEffect>("Sounds/LevelFail"));
+            Sounds.Add("BottleThrow", Content.Load<SoundEffect>("Sounds/BottleThrow"));
+            Sounds.Add("GlassBreak", Content.Load<SoundEffect>("Sounds/GlassBreak"));
+            Sounds.Add("PickUp", Content.Load<SoundEffect>("Sounds/KeycardPickUp"));
+            Sounds.Add("Fire", Content.Load<SoundEffect>("Sounds/Fire"));
+            Sounds.Add("StageClear", Content.Load<SoundEffect>("Sounds/StageClear"));
+            Sounds.Add("SpeedingVehicle", Content.Load<SoundEffect>("Sounds/SpeedingVehicle"));
+            Sounds.Add("SpeedingVehicle2", Content.Load<SoundEffect>("Sounds/SpeedingVehicle2"));
+        }
+
+        private void CreateRenderTarget()
+        {
+            UiLayerRenderTarget = new RenderTarget2D(GraphicsDevice, (int)Game.LogicalSize.X, (int)Game.LogicalSize.Y);
         }
     }
 }

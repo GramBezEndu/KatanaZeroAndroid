@@ -9,6 +9,13 @@
 
     public class DrawableRectangle : IDrawableComponent
     {
+        private Rectangle rectangle;
+
+        public DrawableRectangle(Rectangle rec)
+        {
+            rectangle = rec;
+        }
+
         public bool Hidden { get; set; }
 
         public virtual Vector2 Position
@@ -32,8 +39,6 @@
             }
         }
 
-        private Rectangle rectangle;
-
         public Rectangle Rectangle
         {
             get
@@ -55,11 +60,6 @@
 
         public List<SpecialEffect> SpecialEffects { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public DrawableRectangle(Rectangle rec)
-        {
-            rectangle = rec;
-        }
-
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (!Hidden)
@@ -77,7 +77,6 @@
 
         public virtual void Update(GameTime gameTime)
         {
-
         }
 
         public void AddSpecialEffect(SpecialEffect effect)

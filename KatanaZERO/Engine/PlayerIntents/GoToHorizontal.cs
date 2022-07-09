@@ -13,7 +13,7 @@
             : base(im, c, p)
         {
             this.destinationX = destinationX;
-            if (player.CollisionRectangle.Center.X < destinationX)
+            if (Player.CollisionRectangle.Center.X < destinationX)
             {
                 commingFromLeft = true;
             }
@@ -23,14 +23,14 @@
         {
             if (commingFromLeft)
             {
-                if (player.CollisionRectangle.Center.X >= destinationX)
+                if (Player.CollisionRectangle.Center.X >= destinationX)
                 {
                     Finished = true;
                 }
             }
             else
             {
-                if (player.CollisionRectangle.Center.X <= destinationX)
+                if (Player.CollisionRectangle.Center.X <= destinationX)
                 {
                     Finished = true;
                 }
@@ -44,11 +44,11 @@
             {
                 if (commingFromLeft)
                 {
-                    player.MoveRight();
+                    Player.MoveRight();
                 }
                 else
                 {
-                    player.MoveLeft();
+                    Player.MoveLeft();
                 }
             }
         }

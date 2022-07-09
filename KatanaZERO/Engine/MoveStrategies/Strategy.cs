@@ -5,12 +5,12 @@
 
     public abstract class Strategy : IComponent
     {
-        protected Enemy enemy;
-
         public Strategy(Enemy e)
         {
-            enemy = e;
+            Enemy = e;
         }
+
+        protected Enemy Enemy { get; private set; }
 
         public abstract void Update(GameTime gameTime);
     }

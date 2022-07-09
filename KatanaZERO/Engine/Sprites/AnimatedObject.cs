@@ -12,6 +12,20 @@
 
     public class AnimatedObject : ISprite
     {
+        private readonly MonoGame.Extended.Animations.AnimatedSprite animatedSprite;
+
+        private readonly SpriteSheetAnimationFactory animationFactory;
+
+        private readonly TextureAtlas spriteAtlas;
+
+        public AnimatedObject(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale)
+        {
+            spriteAtlas = new TextureAtlas("animations", spritesheet, map);
+            animationFactory = new SpriteSheetAnimationFactory(spriteAtlas);
+            animatedSprite = new MonoGame.Extended.Animations.AnimatedSprite(animationFactory);
+            Scale = scale;
+        }
+
         public List<SpecialEffect> SpecialEffects { get; set; } = new List<SpecialEffect>();
 
         public Vector2 Scale { get; private set; } = Vector2.One;
@@ -47,12 +61,6 @@
             }
         }
 
-        private readonly MonoGame.Extended.Animations.AnimatedSprite animatedSprite;
-
-        private readonly SpriteSheetAnimationFactory animationFactory;
-
-        private readonly TextureAtlas spriteAtlas;
-
         public Color Color { get; set; } = Color.White;
 
         public Rectangle Rectangle
@@ -83,19 +91,6 @@
             }
         }
 
-        public AnimatedObject(Texture2D spritesheet, Dictionary<string, Rectangle> map, Vector2 scale)
-        {
-            spriteAtlas = new TextureAtlas("animations", spritesheet, map);
-            animationFactory = new SpriteSheetAnimationFactory(spriteAtlas);
-            animatedSprite = new MonoGame.Extended.Animations.AnimatedSprite(animationFactory);
-            Scale = scale;
-        }
-
-        /// <summary>
-        /// Calls Play on member animatedSprite
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="onCompleted"></param>
         public void PlayAnimation(string name, Action onCompleted = null)
         {
             animatedSprite.Play(name, onCompleted);

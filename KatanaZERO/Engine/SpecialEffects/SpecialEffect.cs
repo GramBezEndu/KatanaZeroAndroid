@@ -5,19 +5,19 @@
 
     public abstract class SpecialEffect : IComponent
     {
-        protected List<IDrawableComponent> targets = new List<IDrawableComponent>();
-
-        public bool Enabled { get; set; } = true;
-
         public SpecialEffect()
         {
         }
 
+        public bool Enabled { get; set; } = true;
+
+        public List<IDrawableComponent> Targets { get; private set; } = new List<IDrawableComponent>();
+
         public virtual void AddTarget(IDrawableComponent target)
         {
-            if (!targets.Contains(target))
+            if (!Targets.Contains(target))
             {
-                targets.Add(target);
+                Targets.Add(target);
             }
         }
 

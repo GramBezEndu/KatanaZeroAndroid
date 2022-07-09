@@ -5,20 +5,20 @@
 
     public abstract class Intent : IPlayerIntent
     {
-        protected Player player;
-
-        public bool Finished { get; protected set; }
-
-        protected InputManager inputManager;
-
-        protected Camera camera;
+        private InputManager inputManager;
 
         public Intent(InputManager im, Camera c, Player p)
         {
             inputManager = im;
-            camera = c;
-            player = p;
+            Camera = c;
+            Player = p;
         }
+
+        public bool Finished { get; protected set; }
+
+        protected Camera Camera { get; private set; }
+
+        protected Player Player { get; private set; }
 
         public void ResetIntent()
         {
@@ -28,6 +28,5 @@
         public abstract void IntentFinished();
 
         public abstract void Update(GameTime gameTime);
-        //public EventHandler OnFinished { get; set; }
     }
 }

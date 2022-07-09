@@ -7,9 +7,10 @@
     public class PhysicsManager : IComponent
     {
         private readonly CollisionManager collisionManager;
+
         private readonly List<ICollidable> moveableBodies;
+
         private readonly List<Rectangle> mapCollision;
-        public float GRAVITY = 1f;
 
         public PhysicsManager()
         {
@@ -18,10 +19,13 @@
             mapCollision = new List<Rectangle>();
         }
 
-        public PhysicsManager(CollisionManager cm) : this()
+        public PhysicsManager(CollisionManager cm)
+            : this()
         {
             collisionManager = cm;
         }
+
+        public float Gravity { get; set; } = 1f;
 
         public void AddMoveableBody(ICollidable c)
         {
@@ -78,26 +82,19 @@
                 UpdateBodyState(m);
                 m.Update(gameTime);
                 MoveBody(m);
-                ApplyDownForce(m, GRAVITY);
+                ApplyDownForce(m, Gravity);
             }
+        }
+
+        public bool Spotted(Player p)
+        {
+            return collisionManager.Spotted(p);
         }
 
         private void MoveBody(ICollidable c)
         {
             c.Position += c.Velocity;
             c.Velocity = new Vector2(0f, c.Velocity.Y);
-            //if (c.Velocity.X > 0)
-            //{
-            //c.Velocity = new Vector2(c.Velocity.X - 1f, c.Velocity.Y);
-            //if (c.Velocity.X < 0)
-            //    c.Velocity = new Vector2(0, c.Velocity.Y);
-            //}
-            //else if (c.Velocity.X < 0)
-            //{
-            //    c.Velocity = new Vector2(c.Velocity.X + 1f, c.Velocity.Y);
-            //    if (c.Velocity.X > 0)
-            //        c.Velocity = new Vector2(0, c.Velocity.Y);
-            //}
         }
 
         private void ApplyDownForce(ICollidable c, float downForce)
@@ -107,56 +104,51 @@
 
         private void UpdateBodyState(ICollidable c)
         {
-            if (c.MoveableBodyState != MoveableBodyStates.Dead)
+            if (c.MovableBodyState != MovableBodyState.Dead)
             {
                 if (collisionManager.InAir(c))
                 {
                     if (c.Velocity.X > 0f)
                     {
-                        c.MoveableBodyState = MoveableBodyStates.InAirRight;
+                        c.MovableBodyState = MovableBodyState.InAirRight;
                     }
                     else if (c.Velocity.X < 0f)
                     {
-                        c.MoveableBodyState = MoveableBodyStates.InAirLeft;
+                        c.MovableBodyState = MovableBodyState.InAirLeft;
                     }
                     else
                     {
-                        c.MoveableBodyState = MoveableBodyStates.InAir;
+                        c.MovableBodyState = MovableBodyState.InAir;
                     }
                 }
                 else if (c.Velocity.X > 0)
                 {
-                    c.MoveableBodyState = MoveableBodyStates.WalkRight;
+                    c.MovableBodyState = MovableBodyState.WalkRight;
                 }
                 else if (c.Velocity.X < 0)
                 {
-                    c.MoveableBodyState = MoveableBodyStates.WalkLeft;
+                    c.MovableBodyState = MovableBodyState.WalkLeft;
                 }
                 else if (c is Player player)
                 {
                     if (collisionManager.InDancingGroup(player))
                     {
-                        c.MoveableBodyState = MoveableBodyStates.Dance;
+                        c.MovableBodyState = MovableBodyState.Dance;
                     }
                     else if (collisionManager.InHidingSpot(player))
                     {
-                        c.MoveableBodyState = MoveableBodyStates.Hidden;
+                        c.MovableBodyState = MovableBodyState.Hidden;
                     }
                     else
                     {
-                        c.MoveableBodyState = MoveableBodyStates.Idle;
+                        c.MovableBodyState = MovableBodyState.Idle;
                     }
                 }
                 else
                 {
-                    c.MoveableBodyState = MoveableBodyStates.Idle;
+                    c.MovableBodyState = MovableBodyState.Idle;
                 }
             }
-        }
-
-        public bool Spotted(Player p)
-        {
-            return collisionManager.Spotted(p);
         }
     }
 }

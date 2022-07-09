@@ -7,18 +7,18 @@
 
     public class StreetCar : Sprite, ICollidable
     {
+        private readonly float heightTreshold = 18f;
+
         public StreetCar(Texture2D t)
             : base(t)
         {
         }
 
-        public EventHandler OnMapCollision { get; set; }
+        public event EventHandler OnMapCollision;
 
-        public MoveableBodyStates MoveableBodyState { get; set; }
+        public MovableBodyState MovableBodyState { get; set; }
 
         public Vector2 Velocity { get; set; }
-
-        private readonly float heightTreshold = 18f;
 
         public Vector2 CollisionSize => new Vector2(113, 45 - heightTreshold);
 
@@ -28,7 +28,7 @@
         {
             if (collider is Player player)
             {
-                player.MoveableBodyState = MoveableBodyStates.Dead;
+                player.MovableBodyState = MovableBodyState.Dead;
             }
         }
 
@@ -40,7 +40,11 @@
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             base.Draw(gameTime, spriteBatch);
-            //spriteBatch.DrawRectangle(CollisionRectangle, Color.Red, 2);
+        }
+
+        public void InvokeOnMapCollision(object sender, EventArgs args)
+        {
+            OnMapCollision?.Invoke(sender, args);
         }
     }
 }

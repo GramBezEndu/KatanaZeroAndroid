@@ -13,22 +13,6 @@
 
     public class TrafficManager : IComponent
     {
-        public List<StreetCar> Cars { get; private set; }
-
-        public List<BikeEnemy> Enemies { get; private set; }
-
-        public List<AnimatedObject> EnemyWarnings { get; private set; }
-
-        private bool[] honkUsed;
-
-        private int soundCounter = 0;
-
-        public List<AnimatedObject> TrafficWarnings { get; private set; }
-
-        public List<ICollidable> Items { get; private set; }
-
-        public List<AnimatedObject> ItemNotifications { get; private set; }
-
         private readonly Camera camera;
 
         private readonly GameState gameState;
@@ -36,6 +20,10 @@
         private readonly Game1 game;
 
         private readonly Player player;
+
+        private bool[] honkUsed;
+
+        private int soundCounter = 0;
 
         public TrafficManager(Game1 gameRef, GameState gs, Player p, Camera cam, ContentManager content)
         {
@@ -51,86 +39,17 @@
             ItemNotifications = CreateHelpfulItemsNotifications(gameRef, cam, content);
         }
 
-        private List<AnimatedObject> CreateEnemyWarnings(ContentManager content)
-        {
-            List<AnimatedObject> warnings = new List<AnimatedObject>();
-            for (int i = 0; i < Enemies.Count; i++)
-            {
-                BikeEnemy enemy = Enemies[i];
-                AnimatedObject t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeWarning/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeWarning/Map"), new Vector2(2.5f, 2.5f));
-                t1.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
-                t1.PlayAnimation("Idle");
-                warnings.Add(t1);
-            }
+        public List<StreetCar> Cars { get; private set; }
 
-            return warnings;
-        }
+        public List<BikeEnemy> Enemies { get; private set; }
 
-        private List<StreetCar> CreateCars(ContentManager content)
-        {
-            List<StreetCar> cars = new List<StreetCar>();
-            cars.Add(SpawnCar(content, 4200f, 1));
-            cars.Add(SpawnCar(content, 5600f, 3));
-            cars.Add(SpawnCar(content, 7500f, 1));
-            cars.Add(SpawnCar(content, 8500f, 3));
-            cars.Add(SpawnCar(content, 13400f, 2));
-            cars.Add(SpawnCar(content, 13400f, 3));
-            cars.Add(SpawnCar(content, 15300f, 1));
-            cars.Add(SpawnCar(content, 16200f, 2));
-            cars.Add(SpawnCar(content, 17100f, 3));
-            cars.Add(SpawnCar(content, 17500f, 1));
-            cars.Add(SpawnCar(content, 19100f, 3));
-            cars.Add(SpawnCar(content, 19700f, 2));
-            cars.Add(SpawnCar(content, 20120f, 2));
-            cars.Add(SpawnCar(content, 20300f, 3));
-            cars.Add(SpawnCar(content, 21200f, 1));
-            cars.Add(SpawnCar(content, 24120f, 1));
-            cars.Add(SpawnCar(content, 24700f, 2));
-            cars.Add(SpawnCar(content, 29600f, 1));
-            cars.Add(SpawnCar(content, 30200f, 2));
-            cars.Add(SpawnCar(content, 30800f, 3));
-            cars.Add(SpawnCar(content, 31300f, 2));
-            honkUsed = new bool[cars.Count];
-            return cars;
-        }
+        public List<AnimatedObject> EnemyWarnings { get; private set; }
 
-        private List<BikeEnemy> CreateBikeEnemies(ContentManager content)
-        {
-            List<BikeEnemy> enemies = new List<BikeEnemy>();
-            enemies.Add(CreateBikeEnemy(content, 2000f/*27000f*/, 1));
-            enemies.Add(CreateBikeEnemy(content, 29500f, 3));
-            return enemies;
-        }
+        public List<AnimatedObject> TrafficWarnings { get; private set; }
 
-        private List<AnimatedObject> CreateTrafficWarnings(Game1 game, Camera camera, ContentManager content)
-        {
-            List<AnimatedObject> notifications = new List<AnimatedObject>();
-            for (int i = 0; i < Cars.Count; i++)
-            {
-                StreetCar car = Cars[i];
-                AnimatedObject t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeWarning/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeWarning/Map"), new Vector2(2.5f, 2.5f));
-                t1.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
-                t1.PlayAnimation("Idle");
-                notifications.Add(t1);
-            }
+        public List<ICollidable> Items { get; private set; }
 
-            return notifications;
-        }
-
-        private List<AnimatedObject> CreateHelpfulItemsNotifications(Game1 gameRef, Camera cam, ContentManager content)
-        {
-            List<AnimatedObject> notifications = new List<AnimatedObject>();
-            for (int i = 0; i < Items.Count; i++)
-            {
-                ICollidable item = Items[i];
-                AnimatedObject t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeItem/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeItem/Map"), new Vector2(2.5f, 2.5f));
-                t1.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
-                t1.PlayAnimation("Idle");
-                notifications.Add(t1);
-            }
-
-            return notifications;
-        }
+        public List<AnimatedObject> ItemNotifications { get; private set; }
 
         public List<ICollidable> CreateItems(ContentManager content)
         {
@@ -139,54 +58,7 @@
                 CreateNitro(content, 8000f, 2),
                 CreateNitro(content, 22000f, 3),
             };
-            //items.Add(CreateBottlePickUp(content, 27000f, 2));
             return items;
-        }
-
-        private ICollidable CreateBottlePickUp(ContentManager content, float posX, int lane)
-        {
-            float posY = 180f;
-            switch (lane)
-            {
-                case 1:
-                    posY = 180f;
-                    break;
-                case 2:
-                    posY = 220f;
-                    break;
-                case 3:
-                    posY = 260f;
-                    break;
-            }
-
-            BottlePickUp botttle = new BottlePickUp(gameState, content.Load<Texture2D>("Textures/Bottle"), new Vector2(0.7f, 0.7f))
-            {
-                Position = new Vector2(posX, posY),
-            };
-            return botttle;
-        }
-
-        private StreetCar SpawnCar(ContentManager content, float posX, int lane)
-        {
-            float posY = 162f;
-            switch (lane)
-            {
-                case 1:
-                    posY = 162f;
-                    break;
-                case 2:
-                    posY = 200f;
-                    break;
-                case 3:
-                    posY = 240f;
-                    break;
-            }
-
-            StreetCar car = new StreetCar(content.Load<Texture2D>("Textures/StreetCar"))
-            {
-                Position = new Vector2(posX, posY),
-            };
-            return car;
         }
 
         public BikeEnemy CreateBikeEnemy(ContentManager content, float posX, int lane)
@@ -211,29 +83,6 @@
                 Hidden = true,
             };
             return bikeEnemy;
-        }
-
-        private Nitro CreateNitro(ContentManager content, float posX, int lane)
-        {
-            float posY = 175f;
-            switch (lane)
-            {
-                case 1:
-                    posY = 175f;
-                    break;
-                case 2:
-                    posY = 215f;
-                    break;
-                case 3:
-                    posY = 255f;
-                    break;
-            }
-
-            Nitro nitro = new Nitro(content.Load<Texture2D>("Textures/Nitro"), new Vector2(0.5f, 0.5f))
-            {
-                Position = new Vector2(posX, posY),
-            };
-            return nitro;
         }
 
         public void Update(GameTime gameTime)
@@ -323,6 +172,158 @@
                     }
                 }
             }
+        }
+
+        private List<AnimatedObject> CreateEnemyWarnings(ContentManager content)
+        {
+            List<AnimatedObject> warnings = new List<AnimatedObject>();
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                BikeEnemy enemy = Enemies[i];
+                AnimatedObject t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeWarning/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeWarning/Map"), new Vector2(2.5f, 2.5f));
+                t1.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
+                t1.PlayAnimation("Idle");
+                warnings.Add(t1);
+            }
+
+            return warnings;
+        }
+
+        private List<StreetCar> CreateCars(ContentManager content)
+        {
+            List<StreetCar> cars = new List<StreetCar>
+            {
+                SpawnCar(content, 4200f, 1),
+                SpawnCar(content, 5600f, 3),
+                SpawnCar(content, 7500f, 1),
+                SpawnCar(content, 8500f, 3),
+                SpawnCar(content, 13400f, 2),
+                SpawnCar(content, 13400f, 3),
+                SpawnCar(content, 15300f, 1),
+                SpawnCar(content, 16200f, 2),
+                SpawnCar(content, 17100f, 3),
+                SpawnCar(content, 17500f, 1),
+                SpawnCar(content, 19100f, 3),
+                SpawnCar(content, 19700f, 2),
+                SpawnCar(content, 20120f, 2),
+                SpawnCar(content, 20300f, 3),
+                SpawnCar(content, 21200f, 1),
+                SpawnCar(content, 24120f, 1),
+                SpawnCar(content, 24700f, 2),
+                SpawnCar(content, 29600f, 1),
+                SpawnCar(content, 30200f, 2),
+                SpawnCar(content, 30800f, 3),
+                SpawnCar(content, 31300f, 2),
+            };
+            honkUsed = new bool[cars.Count];
+            return cars;
+        }
+
+        private List<BikeEnemy> CreateBikeEnemies(ContentManager content)
+        {
+            List<BikeEnemy> enemies = new List<BikeEnemy>();
+            enemies.Add(CreateBikeEnemy(content, 2000f/*27000f*/, 1));
+            enemies.Add(CreateBikeEnemy(content, 29500f, 3));
+            return enemies;
+        }
+
+        private List<AnimatedObject> CreateTrafficWarnings(Game1 game, Camera camera, ContentManager content)
+        {
+            List<AnimatedObject> notifications = new List<AnimatedObject>();
+            for (int i = 0; i < Cars.Count; i++)
+            {
+                StreetCar car = Cars[i];
+                AnimatedObject t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeWarning/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeWarning/Map"), new Vector2(2.5f, 2.5f));
+                t1.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
+                t1.PlayAnimation("Idle");
+                notifications.Add(t1);
+            }
+
+            return notifications;
+        }
+
+        private List<AnimatedObject> CreateHelpfulItemsNotifications(Game1 gameRef, Camera cam, ContentManager content)
+        {
+            List<AnimatedObject> notifications = new List<AnimatedObject>();
+            for (int i = 0; i < Items.Count; i++)
+            {
+                ICollidable item = Items[i];
+                AnimatedObject t1 = new AnimatedObject(content.Load<Texture2D>("Textures/BikeItem/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Textures/BikeItem/Map"), new Vector2(2.5f, 2.5f));
+                t1.AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }, frameDuration: 0.1f));
+                t1.PlayAnimation("Idle");
+                notifications.Add(t1);
+            }
+
+            return notifications;
+        }
+
+        private Nitro CreateNitro(ContentManager content, float posX, int lane)
+        {
+            float posY = 175f;
+            switch (lane)
+            {
+                case 1:
+                    posY = 175f;
+                    break;
+                case 2:
+                    posY = 215f;
+                    break;
+                case 3:
+                    posY = 255f;
+                    break;
+            }
+
+            Nitro nitro = new Nitro(content.Load<Texture2D>("Textures/Nitro"), new Vector2(0.5f, 0.5f))
+            {
+                Position = new Vector2(posX, posY),
+            };
+            return nitro;
+        }
+
+        private ICollidable CreateBottlePickUp(ContentManager content, float posX, int lane)
+        {
+            float posY = 180f;
+            switch (lane)
+            {
+                case 1:
+                    posY = 180f;
+                    break;
+                case 2:
+                    posY = 220f;
+                    break;
+                case 3:
+                    posY = 260f;
+                    break;
+            }
+
+            BottlePickUp botttle = new BottlePickUp(gameState, content.Load<Texture2D>("Textures/Bottle"), new Vector2(0.7f, 0.7f))
+            {
+                Position = new Vector2(posX, posY),
+            };
+            return botttle;
+        }
+
+        private StreetCar SpawnCar(ContentManager content, float posX, int lane)
+        {
+            float posY = 162f;
+            switch (lane)
+            {
+                case 1:
+                    posY = 162f;
+                    break;
+                case 2:
+                    posY = 200f;
+                    break;
+                case 3:
+                    posY = 240f;
+                    break;
+            }
+
+            StreetCar car = new StreetCar(content.Load<Texture2D>("Textures/StreetCar"))
+            {
+                Position = new Vector2(posX, posY),
+            };
+            return car;
         }
     }
 }

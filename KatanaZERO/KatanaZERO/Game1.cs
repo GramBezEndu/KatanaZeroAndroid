@@ -23,6 +23,19 @@ namespace KatanaZERO
 
         private Song currentSong;
 
+        public Game1()
+        {
+            graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+
+            graphics.IsFullScreen = true;
+            SoundEffect.MasterVolume = 1f;
+            MediaPlayer.Volume = 0.2f;
+            MediaPlayer.IsRepeating = true;
+            graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
+            InputManager = new InputManager(this);
+        }
+
         public InputManager InputManager { get; private set; }
 
         public Vector2 LogicalSize { get; } = new Vector2(1280, 720);
@@ -74,19 +87,6 @@ namespace KatanaZERO
             {
                 return false;
             }
-        }
-
-        public Game1()
-        {
-            graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-
-            graphics.IsFullScreen = true;
-            SoundEffect.MasterVolume = 1f;
-            MediaPlayer.Volume = 0.2f;
-            MediaPlayer.IsRepeating = true;
-            graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
-            InputManager = new InputManager(this);
         }
 
         /// <summary>
@@ -157,6 +157,7 @@ namespace KatanaZERO
             }
 
             InputManager.Update(gameTime);
+
             // Update
             currentState.Update(gameTime);
 

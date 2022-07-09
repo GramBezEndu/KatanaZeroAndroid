@@ -8,57 +8,41 @@
 
     public class PrisonPart2 : GameState
     {
-        // Should be the same time across all prison parts
-        public override double LevelTimeInSeconds { get { return 180; } }
-
         public PrisonPart2(Game1 gameReference, int levelId, bool showLevelTitle, StageData stageData = null)
             : base(gameReference, levelId, showLevelTitle, stageData)
         {
-            gameComponents.Add(new Script()
+            GameComponents.Add(new Script()
             {
                 OnUpdate = EndLevelScript,
             });
         }
 
-        private void EndLevelScript(object sender, EventArgs e)
-        {
-            if (!GameOver && !Completed)
-            {
-                if (player.Position.X < 55f && player.Position.Y > 320f)
-                {
-                    Completed = true;
-                }
-            }
-        }
+        public override string LevelName => "PRISON";
 
-        public override string LevelName { get { return "PRISON"; } }
+        // Should be the same time across all prison parts
+        public override double LevelTimeInSeconds => 180;
 
         public override void SetPlayerSpawnPoint()
         {
-            player.Position = new Vector2(30, 140);
+            Player.Position = new Vector2(30, 140);
         }
 
-        protected override void LoadMap()
+        internal override void RestartLevel(StageData stageData)
         {
-            map = content.Load<TiledMap>("Maps/PrisonPart2/PrisonPart2");
+            Game.ChangeState(new PrisonPart1(Game, LevelId, false, stageData));
         }
 
-        override internal void RestartLevel(StageData stageData)
+        internal override Vector2 SetMapSize()
         {
-            game.ChangeState(new PrisonPart1(game, levelId, false, stageData));
+            return new Vector2(1132, 410 + UiBottomHeight);
         }
 
-        override internal Vector2 SetMapSize()
-        {
-            return new Vector2(1132, 410 + GameState.UI_BOTTOM_SIZE_Y);
-        }
-
-        override internal void SpawnEntitiesBeforePlayer()
+        internal override void SpawnEntitiesBeforePlayer()
         {
             SpawnBottlePickUp(new Vector2(910, 360));
         }
 
-        override internal void SpawnEntitiesAfterPlayer()
+        internal override void SpawnEntitiesAfterPlayer()
         {
             SpawnPatrollingGangster(new Vector2(510, 120), 3f);
             SpawnPatrollingGangster(new Vector2(600, 120), 2.5f, false);
@@ -67,6 +51,22 @@
             SpawnPatrollingGangster(new Vector2(480, 340), 2.5f);
             SpawnPatrollingGangster(new Vector2(620, 340), 2.5f, false);
             AddGoToArrowDown(new Vector2(46, 336));
+        }
+
+        protected override void LoadMap()
+        {
+            Map = Content.Load<TiledMap>("Maps/PrisonPart2/PrisonPart2");
+        }
+
+        private void EndLevelScript(object sender, EventArgs e)
+        {
+            if (!GameOver && !Completed)
+            {
+                if (Player.Position.X < 55f && Player.Position.Y > 320f)
+                {
+                    Completed = true;
+                }
+            }
         }
     }
 }

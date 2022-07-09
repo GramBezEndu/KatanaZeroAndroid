@@ -17,9 +17,9 @@
         {
         }
 
-        public EventHandler OnMapCollision { get; set; }
+        public event EventHandler OnMapCollision;
 
-        public MoveableBodyStates MoveableBodyState { get; set; }
+        public MovableBodyState MovableBodyState { get; set; }
 
         public Vector2 Velocity { get; set; }
 
@@ -45,6 +45,11 @@
 
         public void PrepareMove(GameTime gameTime)
         {
+        }
+
+        public void InvokeOnMapCollision(object sender, EventArgs args)
+        {
+            OnMapCollision?.Invoke(sender, args);
         }
     }
 }

@@ -26,30 +26,30 @@
 
         private void TurnOnEvenLights()
         {
-            for (int i = 0; i < clubLights.Lights.Count; i++)
+            for (int i = 0; i < ClubLights.Lights.Count; i++)
             {
                 if (i % 2 == 0)
                 {
-                    clubLights.Lights[i].Hidden = false;
+                    ClubLights.Lights[i].Hidden = false;
                 }
                 else
                 {
-                    clubLights.Lights[i].Hidden = true;
+                    ClubLights.Lights[i].Hidden = true;
                 }
             }
         }
 
         private void TurnOnOddLights()
         {
-            for (int i = 0; i < clubLights.Lights.Count; i++)
+            for (int i = 0; i < ClubLights.Lights.Count; i++)
             {
                 if (i % 2 == 0)
                 {
-                    clubLights.Lights[i].Hidden = true;
+                    ClubLights.Lights[i].Hidden = true;
                 }
                 else
                 {
-                    clubLights.Lights[i].Hidden = false;
+                    ClubLights.Lights[i].Hidden = false;
                 }
             }
         }

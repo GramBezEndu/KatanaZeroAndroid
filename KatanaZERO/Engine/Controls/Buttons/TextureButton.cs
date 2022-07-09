@@ -10,11 +10,14 @@
     {
         private readonly InputManager inputManager;
 
-        public TextureButton(InputManager im, Texture2D t, Vector2 objScale) : base(t, objScale)
+        public TextureButton(InputManager im, Texture2D t, Vector2 objScale)
+            : base(t, objScale)
         {
             inputManager = im;
             OnClick += (o, e) => Engine.States.GameState.Sounds["OptionSelect"].Play();
         }
+
+        public EventHandler OnClick { get; set; }
 
         public override void Update(GameTime gameTime)
         {
@@ -26,7 +29,5 @@
                 }
             }
         }
-
-        public EventHandler OnClick { get; set; }
     }
 }

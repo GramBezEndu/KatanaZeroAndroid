@@ -13,15 +13,20 @@
         {
         }
 
-        public MoveableBodyStates MoveableBodyState { get; set; }
+        public event EventHandler OnMapCollision;
+
+        public MovableBodyState MovableBodyState { get; set; }
 
         public Vector2 Velocity { get; set; }
 
         public abstract Vector2 CollisionSize { get; }
 
-        public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
+        public Rectangle CollisionRectangle => new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y);
 
-        public EventHandler OnMapCollision { get; set; }
+        public void InvokeOnMapCollision(object sender, EventArgs args)
+        {
+            OnMapCollision?.Invoke(sender, args);
+        }
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
         {

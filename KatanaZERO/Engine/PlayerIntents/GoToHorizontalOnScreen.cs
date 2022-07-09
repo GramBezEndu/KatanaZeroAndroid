@@ -13,13 +13,13 @@
         {
             destinationX = onScreenX;
             Rectangle r = new Rectangle((int)c.ScreenToWorld(new Vector2(onScreenX, 0f)).X, 0, 1, 1);
-            bool shareX = player.CollisionRectangle.Left <= r.Right && player.CollisionRectangle.Right >= r.Left;
+            bool shareX = Player.CollisionRectangle.Left <= r.Right && Player.CollisionRectangle.Right >= r.Left;
             if (shareX)
             {
                 Finished = true;
             }
 
-            if (camera.WorldToScreen(new Vector2(player.CollisionRectangle.Center.X, 0f)).X < onScreenX)
+            if (Camera.WorldToScreen(new Vector2(Player.CollisionRectangle.Center.X, 0f)).X < onScreenX)
             {
                 commingFromLeft = true;
             }
@@ -29,14 +29,14 @@
         {
             if (commingFromLeft)
             {
-                if (camera.WorldToScreen(new Vector2(player.CollisionRectangle.Center.X, 0f)).X >= destinationX)
+                if (Camera.WorldToScreen(new Vector2(Player.CollisionRectangle.Center.X, 0f)).X >= destinationX)
                 {
                     Finished = true;
                 }
             }
             else
             {
-                if (camera.WorldToScreen(new Vector2(player.CollisionRectangle.Center.X, 0f)).X <= destinationX)
+                if (Camera.WorldToScreen(new Vector2(Player.CollisionRectangle.Center.X, 0f)).X <= destinationX)
                 {
                     Finished = true;
                 }
@@ -50,11 +50,11 @@
             {
                 if (commingFromLeft)
                 {
-                    player.MoveRight();
+                    Player.MoveRight();
                 }
                 else
                 {
-                    player.MoveLeft();
+                    Player.MoveLeft();
                 }
             }
         }

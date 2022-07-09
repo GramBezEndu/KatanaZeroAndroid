@@ -5,7 +5,8 @@
 
     public class StageData
     {
-        public TiledMap Map;
-        public TiledMapRenderer MapRenderer;
+        public TiledMap Map { get; set; }
+
+        public TiledMapRenderer MapRenderer { get; set; }
     }
 }

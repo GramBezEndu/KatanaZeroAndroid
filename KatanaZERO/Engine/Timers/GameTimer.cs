@@ -6,19 +6,19 @@
 
     public class GameTimer : IComponent
     {
-        public bool Enabled { get; set; } = true;
-
-        public double Interval { get; set; }
-
-        public double CurrentInterval { get; set; }
-
-        public EventHandler OnTimedEvent;
-
         public GameTimer(double actionInterval)
         {
             Interval = actionInterval;
             CurrentInterval = Interval;
         }
+
+        public event EventHandler OnTimedEvent;
+
+        public bool Enabled { get; set; } = true;
+
+        public double Interval { get; set; }
+
+        public double CurrentInterval { get; set; }
 
         public void Update(GameTime gameTime)
         {

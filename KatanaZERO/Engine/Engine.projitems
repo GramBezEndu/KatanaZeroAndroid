@@ -36,7 +36,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\GoToHorizontal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\Intent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\IPlayerIntent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PlayerIntents\TeleportIntent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Script.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SpecialEffects\JumpingEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SpecialEffects\RainbowEffect.cs" />

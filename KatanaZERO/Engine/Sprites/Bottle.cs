@@ -20,13 +20,51 @@
         public Bottle(Texture2D t, Vector2 scale, bool throwingLeft)
             : base(t, scale)
         {
-            increaseVelocityTimer = new GameTimer(0.05f)
-            {
-                OnTimedEvent = IncreaseVelocity,
-            };
+            increaseVelocityTimer = new GameTimer(0.05f);
+            increaseVelocityTimer.OnTimedEvent += IncreaseVelocity;
             this.throwingLeft = throwingLeft;
             GameState.Sounds["BottleThrow"].Play();
             OnMapCollision += BreakBottle;
+        }
+
+        public event EventHandler OnMapCollision;
+
+        public MovableBodyState MovableBodyState { get; set; }
+
+        public Vector2 Velocity { get; set; }
+
+        public Vector2 CollisionSize => new Vector2(5, 10);
+
+        public Rectangle CollisionRectangle => new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y);
+
+        public void PrepareMove(GameTime gameTime)
+        {
+            if (throwingLeft)
+            {
+                Velocity = new Vector2(-velocityX, 0.55f);
+            }
+            else
+            {
+                Velocity = new Vector2(velocityX, 0.55f);
+            }
+        }
+
+        public void InvokeOnMapCollision(object sender, EventArgs args)
+        {
+            OnMapCollision?.Invoke(sender, args);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (!Hidden)
+            {
+                base.Update(gameTime);
+                increaseVelocityTimer.Update(gameTime);
+            }
+        }
+
+        public void NotifyHorizontalCollision(GameTime gameTime, object collider)
+        {
         }
 
         private void BreakBottle(object sender, EventArgs e)
@@ -42,41 +80,6 @@
         private void IncreaseVelocity(object sender, EventArgs e)
         {
             velocityX += velocityIncrement;
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (!Hidden)
-            {
-                base.Update(gameTime);
-                increaseVelocityTimer.Update(gameTime);
-            }
-        }
-
-        public MoveableBodyStates MoveableBodyState { get; set; }
-
-        public Vector2 Velocity { get; set; }
-
-        public Vector2 CollisionSize { get { return new Vector2(5, 10); } }
-
-        public Rectangle CollisionRectangle { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)CollisionSize.X, (int)CollisionSize.Y); } }
-
-        public EventHandler OnMapCollision { get; set; }
-
-        public void PrepareMove(GameTime gameTime)
-        {
-            if (throwingLeft)
-            {
-                Velocity = new Vector2(-velocityX, 0.55f);
-            }
-            else
-            {
-                Velocity = new Vector2(velocityX, 0.55f);
-            }
-        }
-
-        public void NotifyHorizontalCollision(GameTime gameTime, object collider)
-        {
         }
     }
 }

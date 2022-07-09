@@ -5,7 +5,8 @@
 
     public class GoRight : Intent
     {
-        public GoRight(InputManager im, Camera c, Player p) : base(im, c, p)
+        public GoRight(InputManager im, Camera c, Player p)
+            : base(im, c, p)
         {
         }
 
@@ -15,7 +16,7 @@
 
         public override void Update(GameTime gameTime)
         {
-            player.MoveRight();
+            Player.MoveRight();
         }
     }
 }

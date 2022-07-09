@@ -14,34 +14,56 @@
 
     public class Player : AnimatedObject, ICollidable
     {
-        public static Vector2 NITRO_BONUS = new Vector2(4f, 0f);
-        public static Vector2 BIKE_VELOCITY = new Vector2(9f, 0f);
-        private readonly InputManager inputManager;
-        private Intent currentIntent;
-        public AnimatedObject KatanaSlash;
-        public AnimatedObject HiddenNotification;
-        private MoveableBodyStates _moveableBodyState;
-        private bool _nitroActive;
+        private MovableBodyState movableBodyState;
 
-        public MoveableBodyStates MoveableBodyState
+        private bool nitroActive;
+
+        private Intent currentIntent;
+
+        private GameTimer nitroTimer;
+
+        public Player(Texture2D characterSpritesheetTexture, Dictionary<string, Rectangle> characterMap, Vector2 scale)
+            : base(characterSpritesheetTexture, characterMap, scale)
         {
-            get => _moveableBodyState;
+            AddAnimation("Attack", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.05f));
+            AddAnimation("Run", new SpriteSheetAnimationData(new int[] { 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 }, frameDuration: 0.1f));
+            AddAnimation("Dance", new SpriteSheetAnimationData(new int[] { 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 }, frameDuration: 0.1f, isPingPong: true));
+            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39 }, frameDuration: 0.1f));
+            AddAnimation("BikeIdle", new SpriteSheetAnimationData(new int[] { 40, 41, 42, 43 }, frameDuration: 0.1f));
+            AddAnimation("BikeDown", new SpriteSheetAnimationData(new int[] { 44, 45, 46, 47 }, frameDuration: 0.1f));
+            AddAnimation("BikeUp", new SpriteSheetAnimationData(new int[] { 48 }, frameDuration: 0.1f));
+            PlayAnimation("Idle");
+        }
+
+        public event EventHandler OnMapCollision;
+
+        public static Vector2 NitroBonus => new Vector2(4f, 0f);
+
+        public static Vector2 BikeVelocity => new Vector2(9f, 0f);
+
+        public AnimatedObject KatanaSlash { get; set; }
+
+        public AnimatedObject HiddenNotification { get; set; }
+
+        public MovableBodyState MovableBodyState
+        {
+            get => movableBodyState;
             set
             {
-                if (_moveableBodyState == MoveableBodyStates.Dead)
+                if (movableBodyState == MovableBodyState.Dead)
                 {
                     return;
                 }
 
-                if (_moveableBodyState != value)
+                if (movableBodyState != value)
                 {
-                    _moveableBodyState = value;
+                    movableBodyState = value;
                     switch (value)
                     {
-                        case MoveableBodyStates.InAir:
-                        case MoveableBodyStates.InAirRight:
-                        case MoveableBodyStates.InAirLeft:
-                        case MoveableBodyStates.Idle:
+                        case MovableBodyState.InAir:
+                        case MovableBodyState.InAirRight:
+                        case MovableBodyState.InAirLeft:
+                        case MovableBodyState.Idle:
                             HiddenNotification.Hidden = true;
                             Color = Color.White;
                             if (OnBike)
@@ -54,7 +76,7 @@
                             }
 
                             break;
-                        case MoveableBodyStates.WalkRight:
+                        case MovableBodyState.WalkRight:
                             HiddenNotification.Hidden = true;
                             Color = Color.White;
                             SpriteEffects = SpriteEffects.None;
@@ -68,7 +90,7 @@
                             }
 
                             break;
-                        case MoveableBodyStates.WalkLeft:
+                        case MovableBodyState.WalkLeft:
                             HiddenNotification.Hidden = true;
                             Color = Color.White;
                             SpriteEffects = SpriteEffects.FlipHorizontally;
@@ -82,7 +104,7 @@
                             }
 
                             break;
-                        case MoveableBodyStates.Attack:
+                        case MovableBodyState.Attack:
                             HiddenNotification.Hidden = true;
                             Color = Color.White;
                             GameState.Sounds["WeaponSlash"].Play();
@@ -94,19 +116,19 @@
                                 KatanaSlash.Hidden = true;
                             });
                             break;
-                        case MoveableBodyStates.Dance:
+                        case MovableBodyState.Dance:
                             HiddenNotification.Hidden = false;
                             Color = Color.Black;
                             PlayAnimation("Dance");
                             HiddenNotification.PlayAnimation("Idle");
                             break;
-                        case MoveableBodyStates.Hidden:
+                        case MovableBodyState.Hidden:
                             Color = Color.Black;
                             PlayAnimation("Idle");
                             HiddenNotification.Hidden = false;
                             HiddenNotification.PlayAnimation("Idle");
                             break;
-                        case MoveableBodyStates.Dead:
+                        case MovableBodyState.Dead:
                             Hidden = true;
                             break;
                     }
@@ -146,53 +168,27 @@
             }
         }
 
-        public EventHandler OnMapCollision { get; set; }
-
         public bool HasBottle { get; set; }
 
         public bool OnBike { get; set; }
 
-        private GameTimer nitroTimer;
-
         public bool NitroActive
         {
-            get => _nitroActive;
+            get => nitroActive;
             set
             {
-                if (_nitroActive != value)
+                if (nitroActive != value)
                 {
-                    _nitroActive = value;
-                    nitroTimer = new GameTimer(3f)
-                    {
-                        OnTimedEvent = (o, e) => DeactivateNitro(),
-                    };
+                    nitroActive = value;
+                    nitroTimer = new GameTimer(3f);
+                    nitroTimer.OnTimedEvent += (o, e) => DeactivateNitro();
                 }
             }
         }
 
-        private void DeactivateNitro()
-        {
-            _nitroActive = false;
-            nitroTimer = null;
-        }
-
-        public Player(Texture2D characterSpritesheetTexture, Dictionary<string, Rectangle> characterMap, InputManager input, Vector2 scale)
-            : base(characterSpritesheetTexture, characterMap, scale)
-        {
-            inputManager = input;
-            AddAnimation("Attack", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.05f));
-            AddAnimation("Run", new SpriteSheetAnimationData(new int[] { 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 }, frameDuration: 0.1f));
-            AddAnimation("Dance", new SpriteSheetAnimationData(new int[] { 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 }, frameDuration: 0.1f, isPingPong: true));
-            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39 }, frameDuration: 0.1f));
-            AddAnimation("BikeIdle", new SpriteSheetAnimationData(new int[] { 40, 41, 42, 43 }, frameDuration: 0.1f));
-            AddAnimation("BikeDown", new SpriteSheetAnimationData(new int[] { 44, 45, 46, 47 }, frameDuration: 0.1f));
-            AddAnimation("BikeUp", new SpriteSheetAnimationData(new int[] { 48 }, frameDuration: 0.1f));
-            PlayAnimation("Idle");
-        }
-
         public override void Update(GameTime gameTime)
         {
-            //Update animationSprite
+            // Update animationSprite
             base.Update(gameTime);
             KatanaSlash.Update(gameTime);
             if (SpriteEffects == SpriteEffects.None)
@@ -213,26 +209,11 @@
             base.Draw(gameTime, spriteBatch);
             KatanaSlash.Draw(gameTime, spriteBatch);
             HiddenNotification.Draw(gameTime, spriteBatch);
-            // spriteBatch.DrawRectangle(CollisionRectangle, Color.AliceBlue, 1);
-        }
-
-        private void ManagePlayerIntent(GameTime gameTime)
-        {
-            if (currentIntent != null)
-            {
-                currentIntent.Update(gameTime);
-                if (currentIntent.Finished)
-                {
-                    //Resetting intent will alow to complete it again in the future
-                    currentIntent.ResetIntent();
-                    currentIntent = null;
-                }
-            }
         }
 
         public void MoveRight()
         {
-            if (_moveableBodyState != MoveableBodyStates.Dead)
+            if (movableBodyState != MovableBodyState.Dead)
             {
                 if (OnBike)
                 {
@@ -247,7 +228,7 @@
 
         public void MoveLeft()
         {
-            if (_moveableBodyState != MoveableBodyStates.Dead)
+            if (movableBodyState != MovableBodyState.Dead)
             {
                 if (OnBike)
                 {
@@ -262,7 +243,7 @@
 
         public void MoveUp()
         {
-            if (_moveableBodyState != MoveableBodyStates.Dead)
+            if (movableBodyState != MovableBodyState.Dead)
             {
                 if (OnBike)
                 {
@@ -273,7 +254,7 @@
 
         public void MoveDown()
         {
-            if (_moveableBodyState != MoveableBodyStates.Dead)
+            if (movableBodyState != MovableBodyState.Dead)
             {
                 if (OnBike)
                 {
@@ -314,11 +295,11 @@
             // Set base velocity (remember to reset Y)
             if (OnBike && NitroActive)
             {
-                Velocity = BIKE_VELOCITY + NITRO_BONUS;
+                Velocity = BikeVelocity + NitroBonus;
             }
             else if (OnBike)
             {
-                Velocity = BIKE_VELOCITY;
+                Velocity = BikeVelocity;
             }
 
             ManagePlayerIntent(gameTime);
@@ -326,6 +307,31 @@
 
         public void NotifyHorizontalCollision(GameTime gameTime, object collider)
         {
+        }
+
+        public void InvokeOnMapCollision(object sender, EventArgs args)
+        {
+            OnMapCollision?.Invoke(sender, args);
+        }
+
+        private void DeactivateNitro()
+        {
+            nitroActive = false;
+            nitroTimer = null;
+        }
+
+        private void ManagePlayerIntent(GameTime gameTime)
+        {
+            if (currentIntent != null)
+            {
+                currentIntent.Update(gameTime);
+                if (currentIntent.Finished)
+                {
+                    // Resetting intent will alow to complete it again in the future
+                    currentIntent.ResetIntent();
+                    currentIntent = null;
+                }
+            }
         }
     }
 }

@@ -7,8 +7,6 @@
 
     public class RectangleButton : DrawableRectangle, IButton
     {
-        public Text Message { get; private set; }
-
         private readonly InputManager inputManager;
 
         public RectangleButton(InputManager im, Rectangle rec, SpriteFont f, string msg)
@@ -17,10 +15,14 @@
             inputManager = im;
             Message = new Text(f, msg);
             Message.Position = new Vector2(
-                Position.X + Size.X / 2 - Message.Size.X / 2,
-                Position.Y + Size.Y / 2 - Message.Size.Y / 2);
+                Position.X + (Size.X / 2) - (Message.Size.X / 2),
+                Position.Y + (Size.Y / 2) - (Message.Size.Y / 2));
             OnClick += (o, e) => Engine.States.GameState.Sounds["OptionSelect"].Play();
         }
+
+        public EventHandler OnClick { get; set; }
+
+        public Text Message { get; private set; }
 
         public override Vector2 Position
         {
@@ -36,8 +38,8 @@
                 if (Message != null)
                 {
                     Message.Position = new Vector2(
-                        Position.X + Size.X / 2 - Message.Size.X / 2,
-                        Position.Y + Size.Y / 2 - Message.Size.Y / 2);
+                        Position.X + (Size.X / 2) - (Message.Size.X / 2),
+                        Position.Y + (Size.Y / 2) - (Message.Size.Y / 2));
                 }
             }
         }
@@ -64,7 +66,5 @@
                 Message?.Update(gameTime);
             }
         }
-
-        public EventHandler OnClick { get; set; }
     }
 }

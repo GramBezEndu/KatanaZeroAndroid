@@ -6,22 +6,9 @@
 
     public abstract class Toggle : LightStrategy
     {
-        protected GameTimer toggleLightsTimer;
+        private GameTimer toggleLightsTimer;
 
-        private double _timeToggle = 0.5f;
-
-        public double TimeToggle
-        {
-            get => _timeToggle;
-            set
-            {
-                if (_timeToggle != value)
-                {
-                    _timeToggle = value;
-                    CreateTimer();
-                }
-            }
-        }
+        private double timeToggle = 0.5f;
 
         public Toggle(ClubLights cl)
             : base(cl)
@@ -29,15 +16,17 @@
             CreateTimer();
         }
 
-        private void CreateTimer()
+        public double TimeToggle
         {
-            toggleLightsTimer = new GameTimer(TimeToggle)
+            get => timeToggle;
+            set
             {
-                OnTimedEvent = (o, e) =>
+                if (timeToggle != value)
                 {
-                    ToggleLights();
-                },
-            };
+                    timeToggle = value;
+                    CreateTimer();
+                }
+            }
         }
 
         public abstract void ToggleLights();
@@ -45,6 +34,12 @@
         public override void Update(GameTime gameTime)
         {
             toggleLightsTimer?.Update(gameTime);
+        }
+
+        private void CreateTimer()
+        {
+            toggleLightsTimer = new GameTimer(TimeToggle);
+            toggleLightsTimer.OnTimedEvent += (o, e) => ToggleLights();
         }
     }
 }
